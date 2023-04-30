@@ -1,0 +1,52 @@
+$namespace: "ui-mp-schedule";
+
+.#{$namespace} {
+  color: #444;
+  border: 1px solid #f3f3f3;
+  box-shadow: 0px 0px 10px 0px rgba(232, 232, 232, 0.33);
+  padding: 20px 0;
+
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #724ef7;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  &__subtitle {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  &__address {
+    font-size: 16px;
+    background-color: #fafafa;
+    padding: 12px 16px;
+  }
+
+  &__insurances {
+    padding: 12px 16px;
+    box-shadow: 0px 0px 10px 0px rgba(232, 232, 232, 0.5);
+  }
+
+  &__time-slots {
+    padding: 12px 12px 28px;
+  }
+
+  &__time-slot {
+    padding: 12px;
+    border: 2px solid #40e998;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    background-color: #fff;
+    max-width: 92px;
+    margin: 4px;
+  }
+
+  @media (min-width: 991px) {
+    padding: 28px 16px;
+  }
+}
