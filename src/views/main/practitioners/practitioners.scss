@@ -1,0 +1,68 @@
+$namespace: 'ui-mp-practitioners';
+
+.#{$namespace} {
+  background-color: #f8f8f8;
+  border-radius: 16px;
+  text-align: center;
+  color: #444;
+  padding: 28px 16px;
+
+  &__image {
+    border-radius: 16px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  &__title {
+    font-weight: normal;
+    font-size: 22px;
+    margin: 20px 0 8px;
+  }
+
+  &__button {
+    font-family: inherit;
+    font-size: 16px;
+    color: #fff;
+    margin: 20px auto 8px;
+    padding: 16px 32px;
+    background-color: #724ef7;
+    border: 0;
+    border-radius: 28px;
+  }
+
+  &__highlight {
+    color: #724ef7;
+    font-weight: bold;
+  }
+
+  @media (min-width: 991px) {
+    display: flex;
+    align-items: stretch;
+    padding: 32px 16px 0;
+
+    &__image-container {
+      min-width: 50%;
+      text-align: left;
+      font-size: 0;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-bottom: 20px;
+    }
+
+    &__title {
+      margin-top: 0;
+      max-width: 70%;
+      text-align: left;
+      font-size: 28px;
+    }
+
+    &__button {
+      margin: 20px 0;
+      width: fit-content;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+$namespace: 'ui-mp-specialties';
+
+.#{$namespace} {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__card {
+    display: flex;
+    width: calc(50% - 16px);
+    margin: 8px;
+    padding: 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0px 0px 10px 0px rgba(232, 232, 232, 0.33);
+  }
+
+  @media (min-width: 991px) {
+    &__card {
+      width: calc(25% - 16px);
+    }
+  }
+}

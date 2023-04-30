@@ -1,6 +1,11 @@
-import '@marketplace/styles/globals.css'
-import type { AppProps } from 'next/app'
+import "@marketplace/styles/globals.scss";
+import { Layout } from "@marketplace/ui/layout";
+import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  );
 }

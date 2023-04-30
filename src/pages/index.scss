@@ -1,0 +1,31 @@
+@use '../views/main/about-us/about-us';
+@use '../views/main/header/header';
+@use '../views/main/practitioners/practitioners';
+@use '../views/main/specialties/specialties';
+
+$namespace: 'ui-mp-home';
+
+.#{$namespace} {
+  padding: 16px;
+
+  .ui-mp-header {
+    margin-bottom: 16px;
+  }
+
+  .ui-mp-specialties,
+  .ui-mp-about-us,
+  .ui-mp-practitioners {
+    margin-bottom: 36px;
+  }
+
+  @media (min-width: 991px) {
+    max-width: 1140px;
+    margin: 0 auto;
+
+    .ui-mp-specialties,
+    .ui-mp-about-us,
+    .ui-mp-practitioners {
+      margin-bottom: 80px;
+    }
+  }
+}

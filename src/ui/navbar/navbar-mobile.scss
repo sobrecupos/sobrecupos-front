@@ -1,0 +1,18 @@
+@use './collapsible-menu/collapsible-menu';
+@use './toggle/toggle';
+
+.ui-mp-nav {
+  position: relative;
+  
+  &__content {
+    padding: 16px 12px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__home {
+    display: flex;
+    align-items: center;
+  }
+}
