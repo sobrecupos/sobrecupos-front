@@ -1,0 +1,13 @@
+@use '../../views/specialty/specialty-header/specialty-header';
+@use '../../views/specialty/practitioners/practitioners';
+
+$namespace: 'ui-mp-specialty';
+
+.#{$namespace} {
+  padding: 16px;
+
+  @media (min-width: 991px) {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+}

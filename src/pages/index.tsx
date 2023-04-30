@@ -1,7 +1,7 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { AboutUs } from "@marketplace/views/main/about-us";
 import { Header } from "@marketplace/views/main/header";
-import { Practitioners } from "@marketplace/views/main/practitioners";
+import { Enrollment } from "@marketplace/views/main/enrollment";
 import { Specialties } from "@marketplace/views/main/specialties";
 
 const specialties = [
@@ -26,7 +26,7 @@ export default function Home() {
 
       <AboutUs />
 
-      <Practitioners />
+      <Enrollment />
     </div>
   );
 }

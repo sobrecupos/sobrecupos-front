@@ -1,0 +1,142 @@
+$namespace: 'ui-mp-practitioner-card';
+
+.#{$namespace} {
+  margin-bottom: 12px;
+
+  &__link {
+    display: flex;
+    align-items: center;
+    color: #444;
+    text-decoration: none;
+    padding: 12px;
+    border: 1px solid #f3f3f3;
+    box-shadow: 0px 0px 10px 0px rgba(232, 232, 232, 0.33);
+  }
+
+  &__image-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    overflow: hidden;
+    margin-right: 12px;
+  }
+
+  &__image {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__content {
+    flex-grow: 1;
+  }
+
+  &__title {
+    font-size: 16px;
+    margin: 0 0 12px;
+  }
+
+  &__specialty {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  &__addresses-title {
+    visibility: hidden;
+    font-size: 0;
+  }
+
+  &__addresses {
+    display: flex;
+  }
+
+  &__address {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-right: 8px;
+    background-color: #ccffe7;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  &__action {
+    font-family: inherit;
+    font-size: 16px;
+    color: #fff;
+    padding: 12px;
+    background-color: #724ef7;
+    border: 0;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &__action-label {
+    visibility: none;
+    font-size: 0;
+  }
+
+  @media (min-width: 991px) {
+    width: 344px;
+    margin: 12px;
+
+    &__link {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 12px 44px;
+    }
+
+    &__image-container {
+      height: 100px;
+      width: 100px;
+      margin-bottom: 12px;
+    }
+
+    &__title {
+      font-size: 20px;
+    }
+
+    &__specialty {
+      width: fit-content;
+      background-color: #f6f6f6;
+      border-radius: 4px;
+      padding: 12px 20px;
+      margin: 0 auto 20px;
+    }
+
+    &__addresses-container {
+      margin-bottom: 28px;
+    }
+
+    &__addresses-title {
+      visibility: visible;
+      font-size: 14px;
+      color: #5b5b5b;
+      margin-bottom: 12px;
+    }
+
+    &__addresses {
+      justify-content: center;
+    }
+
+    &__address {
+      font-size: 14px;
+      padding: 12px 20px;
+    }
+
+    &__action {
+      border-radius: 28px;
+      padding: 16px 32px;
+    }
+
+    &__action-label {
+      visibility: visible;
+      font-size: 16px;
+    }
+
+    &__action-icon {
+      visibility: none;
+      font-size: 0;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import Image from "next/image";
 
-const classes = getComponentClassNames("practitioners", {
+const classes = getComponentClassNames("enrollment", {
   imageContainer: 'image-container',
   image: "image",
   content: "content",
@@ -10,7 +10,7 @@ const classes = getComponentClassNames("practitioners", {
   highlight: 'highlight',
 });
 
-export const Practitioners = () => (
+export const Enrollment = () => (
   <div className={classes.namespace}>
     <div className={classes.imageContainer}>
       <Image

@@ -1,6 +1,6 @@
 @use '../views/main/about-us/about-us';
 @use '../views/main/header/header';
-@use '../views/main/practitioners/practitioners';
+@use '../views/main/enrollment/enrollment';
 @use '../views/main/specialties/specialties';
 
 $namespace: 'ui-mp-home';
@@ -14,7 +14,7 @@ $namespace: 'ui-mp-home';
 
   .ui-mp-specialties,
   .ui-mp-about-us,
-  .ui-mp-practitioners {
+  .ui-mp-enrollment {
     margin-bottom: 36px;
   }
 
@@ -24,7 +24,7 @@ $namespace: 'ui-mp-home';
 
     .ui-mp-specialties,
     .ui-mp-about-us,
-    .ui-mp-practitioners {
+    .ui-mp-enrollment {
       margin-bottom: 80px;
     }
   }
