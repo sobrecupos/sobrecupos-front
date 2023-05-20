@@ -18,16 +18,18 @@ export const NavbarMobile = () => {
   const [openPanel, setOpenPanel] = useState<string | null>(null);
 
   const handleToggle = () => {
+    setOpenPanel(null);
     setIsOpen((open) => !open);
   };
 
   const handlePanelClick = (panelId: string) => {
-    console.log(panelId)
     setOpenPanel((panel) => (panelId === panel ? null : panelId));
   };
 
   return (
-    <nav className={classNames(classes.namespace)}>
+    <nav
+      className={classNames(classes.namespace, `${classes.namespace}--mobile`)}
+    >
       <div className={classNames(classes.content)}>
         <Link href="/" aria-label="Inicio" className={classes.home}>
           <Image
@@ -46,6 +48,7 @@ export const NavbarMobile = () => {
         currentPath={asPath}
         onPanelClick={handlePanelClick}
         openPanel={openPanel}
+        onLinkClick={handleToggle}
       />
     </nav>
   );

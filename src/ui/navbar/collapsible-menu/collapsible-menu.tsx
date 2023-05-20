@@ -1,46 +1,22 @@
 import Link from "next/link";
 import { classes } from "../classes";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { Icon } from "@marketplace/ui/icon";
+import { links } from "../links";
 
 export type CollapsibleMenuProps = {
   isOpen?: boolean;
   onPanelClick: (panelId: string) => void;
+  onLinkClick: () => void;
   openPanel: string | null;
   currentPath?: string;
 };
-
-const links = [
-  { id: "action", path: "/", label: "Inicio", contents: [] },
-  {
-    id: "submenu",
-    path: "/especialidades",
-    label: "Especialidades",
-    contents: [
-      {
-        id: "action",
-        path: "/especialidades/oftalmologia",
-        label: "Oftalmologia",
-      },
-      {
-        id: "action",
-        path: "/especialidades/medicina-general",
-        label: "Medicina general",
-      },
-    ],
-  },
-  {
-    id: "action",
-    path: "/preguntas-frecuentes",
-    label: "Preguntas frecuentes",
-    contents: [],
-  },
-];
 
 export const CollapsibleMenu = ({
   isOpen,
   currentPath,
   onPanelClick,
+  onLinkClick,
   openPanel,
 }: CollapsibleMenuProps) => (
   <ul
@@ -61,6 +37,7 @@ export const CollapsibleMenu = ({
               [`${classes.collapsibleLink}--current`]: currentPath === path,
             })}
             tabIndex={isOpen ? undefined : -1}
+            onClick={onLinkClick}
           >
             {label}
           </Link>
@@ -70,25 +47,35 @@ export const CollapsibleMenu = ({
             <button
               className={classes.collapsibleLink}
               onClick={() => onPanelClick(path)}
+              tabIndex={isOpen ? undefined : -1}
             >
               {label}
+              <span className={classes.collapsibleLinkIcon}>
+                <Icon id="chevron-down" variant="solid" />
+              </span>
             </button>
             <ul
-              className={classNames(
-                // classes.collapsibleMenu,
-                // // `${classes.collapsibleMenu}--fixed`,
-                // {
-                //   [`${classes.collapsibleMenu}--open`]: openPanel === path,
-                // }
-              )}
-              aria-hidden={openPanel === path}
+              className={classNames(classes.innerMenu, {
+                [`${classes.innerMenu}--open`]: openPanel === path,
+              })}
+              aria-hidden={openPanel !== path}
             >
               {contents.map(({ path: innerPath, label }) => (
                 <li
                   key={`collapsible-navbar-panel-${innerPath}`}
                   className={classes.collapsibleMenuItem}
                 >
-                  asdf
+                  <Link
+                    href={innerPath}
+                    className={classNames(classes.collapsibleLink, {
+                      [`${classes.collapsibleLink}--current`]:
+                        currentPath === innerPath,
+                    })}
+                    tabIndex={openPanel === path ? undefined : -1}
+                    onClick={onLinkClick}
+                  >
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>
