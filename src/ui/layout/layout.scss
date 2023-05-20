@@ -14,6 +14,24 @@ $namespace: 'ui-mp-layout';
     }
   }
 
+  &__contact {
+    color: #444;
+    text-decoration: none;
+
+    &:focus,
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__contact-icon {
+    color: #40e998;
+    font-size: 32px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 8px;
+  }
+
   @media (min-width: 991px) {
     padding-bottom: 32px;
   }

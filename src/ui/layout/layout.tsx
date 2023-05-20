@@ -5,6 +5,7 @@ import { Montserrat } from "next/font/google";
 import { Navbar } from "../navbar";
 import { getComponentClassNames } from "../namespace";
 import classNames from "classnames";
+import { Icon } from "../icon";
 
 export type LayoutProps = PropsWithChildren<Record<never, never>>;
 
@@ -16,6 +17,8 @@ const montserrat = Montserrat({
 
 const classes = getComponentClassNames("layout", {
   content: "content",
+  contact: "contact",
+  contactIcon: 'contact-icon',
 });
 
 export const Layout = ({ children }: LayoutProps) => (
@@ -31,7 +34,12 @@ export const Layout = ({ children }: LayoutProps) => (
           height="29"
         />
       </Link>
-      <a href="mailto:contacto@sobrecupos.com">contacto@sobrecupos.com</a>
+      <a className={classes.contact} href="mailto:contacto@sobrecupos.com">
+        <span className={classes.contactIcon}>
+          <Icon id="envelope" />
+        </span>
+        contacto@sobrecupos.com
+      </a>
     </footer>
   </div>
 );

@@ -3,6 +3,7 @@ import { AboutUs } from "@marketplace/views/main/about-us";
 import { Header } from "@marketplace/views/main/header";
 import { Enrollment } from "@marketplace/views/main/enrollment";
 import { Specialties } from "@marketplace/views/main/specialties";
+import { Partnerships } from "@marketplace/views/main/partnerships";
 
 const specialties = [
   { code: "pediatria", label: "Pediatría" },
@@ -21,12 +22,10 @@ export default function Home() {
   return (
     <div className={namespace}>
       <Header />
-
       <Specialties specialties={specialties} />
-
       <AboutUs />
-
       <Enrollment />
+      <Partnerships />
     </div>
   );
 }

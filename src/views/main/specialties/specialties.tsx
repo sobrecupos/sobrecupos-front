@@ -1,4 +1,5 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import Image from "next/image";
 import Link from "next/link";
 
 export type SpecialtiesProps = {
@@ -8,20 +9,28 @@ export type SpecialtiesProps = {
   }[];
 };
 
-const specialtiesClasses = getComponentClassNames("specialties", {
+const classes = getComponentClassNames("specialties", {
   card: "card",
+  image: "image",
+  cardTitle: 'card-title',
 });
 
 export const Specialties = ({ specialties }: SpecialtiesProps) => (
-  <div className={specialtiesClasses.namespace}>
+  <div className={classes.namespace}>
     {specialties.map(({ code, label }) => (
       <Link
         href={`/especialidades/${code}`}
-        className={specialtiesClasses.card}
+        className={classes.card}
         key={`specialty-card-${code}`}
       >
-        {/* <Image src={`/${code}.png`} alt={label} /> */}
-        <h3>{label}</h3>
+        <Image
+          className={classes.image}
+          src={`/${code}.png`}
+          alt={label}
+          height="85"
+          width="85"
+        />
+        <h3 className={classes.cardTitle}>{label}</h3>
       </Link>
     ))}
   </div>

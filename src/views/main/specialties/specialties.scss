@@ -3,20 +3,39 @@ $namespace: 'ui-mp-specialties';
 .#{$namespace} {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   &__card {
-    display: flex;
-    width: calc(50% - 16px);
-    margin: 8px;
+    width: 140px;
     padding: 16px;
-    border-radius: 4px;
+    text-align: center;;
+    text-decoration: none;
+    color: #444;
+
+    &:focus,
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__card-title {
+    font-weight: 400;
     font-size: 14px;
-    box-shadow: 0px 0px 10px 0px rgba(232, 232, 232, 0.33);
+  }
+
+  &__image {
+    border-radius: 100%;
+    box-shadow: -3px 0px 23px 0px rgba(103.56123135485572, 43.47004076086961, 197.24999999999997, 0.21)
   }
 
   @media (min-width: 991px) {
     &__card {
-      width: calc(25% - 16px);
+      width: 160px;
+      margin: 8px 0;
+    }
+
+    &__card-title {
+      font-size: 16px;
     }
   }
 }
