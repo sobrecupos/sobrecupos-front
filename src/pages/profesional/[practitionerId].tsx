@@ -13,7 +13,7 @@ const Practitioner = ({ profile, schedules }: any) => (
       <ProfileCard {...profile} />
       <AboutMe description={profile.description} />
     </div>
-    <Schedule schedules={schedules} />
+    <Schedule schedules={schedules} practitioner={profile.name} />
   </div>
 );
 
@@ -58,7 +58,7 @@ export const getServerSideProps = () => {
         {
           date: "Domingo 30/04",
           address:
-            "Clinica Santa Maria, Avenida Santa Maria 0500, Providencia, Santiago",
+            "Clinica Santa Maria, Avenida Santa Maria 1000, Providencia, Santiago",
           insuranceProviders: ["Fonasa", "Isapre"],
           timeSlots: [
             {
