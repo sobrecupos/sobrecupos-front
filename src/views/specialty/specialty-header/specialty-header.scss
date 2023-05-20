@@ -22,4 +22,10 @@ $namespace: 'ui-mp-specialty-header';
     line-height: 1.5;
     margin: 0 0 24px;
   }
+
+  @media (min-width: 991px) {
+    &__specialty {
+      font-size: 36px;
+    }
+  }
 }
