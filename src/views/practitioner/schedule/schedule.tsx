@@ -1,3 +1,4 @@
+import { Icon } from "@marketplace/ui/icon";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import classNames from "classnames";
 import Link from "next/link";
@@ -21,6 +22,7 @@ const classes = getComponentClassNames("schedule", {
   subtitle: "subtitle",
   timeSlotsContainer: "time-slots-container",
   address: "address",
+  addressIcon: "address-icon",
   insurances: "insurances",
   timeSlots: "time-slots",
   timeSlot: "time-slot",
@@ -42,7 +44,13 @@ export const Schedule = ({ schedules, practitioner }: ScheduleProps) => {
     <div className={classes.namespace} id="sobrecupos">
       {selected ? (
         <>
-          <button className={classes.back} type="button" onClick={() => setSelected(null)}>&lt;-</button>
+          <button
+            className={classes.back}
+            type="button"
+            onClick={() => setSelected(null)}
+          >
+            <Icon id="arrow-left" variant="solid" />
+          </button>
           <div className={classes.table}>
             <div className={classes.tableRow}>
               <span className={classes.tableData}>Sobrecupo:</span>
@@ -68,15 +76,30 @@ export const Schedule = ({ schedules, practitioner }: ScheduleProps) => {
           <form className={classes.form}>
             <label className={classes.formElement}>
               <span className={classes.label}>Nombre</span>
-              <input className={classes.input} type="text" required />
+              <input
+                className={classes.input}
+                type="text"
+                required
+                placeholder="Jose Peña"
+              />
             </label>
             <label className={classes.formElement}>
               <span className={classes.label}>Correo electrónico</span>
-              <input className={classes.input} type="email" required />
+              <input
+                className={classes.input}
+                type="email"
+                required
+                placeholder="josepena@gmail.com"
+              />
             </label>
             <label className={classes.formElement}>
               <span className={classes.label}>Teléfono</span>
-              <input className={classes.input} type="tel" required />
+              <input
+                className={classes.input}
+                type="tel"
+                required
+                placeholder="+56911223344"
+              />
             </label>
             <label
               className={classNames(
@@ -111,14 +134,19 @@ export const Schedule = ({ schedules, practitioner }: ScheduleProps) => {
         </>
       ) : (
         <>
-          <div className={classes.title}>Solicita tu sobrecupo aquí</div>
+          <div className={classes.title}>Pide tu sobrecupo aquí:</div>
           <div className={classes.subtitle}>{schedules[0].date}</div>
           {schedules.map(({ address, insuranceProviders, timeSlots, date }) => (
             <div
               className={classes.timeSlotsContainer}
               key={`time-slots-${address}-${date}`}
             >
-              <div className={classes.address}>{address}</div>
+              <div className={classes.address}>
+                <div className={classes.addressIcon}>
+                  <Icon id="map" />
+                </div>
+                <div>{address}</div>
+              </div>
               <div className={classes.insurances}>
                 Atiende: {insuranceProviders.join(" | ")}
               </div>

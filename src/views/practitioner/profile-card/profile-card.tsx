@@ -1,3 +1,4 @@
+import { Icon } from "@marketplace/ui/icon";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +13,7 @@ export type ProfileCardProps = {
 const classes = getComponentClassNames("profile-card", {
   imageContainer: "image-container",
   image: "image",
-  details: 'details',
+  details: "details",
   title: "title",
   subtitle: "subtitle",
   insurances: "insurances",
@@ -54,7 +55,7 @@ export const ProfileCard = ({
         <span>Nº S.I.S {licenseId}</span>
       </div>
       <Link href="#sobrecupos" className={classes.action}>
-        Tu sobrecupo aquí
+        <Icon id="heart" /> Tu sobrecupo aquí
       </Link>
     </div>
   </div>
