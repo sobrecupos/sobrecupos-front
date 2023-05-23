@@ -5,10 +5,14 @@ import Image from "next/image";
 import { specialties } from "./links";
 import { Icon } from "../icon";
 import { useClosable } from "../use-closable";
+import { useState } from "react";
+import { Modal } from "../modal";
+import { PractitionerSignupForm } from "../practitioner-signup-form";
 
 export const NavbarDesktop = () => {
   const { container, isOpen, setIsOpen, toggleOpen } =
     useClosable<HTMLLIElement>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <nav
@@ -70,11 +74,24 @@ export const NavbarDesktop = () => {
           </Link>
         </li>
         <li className={classes.barItem}>
-          <button type="button" className={classes.barAction}>
+          <button
+            type="button"
+            className={classes.barAction}
+            onClick={() => setIsModalOpen(true)}
+          >
             🧐 ¿Eres médico?
           </button>
         </li>
       </ul>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        variant="small"
+        showCloseButton
+        closeOnBackdropClick
+      >
+        <PractitionerSignupForm />
+      </Modal>
     </nav>
   );
 };
