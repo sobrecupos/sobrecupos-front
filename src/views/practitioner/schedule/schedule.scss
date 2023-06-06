@@ -6,6 +6,11 @@ $namespace: "ui-mp-schedule";
   box-shadow: 0px 0px 10px 0px rgba(232, 232, 232, 0.33);
   padding: 20px 0;
 
+  &__empty {
+    text-align: center;
+    padding: 40px 40px 0;
+  }
+
   &__title {
     font-size: 20px;
     font-weight: bold;

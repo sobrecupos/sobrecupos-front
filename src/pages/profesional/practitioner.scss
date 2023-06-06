@@ -19,7 +19,11 @@ $namespace: 'ui-mp-practitioner';
     
     &__profile {
       margin-right: 12px;
-      max-width: 50%;
+      width: 50%;
+    }
+
+    .ui-mp-schedule {
+      width: 50%;
     }
   }
 }

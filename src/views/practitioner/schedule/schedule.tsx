@@ -5,15 +5,17 @@ import Link from "next/link";
 import { useState } from "react";
 
 export type ScheduleProps = {
-  schedules: {
+  schedule: {
     date: string;
-    address: string;
-    insuranceProviders: string[];
-    timeSlots: {
-      id: string;
-      label: string;
+    results: {
+      address: string;
+      insuranceProviders: string[];
+      timeSlots: {
+        id: string;
+        label: string;
+      }[];
     }[];
-  }[];
+  };
   practitioner: string;
 };
 
@@ -35,9 +37,10 @@ const classes = getComponentClassNames("schedule", {
   label: "label",
   input: "input",
   submit: "submit",
+  empty: "empty",
 });
 
-export const Schedule = ({ schedules, practitioner }: ScheduleProps) => {
+export const Schedule = ({ schedule, practitioner }: ScheduleProps) => {
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
 
   return (
@@ -135,43 +138,48 @@ export const Schedule = ({ schedules, practitioner }: ScheduleProps) => {
       ) : (
         <>
           <div className={classes.title}>Pide tu sobrecupo aquí:</div>
-          <div className={classes.subtitle}>{schedules[0].date}</div>
-          {schedules.map(({ address, insuranceProviders, timeSlots, date }) => (
-            <div
-              className={classes.timeSlotsContainer}
-              key={`time-slots-${address}-${date}`}
-            >
-              <div className={classes.address}>
-                <div className={classes.addressIcon}>
-                  <Icon id="map" />
+          <div className={classes.subtitle}>{schedule.date}</div>
+          {schedule.results.length === 0 ? (
+            <div className={classes.empty}>Sin sobrecupos disponibles 😥</div>
+          ) : null}
+          {schedule.results.map(
+            ({ address, insuranceProviders, timeSlots }) => (
+              <div
+                className={classes.timeSlotsContainer}
+                key={`time-slots-${address}-${schedule.date}`}
+              >
+                <div className={classes.address}>
+                  <div className={classes.addressIcon}>
+                    <Icon id="map" />
+                  </div>
+                  <div>{address}</div>
                 </div>
-                <div>{address}</div>
-              </div>
-              <div className={classes.insurances}>
-                Atiende: {insuranceProviders.join(" | ")}
-              </div>
+                <div className={classes.insurances}>
+                  Atiende: {insuranceProviders.join(" | ")}
+                </div>
 
-              <div className={classes.timeSlots}>
-                {timeSlots.map(({ id, label }) => (
-                  <button
-                    key={`timeslot-${id}`}
-                    className={classes.timeSlot}
-                    onClick={() =>
-                      setSelected({
-                        id,
-                        label,
-                        address,
-                        date,
-                        insuranceProviders: insuranceProviders.join(" | "),
-                      })
-                    }
-                  >
-                    {label}
-                  </button>
-                ))}
+                <div className={classes.timeSlots}>
+                  {timeSlots.map(({ id, label }) => (
+                    <button
+                      key={`timeslot-${id}`}
+                      className={classes.timeSlot}
+                      onClick={() =>
+                        setSelected({
+                          id,
+                          label,
+                          address,
+                          date: schedule.date,
+                          insuranceProviders: insuranceProviders.join(" | "),
+                        })
+                      }
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </>
       )}
     </div>
