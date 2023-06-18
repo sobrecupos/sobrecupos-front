@@ -1,6 +1,7 @@
 import "@marketplace/styles/globals.scss";
 import { Layout } from "@marketplace/ui/layout";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import Script from "next/script";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -11,6 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
         strategy="beforeInteractive"
         crossOrigin="anonymous"
       />
+      <Head>
+        <link rel="icon" href="/sobrecupos-logo-isotype.png" />
+      </Head>
       <Component {...pageProps} />
     </Layout>
   );
