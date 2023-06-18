@@ -1,0 +1,73 @@
+$namespace: "ui-mp-ts-summary";
+
+.#{$namespace} {
+  padding: 28px 16px;
+
+  &--exception {
+    padding: 100px 16px;
+    max-width: 600px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  &__image {
+    display: block;
+    margin: 0 auto 28px;
+  }
+
+  &__alert {
+    border-radius: 4px;
+    background-color: #724ef7;
+    color: #fff;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto 28px;
+
+    .fa-envelope {
+      font-size: 20px;
+    }
+  }
+
+  &__alert-text {
+    font-size: 14px;
+    margin-left: 28px;
+  }
+
+  &__table-title {
+    color: #444;
+    padding: 0 20px;
+    font-weight: bold;
+    margin: 0 auto;
+    max-width: 400px;
+  }
+
+  &__table {
+    color: #444;
+    margin: 0 auto;
+    padding: 20px 20px 0;
+    margin-bottom: 20px;
+    max-width: 400px;
+  }
+
+  &__table-row {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+  }
+
+  &__table-data {
+    font-size: 14px;
+  }
+
+  &__table-data:first-child {
+    font-weight: bold;
+    min-width: 130px;
+  }
+
+  @media (min-width: 991px) {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+}
