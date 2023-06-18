@@ -5,7 +5,7 @@ const confirmOrder = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const { itemId } = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/orders/status`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/payments`,
       {
         method: "POST",
         body: JSON.stringify({ token }),
