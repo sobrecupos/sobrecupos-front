@@ -12,7 +12,8 @@ export type ScheduleProps = {
       insuranceProviders: string[];
       timeSlots: {
         id: string;
-        label: string;
+        start: string;
+        intervalInMinutes: number;
       }[];
     }[];
   };
@@ -39,6 +40,24 @@ const classes = getComponentClassNames("schedule", {
   submit: "submit",
   empty: "empty",
 });
+
+const formatDate = (dateString: string) => {
+  console.log(dateString);
+  const formattedDate = new Intl.DateTimeFormat("es-CL", {
+    dateStyle: "full",
+  }).format(new Date(dateString));
+
+  return formattedDate[0].toUpperCase() + formattedDate.slice(1);
+};
+
+const formatHours = (dateString: string, intervalInMinutes: number) => {
+  const startDate = new Date(dateString);
+  const endDate = new Date(startDate.getTime() + intervalInMinutes * 60 * 1000);
+  return `${startDate.getHours()}:${String(startDate.getMinutes()).padStart(
+    2,
+    "0"
+  )} - ${endDate.getHours()}:${String(endDate.getMinutes()).padStart(2, "0")}`;
+};
 
 export const Schedule = ({ schedule, practitioner }: ScheduleProps) => {
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
@@ -224,7 +243,7 @@ export const Schedule = ({ schedule, practitioner }: ScheduleProps) => {
       ) : (
         <>
           <div className={classes.title}>Pide tu sobrecupo aquí:</div>
-          <div className={classes.subtitle}>{schedule.date}</div>
+          <div className={classes.subtitle}>{formatDate(schedule.date)}</div>
           {schedule.results.length === 0 ? (
             <div className={classes.empty}>Sin sobrecupos disponibles 😥</div>
           ) : null}
@@ -245,21 +264,21 @@ export const Schedule = ({ schedule, practitioner }: ScheduleProps) => {
                 </div>
 
                 <div className={classes.timeSlots}>
-                  {timeSlots.map(({ id, label }) => (
+                  {timeSlots.map(({ id, start, intervalInMinutes }) => (
                     <button
                       key={`timeslot-${id}`}
                       className={classes.timeSlot}
                       onClick={() =>
                         setSelected({
                           id,
-                          label,
+                          label: formatHours(start, intervalInMinutes),
                           address,
-                          date: schedule.date,
+                          date: formatDate(schedule.date),
                           insuranceProviders: insuranceProviders.join(" | "),
                         })
                       }
                     >
-                      {label}
+                      {formatHours(start, intervalInMinutes)}
                     </button>
                   ))}
                 </div>
