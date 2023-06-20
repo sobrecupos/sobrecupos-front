@@ -54,9 +54,7 @@ const Practitioner = ({ profile, practitionerCode }: any) => {
   );
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+export const getStaticProps = async (context: GetServerSidePropsContext) => {
   const practitionerCode = context.params?.["practitionerCode"];
 
   if (!practitionerCode) {
@@ -75,7 +73,13 @@ export const getServerSideProps = async (
       profile: practitioner,
       practitionerCode,
     },
+    revalidate: 300,
   };
 };
+
+export const getStaticPaths = () => ({
+  paths: [],
+  fallback: "blocking",
+});
 
 export default Practitioner;
