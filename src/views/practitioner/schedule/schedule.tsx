@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 export type ScheduleProps = {
+  showSpinner?: boolean;
   schedule: {
     date: string;
     results: {
@@ -21,6 +22,7 @@ export type ScheduleProps = {
 };
 
 const classes = getComponentClassNames("schedule", {
+  spinner: 'spinner',
   title: "title",
   subtitle: "subtitle",
   timeSlotsContainer: "time-slots-container",
@@ -59,7 +61,7 @@ const formatHours = (dateString: string, intervalInMinutes: number) => {
   )} - ${endDate.getHours()}:${String(endDate.getMinutes()).padStart(2, "0")}`;
 };
 
-export const Schedule = ({ schedule, practitioner }: ScheduleProps) => {
+export const Schedule = ({ schedule, practitioner, showSpinner }: ScheduleProps) => {
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -244,7 +246,12 @@ export const Schedule = ({ schedule, practitioner }: ScheduleProps) => {
         <>
           <div className={classes.title}>Pide tu sobrecupo aquí:</div>
           <div className={classes.subtitle}>{formatDate(schedule.date)}</div>
-          {schedule.results.length === 0 ? (
+          {showSpinner ? (
+            <div className={classes.spinner}>
+              <Icon id="circle-notch" variant="solid" spin />
+            </div>
+          ) : null}
+          {schedule.results.length === 0 && !showSpinner ? (
             <div className={classes.empty}>Sin sobrecupos disponibles 😥</div>
           ) : null}
           {schedule.results.map(

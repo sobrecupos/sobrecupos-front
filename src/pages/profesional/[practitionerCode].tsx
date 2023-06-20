@@ -3,20 +3,56 @@ import { AboutMe } from "@marketplace/views/practitioner/about-me";
 import { ProfileCard } from "@marketplace/views/practitioner/profile-card";
 import { Schedule } from "@marketplace/views/practitioner/schedule";
 import { GetServerSidePropsContext } from "next";
+import { useEffect, useRef, useState } from "react";
 
 const classes = getComponentClassNames("practitioner", {
   profile: "profile",
 });
 
-const Practitioner = ({ profile, schedule }: any) => (
-  <div className={classes.namespace}>
-    <div className={classes.profile}>
-      <ProfileCard {...profile} />
-      <AboutMe description={profile.description} />
+const Practitioner = ({ profile, practitionerCode }: any) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const abortController = useRef<AbortController | null>(null);
+  const [schedule, setSchedule] = useState({
+    date: new Date().toString(),
+    results: [],
+  });
+
+  useEffect(() => {
+    abortController.current = new AbortController();
+
+    fetch(`/api/practitioners/${practitionerCode}/schedule`, {
+      signal: abortController.current.signal,
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        throw new Error("Cannot load time slots");
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .then((data) => {
+        setSchedule(data);
+        setIsLoading(false);
+      });
+  }, [practitionerCode]);
+
+  return (
+    <div className={classes.namespace}>
+      <div className={classes.profile}>
+        <ProfileCard {...profile} />
+        <AboutMe description={profile.description} />
+      </div>
+      <Schedule
+        showSpinner={isLoading}
+        schedule={schedule}
+        practitioner={profile.name}
+      />
     </div>
-    <Schedule schedule={schedule} practitioner={profile.name} />
-  </div>
-);
+  );
+};
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -35,7 +71,10 @@ export const getServerSideProps = async (
   const practitioner = await response.json();
 
   return {
-    props: practitioner,
+    props: {
+      profile: practitioner,
+      practitionerCode,
+    },
   };
 };
 
