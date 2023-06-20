@@ -22,7 +22,7 @@ export type ScheduleProps = {
 };
 
 const classes = getComponentClassNames("schedule", {
-  spinner: 'spinner',
+  spinner: "spinner",
   title: "title",
   subtitle: "subtitle",
   timeSlotsContainer: "time-slots-container",
@@ -61,7 +61,11 @@ const formatHours = (dateString: string, intervalInMinutes: number) => {
   )} - ${endDate.getHours()}:${String(endDate.getMinutes()).padStart(2, "0")}`;
 };
 
-export const Schedule = ({ schedule, practitioner, showSpinner }: ScheduleProps) => {
+export const Schedule = ({
+  schedule,
+  practitioner,
+  showSpinner,
+}: ScheduleProps) => {
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -148,12 +152,12 @@ export const Schedule = ({ schedule, practitioner, showSpinner }: ScheduleProps)
           </div>
           <form className={classes.form} onSubmit={handleSubmit}>
             <label className={classes.formElement}>
-              <span className={classes.label}>Nombre</span>
+              <span className={classes.label}>Nombre completo</span>
               <input
                 className={classes.input}
                 type="text"
                 required
-                placeholder="Jose Peña"
+                placeholder="Jose González"
                 value={values.name}
                 onChange={(event) => {
                   const { value } = event.target;
@@ -167,7 +171,7 @@ export const Schedule = ({ schedule, practitioner, showSpinner }: ScheduleProps)
                 className={classes.input}
                 type="email"
                 required
-                placeholder="josepena@gmail.com"
+                placeholder="josegonzalez@miemail.com"
                 value={values.email}
                 onChange={(event) => {
                   const { value } = event.target;
@@ -238,6 +242,9 @@ export const Schedule = ({ schedule, practitioner, showSpinner }: ScheduleProps)
               type="submit"
               disabled={isLoading}
             >
+              {isLoading ? (
+                <Icon id="circle-notch" variant="solid" spin />
+              ) : null}
               Pagar sobrecupo $2.990
             </button>
           </form>
