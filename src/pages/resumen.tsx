@@ -160,8 +160,9 @@ export const getServerSideProps = async (
   try {
     const { paymentId } = context.query;
 
-    const data = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/orders/status?paymentId=${paymentId}`
+    const paymentData = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/payments`,
+      { method: "POST", body: JSON.stringify({ paymentId }) }
     ).then((response) => {
       if (response.ok) {
         return response.json();
@@ -170,7 +171,26 @@ export const getServerSideProps = async (
       return { status: "ERROR" };
     });
 
-    return { props: data };
+    if (!paymentData.itemId) {
+      return { props: paymentData };
+    }
+
+    const orderData = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/orders/status?itemId=${paymentData.itemId}`
+    ).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+
+      return { status: "ERROR" };
+    });
+
+    return {
+      props: {
+        ...paymentData,
+        ...orderData,
+      },
+    };
   } catch (error) {
     console.error(error);
     return { props: { status: "ERROR" } };
