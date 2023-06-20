@@ -158,10 +158,10 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   try {
-    const { itemId } = context.query;
+    const { paymentId } = context.query;
 
     const data = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/orders/status?itemId=${itemId}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/orders/status?paymentId=${paymentId}`
     ).then((response) => {
       if (response.ok) {
         return response.json();
