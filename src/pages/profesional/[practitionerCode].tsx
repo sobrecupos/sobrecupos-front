@@ -33,9 +33,15 @@ const Practitioner = ({ profile, seo, practitionerCode }: any) => {
       })
       .catch((error) => {
         console.error(error);
+        return null;
       })
       .then((data) => {
-        setSchedule(data);
+        setSchedule(
+          data || {
+            date: new Date().toString(),
+            results: [],
+          }
+        );
         setIsLoading(false);
       });
   }, [practitionerCode]);
