@@ -155,17 +155,15 @@ const Summary = ({
   return null;
 };
 
-const WithSeo =
-  (Component: (props: SummaryProps) => JSX.Element) => (props: SummaryProps) =>
-    (
-      <>
-        <Head>
-          <title>Resumen de la compra | Sobrecupos</title>
-          <meta name="robots" content="noindex" data-testid="seo-robots" />
-        </Head>
-        <Component {...props} />
-      </>
-    );
+const SummaryWithSeo = (props: SummaryProps) => (
+  <>
+    <Head>
+      <title>Resumen de la compra | Sobrecupos</title>
+      <meta name="robots" content="noindex" data-testid="seo-robots" />
+    </Head>
+    <Summary {...props} />
+  </>
+);
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -210,4 +208,4 @@ export const getServerSideProps = async (
   }
 };
 
-export default Summary;
+export default SummaryWithSeo;
