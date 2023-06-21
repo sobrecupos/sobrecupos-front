@@ -12,15 +12,15 @@ export default function ToS() {
         <p>Última actualización: 5 de junio 2023</p>
         <p>
           Este documento describe los términos generales y las condiciones de
-          uso (los "Términos y Condiciones" o “Términos”) aplicables al acceso
-          y/o uso que usted haga de la Plataforma “Sobrecupos”, a la que es
+          uso (los &quot;Términos y Condiciones&quot; o &quot;Términos&quot;) aplicables al acceso
+          y/o uso que usted haga de la Plataforma &quot;Sobrecupos&quot;, a la que es
           posible acceder a través de la página web accesible a través de
-          computadores o teléfonos móviles (el “Sitio Web”). La Plataforma es
+          computadores o teléfonos móviles (el &quot;Sitio Web&quot;). La Plataforma es
           puesta a disposición por Weheall Company Spa sociedad por acciones
           creada bajo las leyes de la República de Chile, representada
           legalmente por don José Andrés Peña Martínez, cédula de identidad N°
           13353811-9 ambos domiciliados en La Capitanía 80, oficina 108, Las
-          Condes (indistintamente, la “Empresa”, o “Weheall”). Tu registro,
+          Condes (indistintamente, la &quot;Empresa&quot;, o &quot;Weheall&quot;). Tu registro,
           acceso y provisión de servicios está condicionada a la aceptación y
           cumplimiento de estos Términos. Este documento contiene información
           legal que le recomendamos leer integramente y en conjunto con la
@@ -93,12 +93,12 @@ export default function ToS() {
         <p>
           Weheall Company Spa provee una Plataforma digital basada en la web que
           permite a personas naturales mayores de 18 años que requieren una
-          atención de salud en el día (el “Cliente” o el “Paciente”) acceder a
+          atención de salud en el día (el &quot;Cliente&quot; o el &quot;Paciente&quot;) acceder a
           los sobrecupos que los distintos Profesionales de distintas áreas de
           la salud, ofrecen para el día y hora determinados (los/las
-          “Profesionales”). El sitio web y la aplicación de Sobrecupos junto con
+          &quot;Profesionales&quot;). El sitio web y la aplicación de Sobrecupos junto con
           los servicios, la información y las comunicaciones relacionadas se
-          denominarán conjuntamente la “Plataforma”. El presente documento tiene
+          denominarán conjuntamente la &quot;Plataforma&quot;. El presente documento tiene
           por objeto regular el funcionamiento de la Plataforma y los Servicios
           de Weheall y la forma en que, a través de la Plataforma Sobrecupos,
           serán ofertados los sobrecupos por los distintos Profesionales, una
@@ -171,8 +171,8 @@ export default function ToS() {
           uso de su cuenta por parte de terceros. El Paciente accederá a su
           cuenta ingresando su correo electrónico y una contraseña, la cual
           deberá mantener siempre de manera confidencial. Si el Paciente olvida
-          su contraseña, podrá restablecerla haciendo clic en la opción “Olvidé
-          mi contraseña”. Weheall se reserva el derecho a solicitar, en
+          su contraseña, podrá restablecerla haciendo clic en la opción &quot;Olvidé
+          mi contraseña&quot;. Weheall se reserva el derecho a solicitar, en
           cualquier momento, algún comprobante y/o dato adicional a efectos de
           corroborar los Datos Personales indicados en el Registro y de
           suspender, temporal y/o definitivamente a aquel Paciente cuyos datos
@@ -188,7 +188,7 @@ export default function ToS() {
         <p>
           La Plataforma tiene como fin principal la intermediación entre
           Profesionales y Pacientes, permitiendo a los primeros ofrecer sus
-          horas de atención médica disponibles (“Sobrecupos”) y, a los segundos,
+          horas de atención médica disponibles (&quot;Sobrecupos&quot;) y, a los segundos,
           Pacientes en búsqueda activa de atención médica, tomar conocimiento de
           las horas de atención médica disponibles por especialidad y por
           Profesional.
@@ -398,7 +398,7 @@ export default function ToS() {
           El Paciente podrán reportar conducta o contenido que pueda infringir
           los Términos y Condiciones, la Política de Privacidad o la legislación
           aplicable. Para tal efecto, la Plataforma contará con un enlace donde
-          aparecerá la palabra “Reportar”. Recibido un reporte, Weheall a su
+          aparecerá la palabra &quot;Reportar&quot;. Recibido un reporte, Weheall a su
           entera discreción, determinará si corresponden la eliminación o
           modificación del Contenido cuando este fuere manifiestamente ofensivo,
           inapropiado, obsceno, ilegal u objetable.
@@ -559,8 +559,8 @@ export default function ToS() {
           sustituye, reemplaza y combina todos los contratos, acuerdos,
           entendimientos o discusiones anteriores, previos o contemporáneos
           entre las partes, en relación con el objeto materia de este. En estos
-          Términos y Condiciones, las palabras “incluido/a/os/as” e “incluye/n”
-          significan “incluido, de forma meramente enunciativa.
+          Términos y Condiciones, las palabras &quot;incluido/a/os/as&quot; e &quot;incluye/n&quot;
+          significan &quot;incluido, de forma meramente enunciativa.
         </p>
         <h3>DÉCIMO NOVENO: Resolución de conflictos</h3>
         <p>

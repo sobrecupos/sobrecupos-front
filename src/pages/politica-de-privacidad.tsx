@@ -364,7 +364,7 @@ export default function Privacy() {
         <h3>TIPOS DE DATOS PERSONALES RECOGIDOS POR WEHEALL</h3>
         <p>
           Dependiendo de la interacción del Usuario en la aplicación para
-          dispositivos móviles o "App”, página web y/o la Plataforma, Weheall
+          dispositivos móviles o &quot;App&quot;, página web y/o la Plataforma, Weheall
           podrá recopilar y procesar toda o parte de la siguiente información. A
           continuación, se detallan las distintas categorías de Datos Personales
           que recogemos. Datos que permiten individualizar al Usuario y
