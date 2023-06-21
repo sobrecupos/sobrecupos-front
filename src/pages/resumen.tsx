@@ -10,7 +10,7 @@ type SummaryProps = {
   intervalInMinutes: number;
   practitionerName: string;
   practiceAddress: string;
-  paidAmount: string;
+  amount: string;
   paymentMethod: string;
   totalAmount: string;
   status: string;
@@ -31,7 +31,7 @@ const Summary = ({
   intervalInMinutes,
   practitionerName,
   practiceAddress,
-  paidAmount,
+  amount,
   paymentMethod,
   status,
 }: SummaryProps) => {
@@ -145,7 +145,7 @@ const Summary = ({
           </div>
           <div className={classes.tableRow}>
             <span className={classes.tableData}>Pagado:</span>
-            <span className={classes.tableData}>{paidAmount}</span>
+            <span className={classes.tableData}>{amount}</span>
           </div>
         </div>
       </div>
