@@ -44,7 +44,6 @@ const classes = getComponentClassNames("schedule", {
 });
 
 const formatDate = (dateString: string) => {
-  console.log(dateString);
   const formattedDate = new Intl.DateTimeFormat("es-CL", {
     dateStyle: "full",
   }).format(new Date(dateString));

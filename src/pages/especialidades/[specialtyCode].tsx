@@ -20,6 +20,11 @@ const Specialty = ({ seo, title, practitioners }: SpecialtyProps) => (
   <div className={namespace}>
     <Head>
       <title>{seo.title}</title>
+      <meta
+        name="description"
+        content={seo.description}
+        key="meta-description"
+      />
     </Head>
     <SpecialtyHeader specialtyName={title} />
     <Practitioners practitioners={practitioners} />

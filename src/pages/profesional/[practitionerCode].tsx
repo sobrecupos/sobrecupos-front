@@ -3,13 +3,14 @@ import { AboutMe } from "@marketplace/views/practitioner/about-me";
 import { ProfileCard } from "@marketplace/views/practitioner/profile-card";
 import { Schedule } from "@marketplace/views/practitioner/schedule";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 
 const classes = getComponentClassNames("practitioner", {
   profile: "profile",
 });
 
-const Practitioner = ({ profile, practitionerCode }: any) => {
+const Practitioner = ({ profile, seo, practitionerCode }: any) => {
   const [isLoading, setIsLoading] = useState(true);
   const abortController = useRef<AbortController | null>(null);
   const [schedule, setSchedule] = useState({
@@ -40,17 +41,27 @@ const Practitioner = ({ profile, practitionerCode }: any) => {
   }, [practitionerCode]);
 
   return (
-    <div className={classes.namespace}>
-      <div className={classes.profile}>
-        <ProfileCard {...profile} />
-        <AboutMe description={profile.description} />
+    <>
+      <Head>
+        <title>{seo.title}</title>
+        <meta
+          name="description"
+          content={seo.description}
+          key="meta-description"
+        />
+      </Head>
+      <div className={classes.namespace}>
+        <div className={classes.profile}>
+          <ProfileCard {...profile} />
+          <AboutMe description={profile.description} />
+        </div>
+        <Schedule
+          showSpinner={isLoading}
+          schedule={schedule}
+          practitioner={profile.name}
+        />
       </div>
-      <Schedule
-        showSpinner={isLoading}
-        schedule={schedule}
-        practitioner={profile.name}
-      />
-    </div>
+    </>
   );
 };
 
@@ -66,11 +77,12 @@ export const getStaticProps = async (context: GetServerSidePropsContext) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/practitioners/${practitionerCode}`
   );
-  const practitioner = await response.json();
+  const { profile, seo } = await response.json();
 
   return {
     props: {
-      profile: practitioner,
+      seo,
+      profile,
       practitionerCode,
     },
     revalidate: 300,

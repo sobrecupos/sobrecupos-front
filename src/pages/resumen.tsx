@@ -2,6 +2,7 @@ import { Icon } from "@marketplace/ui/icon";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import classNames from "classnames";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import Image from "next/image";
 
 type SummaryProps = {
@@ -153,6 +154,18 @@ const Summary = ({
 
   return null;
 };
+
+const WithSeo =
+  (Component: (props: SummaryProps) => JSX.Element) => (props: SummaryProps) =>
+    (
+      <>
+        <Head>
+          <title>Resumen de la compra | Sobrecupos</title>
+          <meta name="robots" content="noindex" data-testid="seo-robots" />
+        </Head>
+        <Component {...props} />
+      </>
+    );
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
