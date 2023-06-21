@@ -97,9 +97,20 @@ export const Schedule = ({
         itemId: selected.id,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+
+        throw new Error('Failed timeslot purchase')
+      })
       .then(({ url }) => {
-        window.location.href = url;
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+
+        throw new Error('Failed timeslot purchase')
       })
       .catch((error) => {
         console.error(error);
