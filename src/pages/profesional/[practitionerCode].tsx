@@ -55,6 +55,9 @@ const Practitioner = ({ profile, seo, practitionerCode }: any) => {
           content={seo.description}
           key="meta-description"
         />
+        {seo.noIndex ? (
+          <meta name="robots" content="noindex" data-testid="seo-robots" />
+        ) : null}
       </Head>
       <div className={classes.namespace}>
         <div className={classes.profile}>
