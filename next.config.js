@@ -9,6 +9,12 @@ const nextConfig = {
         port: '',
         pathname: '/wp-content/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'estebanandres.cl',
+        port: '',
+        pathname: '/sobrecupos/wp-content/**',
+      },
     ],
   },
 }
