@@ -47,7 +47,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 
   return {
     props: specialtiesByCode,
-    revalidate: 300,
+    revalidate: 60,
   };
 };
 
