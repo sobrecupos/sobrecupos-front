@@ -63,7 +63,7 @@ export const getStaticProps = async (context: GetServerSidePropsContext) => {
       practitionerCode,
       schedule,
     },
-    revalidate: 300,
+    revalidate: 60 * 5,
   };
 };
 
