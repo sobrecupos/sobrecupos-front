@@ -65,9 +65,6 @@ export const PractitionerCard = ({
           <div className={classes.addresses}>
             {addressTags.map((tag) => (
               <div key={`address-${code}-${tag}`} className={classes.address}>
-                <span className={classes.addressIcon}>
-                  <Icon id="map-location-dot" variant="solid" />
-                </span>
                 {tag}
               </div>
             ))}

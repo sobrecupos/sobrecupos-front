@@ -56,6 +56,8 @@ $namespace: "ui-mp-practitioner-card";
 
   &__addresses {
     display: flex;
+    flex-wrap: wrap;
+    row-gap: 8px;
     justify-content: center;
   }
 
@@ -65,7 +67,7 @@ $namespace: "ui-mp-practitioner-card";
 
   &__address {
     font-size: 14px;
-    padding: 12px 20px;
+    padding: 4px 8px;
     margin-right: 8px;
     background-color: #ccffe7;
     border-radius: 4px;
