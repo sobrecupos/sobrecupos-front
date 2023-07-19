@@ -15,6 +15,7 @@ const specialties = [
   { code: "neurologia", label: "Neurología" },
   { code: "cirugia", label: "Cirugía" },
   { code: "inmunologia-y-alergias", label: "Inmunología y alergias" },
+  { code: "dermatologia", label: "Dermatología" },
 ];
 
 const { namespace } = getComponentClassNames("home", {});
