@@ -2,7 +2,7 @@ import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { Practitioners } from "@marketplace/views/specialty/practitioners";
 import type { Practitioner } from "@marketplace/views/specialty/practitioners/types";
 import { SpecialtyHeader } from "@marketplace/views/specialty/specialty-header";
-import { GetServerSidePropsContext } from "next";
+import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 
 type SpecialtyProps = {
@@ -31,9 +31,7 @@ const Specialty = ({ seo, title, practitioners }: SpecialtyProps) => (
   </div>
 );
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   const specialtyCode = context.params?.["specialtyCode"];
 
   if (!specialtyCode) {
@@ -47,14 +45,15 @@ export const getServerSideProps = async (
   );
   const specialtiesByCode = await response.json();
 
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=60, stale-while-revalidate=60"
-  );
-
   return {
     props: specialtiesByCode,
+    revalidate: 300,
   };
 };
+
+export const getStaticPaths = () => ({
+  paths: [],
+  fallback: "blocking",
+});
 
 export default Specialty;
