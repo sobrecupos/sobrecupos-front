@@ -10,69 +10,32 @@ const classes = getComponentClassNames("practitioner", {
   profile: "profile",
 });
 
-const Practitioner = ({ profile, seo, practitionerCode }: any) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const abortController = useRef<AbortController | null>(null);
-  const [schedule, setSchedule] = useState({
-    date: new Date().toString(),
-    results: [],
-  });
-
-  useEffect(() => {
-    abortController.current = new AbortController();
-
-    fetch(`/api/practitioners/${practitionerCode}/schedule`, {
-      signal: abortController.current.signal,
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-
-        throw new Error("Cannot load time slots");
-      })
-      .catch((error) => {
-        console.error(error);
-        return null;
-      })
-      .then((data) => {
-        setSchedule(
-          data || {
-            date: new Date().toString(),
-            results: [],
-          }
-        );
-        setIsLoading(false);
-      });
-  }, [practitionerCode]);
-
-  return (
-    <>
-      <Head>
-        <title>{seo.title}</title>
-        <meta
-          name="description"
-          content={seo.description}
-          key="meta-description"
-        />
-        {seo.noIndex ? (
-          <meta name="robots" content="noindex" data-testid="seo-robots" />
-        ) : null}
-      </Head>
-      <div className={classes.namespace}>
-        <div className={classes.profile}>
-          <ProfileCard {...profile} />
-          <AboutMe description={profile.description} />
-        </div>
-        <Schedule
-          showSpinner={isLoading}
-          schedule={schedule}
-          practitioner={profile.name}
-        />
+const Practitioner = ({ profile, seo, schedule }: any) => (
+  <>
+    <Head>
+      <title>{seo.title}</title>
+      <meta
+        name="description"
+        content={seo.description}
+        key="meta-description"
+      />
+      {seo.noIndex ? (
+        <meta name="robots" content="noindex" data-testid="seo-robots" />
+      ) : null}
+    </Head>
+    <div className={classes.namespace}>
+      <div className={classes.profile}>
+        <ProfileCard {...profile} />
+        <AboutMe description={profile.description} />
       </div>
-    </>
-  );
-};
+      <Schedule
+        showSpinner={false}
+        schedule={schedule}
+        practitioner={profile.name}
+      />
+    </div>
+  </>
+);
 
 export const getStaticProps = async (context: GetServerSidePropsContext) => {
   const practitionerCode = context.params?.["practitionerCode"];
@@ -86,13 +49,19 @@ export const getStaticProps = async (context: GetServerSidePropsContext) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/practitioners/${practitionerCode}`
   );
+  const scheduleResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/practitioners/${practitionerCode}/schedule`
+  );
+
   const { profile, seo } = await response.json();
+  const schedule = await scheduleResponse.json();
 
   return {
     props: {
       seo,
       profile,
       practitionerCode,
+      schedule,
     },
     revalidate: 300,
   };
