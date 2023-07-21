@@ -46,10 +46,16 @@ const classes = getComponentClassNames("schedule", {
 const formatDate = (dateString: string) => {
   const formattedDate = new Intl.DateTimeFormat("es-CL", {
     dateStyle: "full",
-    timeZone: 'America/Santiago'
+    timeZone: "America/Santiago",
   }).format(new Date(dateString));
 
   return formattedDate[0].toUpperCase() + formattedDate.slice(1);
+};
+
+const isBefore = (now: number, start: string) => {
+  const startTime = new Date(start).getTime();
+
+  return now < startTime;
 };
 
 const formatHours = (dateString: string, intervalInMinutes: number) => {
@@ -87,11 +93,11 @@ export const Schedule = ({
     if (isLoading || !selected) return;
 
     const start = new Date(selected.start).getTime();
-  
+
     if (start <= Date.now()) {
-      setHasError(true)
+      setHasError(true);
       return;
-    };
+    }
 
     setIsLoading(true);
     fetch("/api/orders", {
@@ -106,10 +112,10 @@ export const Schedule = ({
     })
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response.json();
         }
 
-        throw new Error('Failed timeslot purchase')
+        throw new Error("Failed timeslot purchase");
       })
       .then(({ url }) => {
         if (url) {
@@ -117,7 +123,7 @@ export const Schedule = ({
           return;
         }
 
-        throw new Error('Failed timeslot purchase')
+        throw new Error("Failed timeslot purchase");
       })
       .catch((error) => {
         console.error(error);
@@ -280,43 +286,53 @@ export const Schedule = ({
             <div className={classes.empty}>Sin sobrecupos disponibles 😥</div>
           ) : null}
           {schedule.results.map(
-            ({ address, insuranceProviders, timeSlots }) => (
-              <div
-                className={classes.timeSlotsContainer}
-                key={`time-slots-${address}-${schedule.date}`}
-              >
-                <div className={classes.address}>
-                  <div className={classes.addressIcon}>
-                    <Icon id="map" />
-                  </div>
-                  <div>{address}</div>
-                </div>
-                <div className={classes.insurances}>
-                  Atiende: {insuranceProviders.join(" | ")}
-                </div>
+            ({ address, insuranceProviders, timeSlots }) => {
+              const freeTimeSlots = timeSlots.filter(({ start }) => Date.now() < new Date(start).getTime());
+              
+              if (freeTimeSlots.length === 0) {
+                return <div className={classes.empty} key="unavailable-time-slots">Sin sobrecupos disponibles 😥</div>
+              }
 
-                <div className={classes.timeSlots}>
-                  {timeSlots.map(({ id, start, intervalInMinutes }) => (
-                    <button
-                      key={`timeslot-${id}`}
-                      className={classes.timeSlot}
-                      onClick={() =>
-                        setSelected({
-                          id,
-                          label: formatHours(start, intervalInMinutes),
-                          start,
-                          address,
-                          date: formatDate(schedule.date),
-                          insuranceProviders: insuranceProviders.join(" | "),
-                        })
-                      }
-                    >
-                      {formatHours(start, intervalInMinutes)}
-                    </button>
-                  ))}
+              return (
+                <div
+                  className={classes.timeSlotsContainer}
+                  key={`time-slots-${address}-${schedule.date}`}
+                >
+                  <div className={classes.address}>
+                    <div className={classes.addressIcon}>
+                      <Icon id="map" />
+                    </div>
+                    <div>{address}</div>
+                  </div>
+                  <div className={classes.insurances}>
+                    Atiende: {insuranceProviders.join(" | ")}
+                  </div>
+  
+                  <div className={classes.timeSlots}>
+                    {freeTimeSlots.map(({ id, start, intervalInMinutes }) =>
+                      isBefore(Date.now(), start) ? (
+                        <button
+                          key={`timeslot-${id}`}
+                          className={classes.timeSlot}
+                          onClick={() =>
+                            setSelected({
+                              id,
+                              label: formatHours(start, intervalInMinutes),
+                              start,
+                              address,
+                              date: formatDate(schedule.date),
+                              insuranceProviders: insuranceProviders.join(" | "),
+                            })
+                          }
+                        >
+                          {formatHours(start, intervalInMinutes)}
+                        </button>
+                      ) : null
+                    )}
+                  </div>
                 </div>
-              </div>
-            )
+              )
+            }
           )}
         </>
       )}

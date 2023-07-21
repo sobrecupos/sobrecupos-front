@@ -4,5 +4,5 @@ export type Practitioner = {
   code: string;
   addressTags: string[];
   specialty: string;
-  timeSlotCount: number;
+  timeSlots: Record<string, any>;
 };
