@@ -86,6 +86,13 @@ export const Schedule = ({
 
     if (isLoading || !selected) return;
 
+    const start = new Date(selected.start).getTime();
+  
+    if (start <= Date.now()) {
+      setHasError(true)
+      return;
+    };
+
     setIsLoading(true);
     fetch("/api/orders", {
       method: "POST",
@@ -297,6 +304,7 @@ export const Schedule = ({
                         setSelected({
                           id,
                           label: formatHours(start, intervalInMinutes),
+                          start,
                           address,
                           date: formatDate(schedule.date),
                           insuranceProviders: insuranceProviders.join(" | "),

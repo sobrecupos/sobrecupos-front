@@ -11,7 +11,6 @@ const specialties = [
   { code: "otorrino", label: "Otorrino" },
   { code: "oftalmologia", label: "Oftalmología" },
   { code: "traumatologia", label: "Traumatología" },
-  { code: "medicina-general", label: "Medicina general" },
   { code: "neurologia", label: "Neurología" },
   { code: "cirugia", label: "Cirugía" },
   { code: "inmunologia-y-alergias", label: "Inmunología y alergias" },
@@ -35,7 +34,6 @@ export default function Home() {
       <Specialties specialties={specialties} />
       <AboutUs />
       <Enrollment />
-      <Partnerships />
     </div>
   );
 }

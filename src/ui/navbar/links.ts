@@ -21,11 +21,6 @@ export const specialties = [
   },
   {
     id: "action",
-    path: "/especialidades/medicina-general",
-    label: "Medicina general",
-  },
-  {
-    id: "action",
     path: "/especialidades/neurologia",
     label: "Neurología",
   },
@@ -38,6 +33,11 @@ export const specialties = [
     id: "action",
     path: "/especialidades/inmunologia-y-alergias",
     label: "Inmunología y alergias",
+  },
+  {
+    id: "action",
+    path: "/especialidades/dermatologia",
+    label: "Dermatología",
   },
 ];
 
