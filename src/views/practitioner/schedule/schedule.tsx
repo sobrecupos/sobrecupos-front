@@ -234,8 +234,9 @@ export const Schedule = ({
                 }}
               />
               <span className={classes.label}>
-                Entiendo que estoy pagando la autorización a un sobrecupo y que
-                debo pagar la consulta médica en el lugar de atención
+                Entiendo que{" "}
+                <b>sólo estoy pagando la autorización a un sobrecupo</b> y que{" "}
+                <b>debo pagar la consulta médica</b> en el lugar de atención
               </span>
             </label>
             <label
@@ -287,10 +288,16 @@ export const Schedule = ({
           ) : null}
           {schedule.results.map(
             ({ address, insuranceProviders, timeSlots }) => {
-              const freeTimeSlots = timeSlots.filter(({ start }) => Date.now() < new Date(start).getTime());
-              
+              const freeTimeSlots = timeSlots.filter(
+                ({ start }) => Date.now() < new Date(start).getTime()
+              );
+
               if (freeTimeSlots.length === 0) {
-                return <div className={classes.empty} key="unavailable-time-slots">Sin sobrecupos disponibles 😥</div>
+                return (
+                  <div className={classes.empty} key="unavailable-time-slots">
+                    Sin sobrecupos disponibles 😥
+                  </div>
+                );
               }
 
               return (
@@ -307,7 +314,7 @@ export const Schedule = ({
                   <div className={classes.insurances}>
                     Atiende: {insuranceProviders.join(" | ")}
                   </div>
-  
+
                   <div className={classes.timeSlots}>
                     {freeTimeSlots.map(({ id, start, intervalInMinutes }) =>
                       isBefore(Date.now(), start) ? (
@@ -321,7 +328,8 @@ export const Schedule = ({
                               start,
                               address,
                               date: formatDate(schedule.date),
-                              insuranceProviders: insuranceProviders.join(" | "),
+                              insuranceProviders:
+                                insuranceProviders.join(" | "),
                             })
                           }
                         >
@@ -331,7 +339,7 @@ export const Schedule = ({
                     )}
                   </div>
                 </div>
-              )
+              );
             }
           )}
         </>

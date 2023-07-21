@@ -115,7 +115,7 @@ const Summary = ({
           <span className={classes.alertText}>
             Te enviamos una copia del sobrecupo a tu correo electrónico. Si no
             la ves, revisa tu carpeta de spam. Y recuerda presentar este email
-            en recepción y pagar tu consulta médica donde corresponda 😃
+            en recepción y <b>pagar tu consulta médica donde corresponda</b> 😃
           </span>
         </div>
 
