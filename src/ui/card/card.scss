@@ -1,0 +1,10 @@
+$namespace: "ui-mp-card";
+
+.#{$namespace} {
+  padding: 12px 16px;
+  border: 1px solid #f3f3f3;
+
+  &--elevated {
+    box-shadow: 0px 0px 10px 0px rgba(232, 232, 232, 0.33);
+  }
+}

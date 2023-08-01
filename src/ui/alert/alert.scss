@@ -1,0 +1,52 @@
+@use "sass:list";
+
+$namespace: "ui-mp-alert";
+$variants: (
+  "success": (
+    #f6ffed,
+    #b7eb8f,
+    #52c41a,
+  ),
+  "info": (
+    #e6f4ff,
+    #91caff,
+    #1677ff,
+  ),
+  "warning": (
+    #fffbe6,
+    #ffe58f,
+    #faad14,
+  ),
+  "error": (
+    #fff2f0,
+    #ffccc7,
+    #ff4d4f,
+  ),
+);
+
+.#{$namespace} {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  padding: 12px 16px;
+
+  @each $variant, $values in $variants {
+    $background: list.nth($values, 1);
+    $border: list.nth($values, 2);
+    $icon: list.nth($values, 3);
+
+    &--#{$variant} {
+      background-color: $background;
+      border: 1px solid $border;
+    }
+
+    &--#{$variant} &__icon {
+      color: $icon;
+    }
+  }
+
+  &__icon {
+    margin-right: 12px;
+    height: 24px;
+  }
+}
