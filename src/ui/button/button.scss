@@ -34,5 +34,23 @@ $namespace: "ui-mp-button";
   &:disabled {
     cursor: not-allowed;
     opacity: 0.6;
+    box-shadow: none;
+  }
+
+  &__loader {
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 12px;
+    height: 24px;
+    animation: rotation 1s infinite linear;
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
   }
 }

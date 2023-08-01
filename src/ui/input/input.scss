@@ -5,6 +5,10 @@ $namespace: "ui-mp-input";
   margin-bottom: 12px;
   padding-bottom: 16px;
 
+  &--hidden {
+    display: none;
+  }
+
   &--error {
     padding-bottom: 0;
   }
@@ -16,7 +20,7 @@ $namespace: "ui-mp-input";
 
   &__field {
     display: block;
-    width: calc(100% - 32px);
+    width: 100%;
     margin-bottom: 4px;
   }
 

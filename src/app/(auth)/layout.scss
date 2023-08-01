@@ -1,0 +1,27 @@
+$namespace: "ui-mp-auth-layout";
+
+.#{$namespace} {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__card.ui-mp-card {
+    width: 100%;
+    max-width: 400px;
+    margin: 16px auto;
+    padding: 32px;
+  }
+
+  &__logo {
+    display: block;
+    margin: 32px auto 40px;
+  }
+
+  &__title {
+    margin: 32px auto;
+    color: #444;
+    font-size: 24px;
+    text-align: center;
+  }
+}
