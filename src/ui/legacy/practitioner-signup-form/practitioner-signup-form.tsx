@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getComponentClassNames } from "../namespace";
+import { getComponentClassNames } from "../../namespace";
 
 const classes = getComponentClassNames("practitioner-signup", {
   image: "image",

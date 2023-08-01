@@ -1,4 +1,4 @@
-import { Icon } from "@marketplace/ui/icon";
+import { Icon } from "@marketplace/ui/legacy/icon";
 import { classes } from "./classes";
 import { FAQElement } from "./faq-element";
 

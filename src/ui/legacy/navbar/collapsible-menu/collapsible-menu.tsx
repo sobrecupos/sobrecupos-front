@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { classes } from "../classes";
 import classNames from "classnames";
-import { Icon } from "@marketplace/ui/icon";
+import { Icon } from "@marketplace/ui/legacy/icon";
 import { links } from "../links";
 
 export type CollapsibleMenuProps = {

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { specialties } from "./links";
 import { Icon } from "../icon";
-import { useClosable } from "../use-closable";
+import { useClosable } from "../../use-closable";
 import { useState } from "react";
 import { Modal } from "../modal";
 import { PractitionerSignupForm } from "../practitioner-signup-form";

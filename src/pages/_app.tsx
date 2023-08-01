@@ -1,5 +1,5 @@
 import "@marketplace/styles/globals.scss";
-import { Layout } from "@marketplace/ui/layout";
+import { Layout } from "@marketplace/ui/legacy/layout";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";

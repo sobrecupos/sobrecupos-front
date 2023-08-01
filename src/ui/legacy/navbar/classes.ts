@@ -1,4 +1,4 @@
-import { getComponentClassNames } from "../namespace";
+import { getComponentClassNames } from "../../namespace";
 
 export const classes = getComponentClassNames("nav", {
   content: "content",

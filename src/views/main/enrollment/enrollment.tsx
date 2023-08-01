@@ -1,6 +1,6 @@
-import { Modal } from "@marketplace/ui/modal";
+import { Modal } from "@marketplace/ui/legacy/modal";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
-import { PractitionerSignupForm } from "@marketplace/ui/practitioner-signup-form";
+import { PractitionerSignupForm } from "@marketplace/ui/legacy/practitioner-signup-form";
 import Image from "next/image";
 import { useState } from "react";
 

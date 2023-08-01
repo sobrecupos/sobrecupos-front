@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { Montserrat } from "next/font/google";
 import { Navbar } from "../navbar";
-import { getComponentClassNames } from "../namespace";
+import { getComponentClassNames } from "../../namespace";
 import classNames from "classnames";
 import { Icon } from "../icon";
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { classes } from "./classes";
-import { Icon } from "@marketplace/ui/icon";
+import { Icon } from "@marketplace/ui/legacy/icon";
 import classNames from "classnames";
 
 export type FAQElementProps = {

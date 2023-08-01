@@ -1,4 +1,4 @@
-import { Icon } from "@marketplace/ui/icon";
+import { Icon } from "@marketplace/ui/legacy/icon";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import classNames from "classnames";
 import Image from "next/image";
