@@ -1,0 +1,128 @@
+$namespace: "ui-mp-nav";
+
+.#{$namespace} {
+  &--desktop {
+    padding: 12px;
+    box-shadow: 0px 0px 10px 0px rgba(237, 237, 237, 0.5);
+  }
+
+  &--desktop &__home {
+    display: inline-block;
+    padding: 16px 12px;
+  }
+
+  &__bar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    list-style: none;
+  }
+
+  &__bar-item {
+    position: relative;
+  }
+
+  &__bar-item:first-child,
+  &__bar-item:last-child {
+    flex-grow: 1;
+  }
+
+  &__bar-item:last-child {
+    text-align: right;
+  }
+
+  &__bar-link {
+    padding: 12px 24px;
+    color: #444;
+    text-decoration: none;
+    background-color: #fff;
+    position: relative;
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+
+    &:focus,
+    &:hover {
+      color: #724ef7;
+    }
+
+    &::after {
+      content: " ";
+      opacity: 0;
+      transition: all 0.2s ease;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #724ef7;
+    }
+
+    &:hover::after,
+    &:focus::after {
+      opacity: 1;
+    }
+  }
+
+  &__bar-link-icon {
+    margin-left: 8px;
+  }
+
+  &__bar-action {
+    width: fit-content;
+    font-size: 16px;
+    font-family: inherit;
+    text-align: center;
+    color: #444;
+    background-color: #ffd814;
+    border-radius: 28px;
+    padding: 16px 32px;
+    font-weight: bold;
+    border: 0;
+    outline: 0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:focus,
+    &:hover {
+      box-shadow: inset 0 0 0 2px darken($color: #ffd814, $amount: 20);
+    }
+  }
+
+  &__inner-bar {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0px 0px 10px 0px rgba(211.171875, 211.171875, 211.171875, 0.5);
+
+    &--open {
+      display: block;
+    }
+  }
+
+  &__inner-bar-link {
+    padding: 16px 60px;
+    color: #444;
+    text-decoration: none;
+    background-color: #fff;
+    display: block;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    outline: 0;
+
+    &:focus,
+    &:hover {
+      background-color: #e5deff;
+      color: #724ef7;
+    }
+  }
+}
