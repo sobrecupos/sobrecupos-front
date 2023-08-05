@@ -1,41 +1,44 @@
-import classNames from "classnames";
-import { ChangeEvent, FocusEvent } from "react";
-import { getComponentClassNames } from "../namespace";
-import "./input.scss";
+"use client";
 
-export type InputProps = {
+import classNames from "classnames";
+import { ChangeEvent, FocusEvent, useId } from "react";
+import { getComponentClassNames } from "../namespace";
+import "./select.scss";
+
+export type SelectProps = {
+  options: {
+    value: string;
+    label: string;
+    disabled?: boolean;
+  }[];
   value?: string;
   onChange?: (value: string) => void;
-  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: FocusEvent) => void;
   label?: string;
   error?: string;
-  name?: string;
-  disabled?: boolean;
-  type?: string;
   className?: string;
-  readOnly?: boolean;
 };
 
-const classes = getComponentClassNames("input", {
+const classes = getComponentClassNames("select", {
   labelText: "label-text",
   field: "field",
   error: "error",
 });
 
-export const Input = ({
-  value = "",
+export const Select = ({
+  options,
+  value,
   onChange,
   onBlur,
   label,
-  name,
-  disabled,
   error,
   className,
-  readOnly,
-  type = "text",
-}: InputProps) => {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+}: SelectProps) => {
+  const id = useId();
+
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
+
     onChange?.(value);
   };
 
@@ -45,22 +48,23 @@ export const Input = ({
         classes.namespace,
         {
           [`${classes.namespace}--error`]: error,
-          [`${classes.namespace}--hidden`]: type === "hidden",
         },
         className
       )}
     >
       {label ? <span className={classes.labelText}>{label}</span> : null}
-      <input
+      <select
         className={classes.field}
-        name={name}
-        value={value}
-        onChange={handleChange}
         onBlur={onBlur}
-        disabled={disabled}
-        type={type}
-        readOnly={readOnly}
-      />
+        onChange={handleChange}
+        value={value}
+      >
+        {options.map(({ value, label: optionLabel, disabled }) => (
+          <option key={`${id}-${value}`} value={value} disabled={disabled}>
+            {optionLabel}
+          </option>
+        ))}
+      </select>
       {error ? <span className={classes.error}>{error}</span> : null}
     </label>
   );

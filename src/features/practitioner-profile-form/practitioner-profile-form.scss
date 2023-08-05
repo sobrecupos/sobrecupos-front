@@ -1,0 +1,10 @@
+$namespace: "ui-mp-practitioner-profile-form";
+
+.#{$namespace} {
+  margin: 16px;
+
+  &__section-title {
+    color: #444;
+    margin: 20px 0 16px;
+  }
+}

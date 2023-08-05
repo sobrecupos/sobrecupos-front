@@ -1,14 +1,14 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import classNames from "classnames";
-import { Poppins } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { PropsWithChildren } from "react";
 import "./layout.scss";
 
-const poppins = Poppins({
-  weight: ["400", "600"],
-  display: "swap",
-  style: ["normal", "italic"],
+const montserrat = Montserrat({
   subsets: ["latin"],
+  weight: ["400", "600"],
+  style: ["normal"],
+  display: "swap",
 });
 
 const classes = getComponentClassNames("layout", {});
@@ -16,7 +16,7 @@ const classes = getComponentClassNames("layout", {});
 const RootLayout = ({ children }: PropsWithChildren<Record<never, never>>) => (
   <html
     lang="es-CL"
-    className={classNames(classes.namespace, poppins.className)}
+    className={classNames(classes.namespace, montserrat.className)}
   >
     <body>{children}</body>
   </html>

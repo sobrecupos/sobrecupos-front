@@ -1,0 +1,33 @@
+$namespace: "ui-mp-checkbox";
+
+.#{$namespace} {
+  display: block;
+  margin-bottom: 12px;
+  padding-bottom: 16px;
+
+  &--error {
+    padding-bottom: 0;
+  }
+
+  &__label-text {
+    display: block;
+  }
+
+  &__field-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  &__field {
+    margin-right: 8px;
+  }
+
+  &__error {
+    display: block;
+    font-size: 14px;
+    line-height: 16px;
+    color: red;
+  }
+}

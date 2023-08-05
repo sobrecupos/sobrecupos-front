@@ -3,9 +3,7 @@ import { getDb } from "@marketplace/libs/persistence";
 export class PractitionersService {
   async getProfile(email: string) {
     const collection = await this.getCollection();
-    const doc = await collection.findOne({ email });
-
-    return doc;
+    return collection.findOne({ email });
   }
 
   async getCollection() {
