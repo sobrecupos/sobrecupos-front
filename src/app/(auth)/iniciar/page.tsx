@@ -1,5 +1,5 @@
+import { authService } from "@marketplace/data-access/auth/auth.service";
 import { SignInForm } from "@marketplace/features/sign-in-form";
-import { authOptions } from "@marketplace/libs/auth/options";
 import { getServerSession } from "next-auth";
 import { getCsrfToken } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -8,10 +8,10 @@ import { authLayoutClasses } from "../classes";
 const SignIn = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { callbackUrl?: string; email?: string };
 }) => {
   const csrfToken = await getCsrfToken();
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authService.options);
 
   if (typeof searchParams.callbackUrl === "string" && session?.user) {
     redirect(searchParams.callbackUrl);
@@ -20,7 +20,7 @@ const SignIn = async ({
   return (
     <>
       <h1 className={authLayoutClasses.title}>Iniciar Sesión</h1>
-      <SignInForm csrfToken={csrfToken} />
+      <SignInForm csrfToken={csrfToken} defaultEmail={searchParams.email} />
     </>
   );
 };

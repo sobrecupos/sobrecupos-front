@@ -17,7 +17,7 @@ const navbarConfig = [
   },
   {
     id: "action",
-    path: "/sign-out",
+    path: "/salir",
     label: "Cerrar sesión",
     contents: [],
   },

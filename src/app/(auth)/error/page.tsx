@@ -13,7 +13,7 @@ const ErrorPage = ({
     ) : (
       <p>No fue posible iniciar sesión.</p>
     )}
-    <Link href="/sign-in">Inicia sesión nuevamente.</Link>
+    <Link href="/iniciar">Inicia sesión nuevamente.</Link>
   </>
 );
 

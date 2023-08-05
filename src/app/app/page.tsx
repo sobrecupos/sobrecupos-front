@@ -1,5 +1,9 @@
-import { WithAuth } from "@marketplace/features/with-auth";
+import { authService } from "@marketplace/data-access/auth/auth.service";
 
-const AppPage = () => <div>Test</div>;
+const AppPage = async () => {
+  await authService.getSessionOrRedirect();
 
-export default WithAuth(AppPage);
+  return <div>Test</div>;
+};
+
+export default AppPage;

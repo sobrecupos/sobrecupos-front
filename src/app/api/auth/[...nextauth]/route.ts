@@ -1,7 +1,7 @@
-import { authOptions } from "@marketplace/libs/auth/options";
+import { authService } from "@marketplace/data-access/auth/auth.service";
 import NextAuth from "next-auth/next";
 
-const handler = NextAuth(authOptions);
+const handler = NextAuth(authService.options);
 
 export const GET = handler;
 

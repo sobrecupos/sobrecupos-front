@@ -7,7 +7,7 @@ import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { signIn } from "next-auth/react";
 import { FormEvent, useState } from "react";
 
-export type SignInFormProps = { csrfToken?: string };
+export type SignInFormProps = { csrfToken?: string; defaultEmail?: string };
 
 const classes = getComponentClassNames("signin", {
   submit: "submit",
@@ -15,8 +15,11 @@ const classes = getComponentClassNames("signin", {
   input: "input",
 });
 
-export const SignInForm = ({ csrfToken }: SignInFormProps) => {
-  const [email, setEmail] = useState("");
+export const SignInForm = ({
+  csrfToken,
+  defaultEmail = "",
+}: SignInFormProps) => {
+  const [email, setEmail] = useState(defaultEmail);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
