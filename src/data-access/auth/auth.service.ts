@@ -48,10 +48,24 @@ export class AuthService {
   };
 
   async getSessionOrRedirect(_callbackUrl?: string) {
-    const session = await getServerSession(authService.options);
+    const session = await getServerSession(this.options);
 
     if (!session?.user) {
       redirect(`/iniciar`);
+    }
+
+    return session;
+  }
+
+  async getAdminSessionOrRedirect() {
+    const session = await getServerSession(this.options);
+
+    if (session?.user) {
+      redirect("/iniciar-sesion");
+    }
+
+    if (session?.user.role !== "admin") {
+      redirect("/");
     }
 
     return session;
