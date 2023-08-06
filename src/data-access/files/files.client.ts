@@ -10,19 +10,19 @@ export class FilesClient extends RestClient {
     const filename = encodeURIComponent(file.name);
     const fileType = encodeURIComponent(file.type);
 
-    // const { url, fields } = await this.get("/api/files/url", {
-    //   params: { file: filename, fileType },
-    // });
+    const { url, fields } = await this.get("/api/files/url", {
+      params: { file: filename, fileType, prefixHash: true },
+    });
 
-    // const formData = new FormData();
+    const formData = new FormData();
 
-    // Object.entries({ ...fields, file }).forEach(([key, value]) => {
-    //   formData.append(key, value as string);
-    // });
+    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+      formData.append(key, value as string);
+    });
 
-    // await this.post(url, { body: formData });
+    await this.post(url, { body: formData });
 
-    return URL.createObjectURL(file);
+    return `${url}${fields.key}`;
   }
 }
 

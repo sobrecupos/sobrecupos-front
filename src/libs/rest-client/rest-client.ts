@@ -46,7 +46,14 @@ export class RestClient {
 
     return fetch(requestUrl, requestOptions).then((response) => {
       if (response.ok) {
-        return response.json();
+        if (
+          response.headers.get("content-type") === "application/json" ||
+          response.headers.get("Content-Type") === "application/json"
+        ) {
+          return response.json();
+        }
+
+        return response.text();
       }
 
       const error = new RequestError(

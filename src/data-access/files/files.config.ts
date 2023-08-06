@@ -1,0 +1,4 @@
+const ONE_MB_IN_BYTES = 1_048_576;
+
+export const MAX_FILE_SIZE_IN_MB = 5;
+export const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * ONE_MB_IN_BYTES;
