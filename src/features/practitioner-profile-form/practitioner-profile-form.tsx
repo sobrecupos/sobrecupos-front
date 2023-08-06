@@ -4,7 +4,7 @@ import { Button } from "@marketplace/ui/button";
 import { Input } from "@marketplace/ui/input";
 import { Modal } from "@marketplace/ui/modal";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
-import { Select } from "@marketplace/ui/select";
+import { Select, SelectProps } from "@marketplace/ui/select";
 import { FormEvent, useState } from "react";
 import { useForm } from "../form/use-form";
 import { PracticeForm } from "../practice-form/practice-form";
@@ -16,7 +16,8 @@ import "./practitioner-profile-form.scss";
 import { PractitionerProfilePractices } from "./practitioner-profile-practices";
 
 export type PractitionerProfileFormProps = {
-  addressOptions: { value: string; label: string }[];
+  addressOptions: SelectProps["options"];
+  specialtyOptions: SelectProps["options"];
   names?: string;
   firstSurname?: string;
   secondSurname?: string;
@@ -43,6 +44,7 @@ const classes = getComponentClassNames("practitioner-profile-form", {
 
 export const PractitionerProfileForm = ({
   addressOptions,
+  specialtyOptions,
   ...profile
 }: PractitionerProfileFormProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,11 +73,7 @@ export const PractitionerProfileForm = ({
       <Input label="Número SIS" {...register("licenseId")} />
       <Select
         label="Especialidad"
-        options={[
-          { value: "default", label: "Selecciona una opción", disabled: true },
-          { value: "1", label: "Option 1" },
-          { value: "2", label: "Option 2" },
-        ]}
+        options={specialtyOptions}
         {...register("specialty")}
       />
       <h3 className={classes.sectionTitle}>Mis direcciones</h3>
@@ -115,7 +113,7 @@ export const PractitionerProfileForm = ({
                   insuranceProviders:
                     values.practices[selectedAddress].insuranceProviders,
                 }
-              : {})}
+              : { address: "default" })}
             onSubmit={({ address, insuranceProviders }) => {
               close();
               setValues((prevValues) => {

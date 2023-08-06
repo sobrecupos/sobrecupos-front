@@ -58,7 +58,12 @@ export const PractitionerProfilePractices = ({
       </Card>
     ))}
     <span className={classes.error}>{error}</span>
-    <Button onClick={onAdd} variant="neutral" block>
+    <Button
+      onClick={onAdd}
+      variant="text"
+      className={`${classes.action}--add`}
+      block
+    >
       Agregar dirección
     </Button>
   </div>

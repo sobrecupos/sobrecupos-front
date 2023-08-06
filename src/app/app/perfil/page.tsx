@@ -23,7 +23,32 @@ const ProfilePage = async () => {
     <div className={classes.namespace}>
       <h1 className={classes.title}>Mi perfil</h1>
       <Card className={classes.formContainer}>
-        <PractitionerProfileForm />
+        <PractitionerProfileForm
+          addressOptions={[
+            {
+              value: "default",
+              label: "Selecciona una opción",
+              disabled: true,
+            },
+            {
+              value: "abc",
+              label: "Clinica Siempreviva, Av. Siempreviva 123, Providencia",
+            },
+            {
+              value: "xyz",
+              label: "Clinica Siempremuerta, Av. Siempremuerta 456, Las Condes",
+            },
+          ]}
+          specialtyOptions={[
+            {
+              value: "default",
+              label: "Selecciona una opción",
+              disabled: true,
+            },
+            { value: "1", label: "Option 1" },
+            { value: "2", label: "Option 2" },
+          ]}
+        />
       </Card>
     </div>
   );

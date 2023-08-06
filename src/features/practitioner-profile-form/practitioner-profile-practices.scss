@@ -19,6 +19,11 @@ $namespace: "ui-mp-practitioner-profile-practices";
     color: #ff4d4f;
   }
 
+  &__action--add {
+    margin: 0 auto;
+    width: fit-content;
+  }
+
   &__error {
     display: block;
     height: 16px;
