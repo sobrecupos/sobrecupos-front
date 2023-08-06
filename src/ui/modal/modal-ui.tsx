@@ -1,9 +1,10 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
-import { X as XIcon } from "lucide-react";
 import classNames from "classnames";
+import { X as XIcon } from "lucide-react";
 import {
   MouseEvent,
   PropsWithChildren,
+  ReactNode,
   TransitionEvent,
   useEffect,
   useState,
@@ -32,6 +33,7 @@ export type ModalUIProps = PropsWithChildren<{
   showCloseButton?: boolean;
   title?: JSX.Element | string;
   variant?: ModalUIVariants;
+  renderBody?: ({ close }: { close: () => void }) => ReactNode;
 }>;
 
 export const ModalUI = ({
@@ -41,6 +43,7 @@ export const ModalUI = ({
   footer,
   onClose,
   title,
+  renderBody,
   showCloseButton = false,
   variant = "fullscreen",
 }: ModalUIProps) => {
@@ -130,7 +133,9 @@ export const ModalUI = ({
           </div>
         ) : null}
 
-        <div className={classes.contentBody}>{children}</div>
+        <div className={classes.contentBody}>
+          {renderBody ? renderBody({ close: closeModal }) : children}
+        </div>
 
         {footer ? <div className={classes.contentFooter}>{footer}</div> : null}
       </div>

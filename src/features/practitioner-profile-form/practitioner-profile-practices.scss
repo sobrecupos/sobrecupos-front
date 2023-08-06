@@ -1,0 +1,30 @@
+$namespace: "ui-mp-practitioner-profile-practices";
+
+.#{$namespace} {
+  &__practice-container {
+    margin-bottom: 16px;
+  }
+
+  &__address {
+    margin: 0 0 8px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  &__action--delete {
+    color: #ff4d4f;
+  }
+
+  &__error {
+    display: block;
+    height: 16px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 16px;
+    color: red;
+  }
+}

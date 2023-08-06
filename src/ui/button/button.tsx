@@ -5,7 +5,7 @@ import { getComponentClassNames } from "../namespace";
 import "./button.scss";
 
 export type ButtonProps = ComponentPropsWithoutRef<"button"> & {
-  variant?: "primary" | "secondary" | "neutral";
+  variant?: "primary" | "secondary" | "neutral" | "text";
   isLoading?: boolean;
   block?: boolean;
 };

@@ -61,5 +61,14 @@ export const useForm = <T extends Record<string, unknown>>({
     return { isValid: Object.keys(updatedErrors).length === 0 };
   };
 
-  return { values, handleChange, validateField, validate, errors, register };
+  return {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleChange,
+    validateField,
+    validate,
+    register,
+  };
 };

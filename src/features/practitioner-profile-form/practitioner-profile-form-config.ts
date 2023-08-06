@@ -22,6 +22,10 @@ export const practitionerProfileFormRules = {
     validator: requiredWithoutDefault,
     message: "Selecciona una especialidad",
   },
+  practices: {
+    validator: (value: unknown[]) => Promise.resolve(value.length === 0),
+    message: "Ingresa al menos una dirección",
+  },
 };
 
 export const practitionerProfileFormDefaults = {
@@ -32,4 +36,5 @@ export const practitionerProfileFormDefaults = {
   description: "",
   licenseId: "",
   specialty: "default",
+  practices: [],
 };

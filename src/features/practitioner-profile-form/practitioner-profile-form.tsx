@@ -2,17 +2,21 @@
 
 import { Button } from "@marketplace/ui/button";
 import { Input } from "@marketplace/ui/input";
+import { Modal } from "@marketplace/ui/modal";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { Select } from "@marketplace/ui/select";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useForm } from "../form/use-form";
+import { PracticeForm } from "../practice-form/practice-form";
 import {
   practitionerProfileFormDefaults,
   practitionerProfileFormRules,
 } from "./practitioner-profile-form-config";
 import "./practitioner-profile-form.scss";
+import { PractitionerProfilePractices } from "./practitioner-profile-practices";
 
 export type PractitionerProfileFormProps = {
+  addressOptions: { value: string; label: string }[];
   names?: string;
   firstSurname?: string;
   secondSurname?: string;
@@ -20,16 +24,30 @@ export type PractitionerProfileFormProps = {
   description?: string;
   licenseId?: string;
   specialty?: string;
+  practices?: {
+    _id: string;
+    address: string;
+    insuranceProviders: { name: string; isActive: boolean }[];
+  }[];
 };
 
 const classes = getComponentClassNames("practitioner-profile-form", {
   sectionTitle: "section-title",
+  form: "form",
+  addressContainer: "address-container",
+  address: "address",
+  practiceActions: "practice-actions",
+  addressError: "address-error",
+  deleteAction: "delete-action",
 });
 
-export const PractitionerProfileForm = (
-  profile: PractitionerProfileFormProps
-) => {
-  const { register, validate, values } = useForm({
+export const PractitionerProfileForm = ({
+  addressOptions,
+  ...profile
+}: PractitionerProfileFormProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
+  const { register, validate, values, setValues, errors, setErrors } = useForm({
     initialValues: { ...practitionerProfileFormDefaults, ...profile },
     rules: practitionerProfileFormRules,
   });
@@ -39,8 +57,6 @@ export const PractitionerProfileForm = (
     const { isValid } = await validate();
 
     if (!isValid) return;
-
-    // save practitioner
   };
 
   return (
@@ -61,6 +77,74 @@ export const PractitionerProfileForm = (
           { value: "2", label: "Option 2" },
         ]}
         {...register("specialty")}
+      />
+      <h3 className={classes.sectionTitle}>Mis direcciones</h3>
+      <PractitionerProfilePractices
+        practices={values.practices}
+        error={errors.practices}
+        onAdd={() => setIsModalOpen(true)}
+        onEdit={(index) => {
+          setSelectedAddress(index);
+          setIsModalOpen(true);
+        }}
+        onRemove={(index) => {
+          setValues((prevValues) => ({
+            ...prevValues,
+            practices: [
+              ...prevValues.practices.slice(0, index),
+              ...prevValues.practices.slice(index + 1),
+            ],
+          }));
+        }}
+      />
+      <Modal
+        variant="small"
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedAddress(null);
+        }}
+        closeOnBackdropClick={false}
+        renderBody={({ close }) => (
+          <PracticeForm
+            className={classes.form}
+            addressOptions={addressOptions}
+            {...(selectedAddress !== null
+              ? {
+                  address: values.practices[selectedAddress]._id,
+                  insuranceProviders:
+                    values.practices[selectedAddress].insuranceProviders,
+                }
+              : {})}
+            onSubmit={({ address, insuranceProviders }) => {
+              close();
+              setValues((prevValues) => {
+                const index = selectedAddress ?? prevValues.practices.length;
+
+                return {
+                  ...prevValues,
+                  practices: [
+                    ...prevValues.practices.slice(0, index),
+                    {
+                      _id: address,
+                      address:
+                        addressOptions.find(({ value }) => value === address)
+                          ?.label || "",
+                      insuranceProviders: insuranceProviders,
+                    },
+                    ...prevValues.practices.slice(index + 1),
+                  ],
+                };
+              });
+              setErrors((prevErrors) => ({
+                ...prevErrors,
+                practices: undefined,
+              }));
+            }}
+          />
+        )}
+        title="Agregar dirección"
+        showCloseButton
       />
       <Button type="submit" block>
         Guardar

@@ -1,0 +1,19 @@
+$namespace: "ui-mp-practice-form";
+
+.#{$namespace} {
+  &__section-title {
+    color: #444;
+  }
+
+  &__checkbox {
+    padding: 0;
+  }
+
+  &__error {
+    height: 16px;
+    display: block;
+    font-size: 14px;
+    line-height: 16px;
+    color: red;
+  }
+}

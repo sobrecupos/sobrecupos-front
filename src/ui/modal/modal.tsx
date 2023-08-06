@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { ModalUI, ModalUIProps } from './modal-ui';
-import 'modal.scss';
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { ModalUI, ModalUIProps } from "./modal-ui";
+import "./modal.scss";
 
-const MODAL_ROOT = 'modal-root';
+const MODAL_ROOT = "modal-root";
 
 const createModalRoot = () => {
-  const root = document.createElement('div');
+  const root = document.createElement("div");
   root.id = MODAL_ROOT;
 
   document.body.appendChild(root);
@@ -30,7 +30,7 @@ export const Modal = ({ isOpen, onClose, ...props }: ModalProps) => {
   // resulting in an empty render. To avoid this we manually trigger a single
   // rerender after mounting.
   const [hasPendingRerender, setHasPendingRerender] = useState(
-    () => isOpen && modalRoot.current === null,
+    () => isOpen && modalRoot.current === null
   );
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const Modal = ({ isOpen, onClose, ...props }: ModalProps) => {
   }, [hasPendingRerender]);
 
   useEffect(() => {
-    const overflow = isOpen ? 'hidden' : 'initial';
+    const overflow = isOpen ? "hidden" : "initial";
     document.body.style.overflow = overflow;
   }, [isOpen]);
 

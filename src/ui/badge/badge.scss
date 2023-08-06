@@ -1,0 +1,40 @@
+@use "sass:list";
+
+$namespace: "ui-mp-badge";
+
+$variants: (
+  "success": (
+    #f6ffed,
+  ),
+  "info": (
+    #e6f4ff,
+  ),
+  "warning": (
+    #fffbe6,
+  ),
+  "error": (
+    #fff2f0,
+  ),
+);
+
+.#{$namespace} {
+  font-size: 14px;
+  padding: 4px 8px;
+  margin-right: 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  display: inline-block;
+  margin-right: 4px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @each $variant, $values in $variants {
+    $background: list.nth($values, 1);
+
+    &--#{$variant} {
+      background-color: $background;
+    }
+  }
+}

@@ -10,6 +10,7 @@ $namespace: "ui-mp-button";
   border: 0;
   outline: 0;
   transition: all 0.2s ease;
+  color: #444;
   cursor: pointer;
 
   &--d-block {
@@ -34,6 +35,17 @@ $namespace: "ui-mp-button";
     &:focus,
     &:hover {
       box-shadow: inset 0 0 0 2px darken($color: #fff, $amount: 20);
+    }
+  }
+
+  &--text {
+    padding: 8px 16px;
+    font-weight: normal;
+    background-color: transparent;
+
+    &:focus,
+    &:hover {
+      text-decoration: underline;
     }
   }
 

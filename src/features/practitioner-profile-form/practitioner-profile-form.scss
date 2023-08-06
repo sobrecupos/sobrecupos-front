@@ -7,4 +7,14 @@ $namespace: "ui-mp-practitioner-profile-form";
     color: #444;
     margin: 20px 0 16px;
   }
+
+  &__form {
+    margin: 16px;
+  }
+
+  @media (min-width: 600px) {
+    &__form {
+      margin: 32px;
+    }
+  }
 }
