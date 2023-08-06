@@ -33,7 +33,11 @@ export const Button = ({
     disabled={isLoading || disabled}
     {...props}
   >
-    <span className={classes.loader}>{isLoading ? <Loader2 /> : null}</span>
+    {isLoading ? (
+      <span className={classes.loader}>
+        <Loader2 />
+      </span>
+    ) : null}
     {children}
   </button>
 );

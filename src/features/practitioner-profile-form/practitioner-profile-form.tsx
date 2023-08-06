@@ -8,6 +8,7 @@ import { Select, SelectProps } from "@marketplace/ui/select";
 import { FormEvent, useState } from "react";
 import { useForm } from "../form/use-form";
 import { PracticeForm } from "../practice-form/practice-form";
+import { ProfilePicture } from "../profile-picture";
 import {
   practitionerProfileFormDefaults,
   practitionerProfileFormRules,
@@ -18,6 +19,7 @@ import { PractitionerProfilePractices } from "./practitioner-profile-practices";
 export type PractitionerProfileFormProps = {
   addressOptions: SelectProps["options"];
   specialtyOptions: SelectProps["options"];
+  picture?: string;
   names?: string;
   firstSurname?: string;
   secondSurname?: string;
@@ -63,6 +65,7 @@ export const PractitionerProfileForm = ({
 
   return (
     <form className={classes.namespace} onSubmit={handleSubmit}>
+      <ProfilePicture {...register("picture")} />
       <h3 className={classes.sectionTitle}>Información personal</h3>
       <Input label="Nombre(s)" {...register("names")} />
       <Input label="Primer apellido" {...register("firstSurname")} />

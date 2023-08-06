@@ -1,67 +1,15 @@
-import classNames from "classnames";
-import { ChangeEvent, FocusEvent } from "react";
-import { getComponentClassNames } from "../namespace";
-import "./input.scss";
+import { ChangeEvent } from "react";
+import { InputUI, InputUIProps } from "./input-ui";
 
-export type InputProps = {
-  value?: string;
+export type InputProps = Omit<InputUIProps, "onChange"> & {
   onChange?: (value: string) => void;
-  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
-  label?: string;
-  error?: string;
-  name?: string;
-  disabled?: boolean;
-  type?: string;
-  className?: string;
-  readOnly?: boolean;
 };
 
-const classes = getComponentClassNames("input", {
-  labelText: "label-text",
-  field: "field",
-  error: "error",
-});
-
-export const Input = ({
-  value = "",
-  onChange,
-  onBlur,
-  label,
-  name,
-  disabled,
-  error,
-  className,
-  readOnly,
-  type = "text",
-}: InputProps) => {
+export const Input = ({ onChange, ...inputUIProps }: InputProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     onChange?.(value);
   };
 
-  return (
-    <label
-      className={classNames(
-        classes.namespace,
-        {
-          [`${classes.namespace}--error`]: error,
-          [`${classes.namespace}--hidden`]: type === "hidden",
-        },
-        className
-      )}
-    >
-      {label ? <span className={classes.labelText}>{label}</span> : null}
-      <input
-        className={classes.field}
-        name={name}
-        value={value}
-        onChange={handleChange}
-        onBlur={onBlur}
-        disabled={disabled}
-        type={type}
-        readOnly={readOnly}
-      />
-      {error ? <span className={classes.error}>{error}</span> : null}
-    </label>
-  );
+  return <InputUI {...inputUIProps} onChange={handleChange} />;
 };

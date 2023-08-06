@@ -1,7 +1,7 @@
 import { RequestError } from "./request-error";
 import {
-  RequestWithBodyOptions,
   RequestOptions,
+  RequestWithBodyOptions,
   RestClientConfig,
 } from "./types";
 
@@ -25,7 +25,10 @@ export class RestClient {
     return this.doRequest(url, {
       ...options,
       method: "POST",
-      body: JSON.stringify(options.body),
+      body:
+        options.body instanceof FormData
+          ? options.body
+          : JSON.stringify(options.body),
     });
   }
 
