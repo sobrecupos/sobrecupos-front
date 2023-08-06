@@ -6,9 +6,9 @@ import "./practitioner-profile-practices.scss";
 
 export type PractitionerProfilePracticesProps = {
   practices: {
-    _id: string;
+    id: string;
     address: string;
-    insuranceProviders: { name: string; isActive: boolean }[];
+    insuranceProviders: { id: string; name: string; isActive: boolean }[];
   }[];
   error?: string;
   onAdd: () => void;

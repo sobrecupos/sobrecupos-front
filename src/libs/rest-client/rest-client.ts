@@ -32,6 +32,14 @@ export class RestClient {
     });
   }
 
+  patch(url: string, options: RequestWithBodyOptions = {}) {
+    return this.doRequest(url, {
+      ...options,
+      method: "PATCH",
+      body: JSON.stringify(options.body),
+    });
+  }
+
   delete(url: string, options: RequestWithBodyOptions = {}) {
     return this.doRequest(url, {
       ...options,

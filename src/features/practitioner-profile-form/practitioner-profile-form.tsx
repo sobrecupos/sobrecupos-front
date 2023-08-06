@@ -1,5 +1,6 @@
 "use client";
 
+import { practitionersClient } from "@marketplace/data-access/practitioners/practitioners.client";
 import { Button } from "@marketplace/ui/button";
 import { Input } from "@marketplace/ui/input";
 import { Modal } from "@marketplace/ui/modal";
@@ -19,6 +20,9 @@ import { PractitionerProfilePractices } from "./practitioner-profile-practices";
 export type PractitionerProfileFormProps = {
   addressOptions: SelectProps["options"];
   specialtyOptions: SelectProps["options"];
+  userId: string;
+  userEmail: string;
+  id?: string;
   picture?: string;
   names?: string;
   firstSurname?: string;
@@ -28,9 +32,9 @@ export type PractitionerProfileFormProps = {
   licenseId?: string;
   specialty?: string;
   practices?: {
-    _id: string;
+    id: string;
     address: string;
-    insuranceProviders: { name: string; isActive: boolean }[];
+    insuranceProviders: { id: string; name: string; isActive: boolean }[];
   }[];
 };
 
@@ -47,9 +51,13 @@ const classes = getComponentClassNames("practitioner-profile-form", {
 export const PractitionerProfileForm = ({
   addressOptions,
   specialtyOptions,
+  userId,
+  userEmail,
   ...profile
 }: PractitionerProfileFormProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
   const { register, validate, values, setValues, errors, setErrors } = useForm({
     initialValues: { ...practitionerProfileFormDefaults, ...profile },
@@ -60,7 +68,22 @@ export const PractitionerProfileForm = ({
     event.preventDefault();
     const { isValid } = await validate();
 
-    if (!isValid) return;
+    if (!isValid || isLoading) return;
+
+    setIsLoading(true);
+    setHasError(false);
+
+    try {
+      await practitionersClient.updateOrCreate({
+        ...values,
+        email: userEmail,
+        userId,
+      });
+    } catch (error) {
+      setHasError(true);
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -112,7 +135,7 @@ export const PractitionerProfileForm = ({
             addressOptions={addressOptions}
             {...(selectedAddress !== null
               ? {
-                  address: values.practices[selectedAddress]._id,
+                  address: values.practices[selectedAddress].id,
                   insuranceProviders:
                     values.practices[selectedAddress].insuranceProviders,
                 }
@@ -127,7 +150,7 @@ export const PractitionerProfileForm = ({
                   practices: [
                     ...prevValues.practices.slice(0, index),
                     {
-                      _id: address,
+                      id: address,
                       address:
                         addressOptions.find(({ value }) => value === address)
                           ?.label || "",
@@ -147,7 +170,7 @@ export const PractitionerProfileForm = ({
         title="Agregar dirección"
         showCloseButton
       />
-      <Button type="submit" block>
+      <Button type="submit" block disabled={isLoading}>
         Guardar
       </Button>
     </form>

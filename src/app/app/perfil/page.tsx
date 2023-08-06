@@ -12,11 +12,6 @@ const classes = getComponentClassNames("practitioner-profile-page", {
 
 const ProfilePage = async () => {
   const session = await authService.getSessionOrRedirect();
-
-  if (!session.user?.email) {
-    throw new Error("Email not provided!");
-  }
-
   const profile = await practitionersService.getProfile(session.user.email);
 
   return (
@@ -24,6 +19,10 @@ const ProfilePage = async () => {
       <h1 className={classes.title}>Mi perfil</h1>
       <Card className={classes.formContainer}>
         <PractitionerProfileForm
+          userId={session.user.id}
+          userEmail={session.user.email}
+          {...profile}
+          specialty={profile?.specialty.id}
           addressOptions={[
             {
               value: "default",
