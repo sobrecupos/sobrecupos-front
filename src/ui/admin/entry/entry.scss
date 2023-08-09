@@ -1,0 +1,20 @@
+$namespace: "ui-mp-entry";
+
+.#{$namespace} {
+  display: block;
+  margin-bottom: 16px;
+  text-decoration: none;
+  color: #444;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &__group {
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

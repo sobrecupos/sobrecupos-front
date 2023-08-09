@@ -1,0 +1,31 @@
+$namespace: "ui-mp-specialties-page";
+
+.#{$namespace} {
+  &__title {
+    color: #444;
+    text-align: center;
+    margin: 20px;
+  }
+
+  &__create {
+    display: block;
+    text-align: center;
+  }
+
+  &__entries-container {
+    width: 600px;
+    max-width: calc(100% - 32px);
+    margin: 16px;
+  }
+
+  &__entries-title {
+    color: #444;
+    margin: 20px 0 16px;
+  }
+
+  @media (min-width: 600px) {
+    &__entries-container {
+      margin: 16px auto;
+    }
+  }
+}

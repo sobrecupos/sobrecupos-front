@@ -4,17 +4,17 @@ import { filesClient } from "@marketplace/data-access/files/files.client";
 import { Button } from "@marketplace/ui/button";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import classNames from "classnames";
-import { Loader2Icon, UserIcon } from "lucide-react";
+import { CameraIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
-import "./profile-picture.scss";
+import "./upload-picture.scss";
 
-export type ProfilePictureProps = {
+export type XMLHttpRequestUploadPictureProps = {
   onChange?: (url: string) => void;
   value?: string;
 };
 
-const classes = getComponentClassNames("profile-picture", {
+const classes = getComponentClassNames("upload-picture", {
   upload: "upload",
   input: "input",
   loaderContainer: "loader-container",
@@ -24,10 +24,10 @@ const classes = getComponentClassNames("profile-picture", {
   hint: "hint",
 });
 
-export const ProfilePicture = ({
+export const UploadPicture = ({
   onChange,
   value = "",
-}: ProfilePictureProps) => {
+}: XMLHttpRequestUploadPictureProps) => {
   const [preview, setPreview] = useState(value);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<{ type: string; message: string } | null>(
@@ -95,7 +95,7 @@ export const ProfilePicture = ({
               width={160}
             />
           ) : (
-            <UserIcon size={120} />
+            <CameraIcon size={120} />
           )}
         </div>
         {isLoading ? <Loader2Icon className={classes.loader} /> : null}

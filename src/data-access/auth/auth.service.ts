@@ -60,8 +60,8 @@ export class AuthService {
   async getAdminSessionOrRedirect() {
     const session = await getServerSession(this.options);
 
-    if (session?.user) {
-      redirect("/iniciar-sesion");
+    if (!session?.user) {
+      redirect("/iniciar");
     }
 
     if (session?.user.role !== "admin") {
