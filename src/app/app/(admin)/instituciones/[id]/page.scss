@@ -1,0 +1,21 @@
+$namespace: "ui-mp-practice-page";
+
+.#{$namespace} {
+  &__title {
+    color: #444;
+    text-align: center;
+    margin: 20px;
+  }
+
+  &__form-container {
+    width: 600px;
+    max-width: calc(100% - 32px);
+    margin: 16px;
+  }
+
+  @media (min-width: 600px) {
+    &__form-container {
+      margin: 16px auto;
+    }
+  }
+}

@@ -8,7 +8,7 @@ import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { Select, SelectProps } from "@marketplace/ui/select";
 import { FormEvent, useState } from "react";
 import { useForm } from "../form/use-form";
-import { PracticeForm } from "../practice-form/practice-form";
+import { PractitionerPracticeForm } from "../practitioner-practice-form/practitioner-practice-form";
 import { UploadPicture } from "../upload-picture";
 import {
   practitionerProfileFormDefaults,
@@ -130,7 +130,7 @@ export const PractitionerProfileForm = ({
         }}
         closeOnBackdropClick={false}
         renderBody={({ close }) => (
-          <PracticeForm
+          <PractitionerPracticeForm
             className={classes.form}
             addressOptions={addressOptions}
             {...(selectedAddress !== null

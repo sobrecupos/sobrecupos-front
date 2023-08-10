@@ -52,9 +52,7 @@ export const SpecialtyForm = ({ id, ...specialty }: SpecialtyFormProps) => {
       if (id) {
         await specialtiesClient.update(id, values);
       } else {
-        console.log("before");
         const created = await specialtiesClient.create(values);
-        debugger;
         router.push(`/app/especialidades/${created.id}`);
       }
     } catch (error) {
