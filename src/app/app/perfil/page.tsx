@@ -1,5 +1,7 @@
 import { authService } from "@marketplace/data-access/auth/auth.service";
+import { practicesService } from "@marketplace/data-access/practices/practices.service";
 import { practitionersService } from "@marketplace/data-access/practitioners/practitioners.service";
+import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
 import { PractitionerProfileForm } from "@marketplace/features/practitioner-profile-form";
 import { Card } from "@marketplace/ui/card";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
@@ -12,7 +14,33 @@ const classes = getComponentClassNames("practitioner-profile-page", {
 
 const ProfilePage = async () => {
   const session = await authService.getSessionOrRedirect();
-  const profile = await practitionersService.getProfile(session.user.email);
+  const [profile, practices, specialties] = await Promise.all([
+    practitionersService.getProfile(session.user.email),
+    practicesService.list(),
+    specialtiesService.list(),
+  ]);
+  const addressOptions = [
+    {
+      value: "default",
+      label: "Selecciona una opción",
+      disabled: true,
+    },
+    ...practices.map(({ shortFormattedAddress, id }) => ({
+      label: shortFormattedAddress,
+      value: id,
+    })),
+  ];
+  const specialtyOptions = [
+    {
+      value: "default",
+      label: "Selecciona una opción",
+      disabled: true,
+    },
+    ...specialties.map(({ id, name }) => ({
+      value: id,
+      label: name,
+    })),
+  ];
 
   return (
     <div className={classes.namespace}>
@@ -23,30 +51,8 @@ const ProfilePage = async () => {
           userEmail={session.user.email}
           {...profile}
           specialty={profile?.specialty.id}
-          addressOptions={[
-            {
-              value: "default",
-              label: "Selecciona una opción",
-              disabled: true,
-            },
-            {
-              value: "abc",
-              label: "Clinica Siempreviva, Av. Siempreviva 123, Providencia",
-            },
-            {
-              value: "xyz",
-              label: "Clinica Siempremuerta, Av. Siempremuerta 456, Las Condes",
-            },
-          ]}
-          specialtyOptions={[
-            {
-              value: "default",
-              label: "Selecciona una opción",
-              disabled: true,
-            },
-            { value: "1", label: "Option 1" },
-            { value: "2", label: "Option 2" },
-          ]}
+          addressOptions={addressOptions}
+          specialtyOptions={specialtyOptions}
         />
       </Card>
     </div>
