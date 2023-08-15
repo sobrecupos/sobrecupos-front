@@ -21,18 +21,8 @@ export const specialties = [
   },
   {
     id: "action",
-    path: "/especialidades/neurologia",
-    label: "Neurología",
-  },
-  {
-    id: "action",
     path: "/especialidades/cirugia",
     label: "Cirugía",
-  },
-  {
-    id: "action",
-    path: "/especialidades/inmunologia-y-alergias",
-    label: "Inmunología y alergias",
   },
   {
     id: "action",

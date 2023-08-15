@@ -1,9 +1,8 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { AboutUs } from "@marketplace/views/main/about-us";
-import { Header } from "@marketplace/views/main/header";
 import { Enrollment } from "@marketplace/views/main/enrollment";
+import { Header } from "@marketplace/views/main/header";
 import { Specialties } from "@marketplace/views/main/specialties";
-import { Partnerships } from "@marketplace/views/main/partnerships";
 import Head from "next/head";
 
 const specialties = [
@@ -11,9 +10,7 @@ const specialties = [
   { code: "otorrino", label: "Otorrino" },
   { code: "oftalmologia", label: "Oftalmología" },
   { code: "traumatologia", label: "Traumatología" },
-  { code: "neurologia", label: "Neurología" },
   { code: "cirugia", label: "Cirugía" },
-  { code: "inmunologia-y-alergias", label: "Inmunología y alergias" },
   { code: "dermatologia", label: "Dermatología" },
 ];
 
