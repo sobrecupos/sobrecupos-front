@@ -23,12 +23,8 @@ export const NavbarDesktop = ({ config, cta = null }: NavbarProps) => (
       {config.map(({ id, path, label, contents }, i) => {
         if (id === "action") {
           return (
-            <li className={classes.barItem}>
-              <Link
-                key={`desktop-nav-elem-${i}`}
-                href={path}
-                className={classes.barLink}
-              >
+            <li className={classes.barItem} key={`desktop-nav-elem-${i}`}>
+              <Link href={path} className={classes.barLink}>
                 {label}
               </Link>
             </li>
