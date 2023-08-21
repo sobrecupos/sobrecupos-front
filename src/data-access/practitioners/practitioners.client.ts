@@ -1,13 +1,14 @@
 import { RestClient } from "@marketplace/libs/rest-client";
-import { Practitioner } from "./practitioners.types";
-
-type UpdateOrCreatePractitioner = Omit<Partial<Practitioner>, "specialty"> & {
-  specialty: string;
-};
+import {
+  CreatePractitionerRequest,
+  UpdatePractitionerRequest,
+} from "@marketplace/utils/types/practitioners";
 
 export class PractitionersClient extends RestClient {
-  updateOrCreate(payload: UpdateOrCreatePractitioner) {
-    if (payload.id) {
+  updateOrCreate(
+    payload: CreatePractitionerRequest | UpdatePractitionerRequest
+  ) {
+    if ("id" in payload && !!payload.id) {
       return this.patch("/api/practitioners", { body: payload });
     }
 

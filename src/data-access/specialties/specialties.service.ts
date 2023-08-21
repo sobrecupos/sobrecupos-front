@@ -1,6 +1,11 @@
 import { getDb } from "@marketplace/libs/persistence";
+import {
+  CreateSpecialtyRequest,
+  Specialty,
+  SpecialtyEntity,
+  UpdateSpecialtyRequest,
+} from "@marketplace/utils/types/specialties";
 import { ObjectId, WithId } from "mongodb";
-import { SpecialtyDoc } from "./specialties.types";
 
 export class SpecialtiesService {
   async findOne(id: string) {
@@ -14,7 +19,7 @@ export class SpecialtiesService {
   async list() {
     const specialties = await this.collection();
     const findCursor = specialties.find({});
-    const response: (SpecialtyDoc & { id: string })[] = [];
+    const response: Specialty[] = [];
 
     for await (const specialty of findCursor) {
       const data = this.mapToPlain(specialty);
@@ -27,7 +32,7 @@ export class SpecialtiesService {
     return response;
   }
 
-  async create(specialty: SpecialtyDoc) {
+  async create(specialty: CreateSpecialtyRequest) {
     const specialties = await this.collection();
     const code = this.getCode(specialty.name);
 
@@ -40,7 +45,7 @@ export class SpecialtiesService {
       .then(({ value }) => this.mapToPlain(value));
   }
 
-  async update(id: string, specialty: Partial<SpecialtyDoc>) {
+  async update(id: string, specialty: UpdateSpecialtyRequest) {
     const specialties = await this.collection();
 
     const payload = specialty.name
@@ -57,7 +62,7 @@ export class SpecialtiesService {
   async collection() {
     const db = await getDb();
 
-    return db.collection<SpecialtyDoc>("specialties");
+    return db.collection<SpecialtyEntity>("specialties");
   }
 
   getCode(name: string) {
@@ -69,7 +74,7 @@ export class SpecialtiesService {
       .replace(" ", "");
   }
 
-  mapToPlain(specialty: WithId<SpecialtyDoc> | null) {
+  mapToPlain(specialty: WithId<SpecialtyEntity> | null) {
     if (!specialty) return null;
 
     return {

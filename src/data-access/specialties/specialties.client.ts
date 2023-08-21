@@ -1,12 +1,15 @@
 import { RestClient } from "@marketplace/libs/rest-client";
-import { SpecialtyDoc } from "./specialties.types";
+import {
+  CreateSpecialtyRequest,
+  UpdateSpecialtyRequest,
+} from "@marketplace/utils/types/specialties";
 
 export class SpecialtiesClient extends RestClient {
-  create(specialty: Omit<SpecialtyDoc, "code">) {
+  create(specialty: CreateSpecialtyRequest) {
     return this.post("/api/specialties", { body: specialty });
   }
 
-  update(id: string, specialty: Partial<SpecialtyDoc>) {
+  update(id: string, specialty: UpdateSpecialtyRequest) {
     return this.patch(`/api/specialties/${id}`, { body: specialty });
   }
 

@@ -1,15 +1,10 @@
 import { RestClient } from "@marketplace/libs/rest-client";
-
-export type CreateUser = {
-  email: string;
-  referralCode?: string;
-};
+import { CreateUserRequest } from "@marketplace/utils/types/users/create-user-request.type";
 
 export class UsersClient extends RestClient {
-  createUser(payload: CreateUser) {
+  createUser(body: CreateUserRequest) {
     return this.post("/api/users", {
-      method: "POST",
-      body: payload,
+      body,
     });
   }
 }

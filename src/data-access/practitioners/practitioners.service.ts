@@ -1,7 +1,11 @@
 import { getDb } from "@marketplace/libs/persistence";
+import {
+  CreatePractitionerRequest,
+  PractitionerEntity,
+  UpdatePractitionerRequest,
+} from "@marketplace/utils/types/practitioners";
 import { ObjectId, WithId } from "mongodb";
 import { specialtiesService } from "../specialties/specialties.service";
-import { CreatePractitioner, PractitionerDoc } from "./practitioners.types";
 
 export class PractitionersService {
   async getProfile(email: string) {
@@ -13,14 +17,14 @@ export class PractitionersService {
     return this.mapToPlain(profile);
   }
 
-  async create(payload: CreatePractitioner) {
+  async create(payload: CreatePractitionerRequest) {
     const countryCode = payload.countryCode || "CL";
     const [practitioners, counters] = await Promise.all([
       this.getCollection(),
       this.getCounters(),
     ]);
     const [specialty, counter] = await Promise.all([
-      specialtiesService.findOne(payload.specialty),
+      specialtiesService.findOne(payload.specialty.id),
       counters.findOne({ countryCode }),
     ]);
 
@@ -51,6 +55,7 @@ export class PractitionersService {
       specialty: {
         id: specialty.id,
         name: specialty.name,
+        code: specialty.code,
       },
     };
 
@@ -64,19 +69,21 @@ export class PractitionersService {
     return { ...payload, id: insertedId.toHexString() };
   }
 
-  async update(id: string, payload: Partial<PractitionerDoc>) {
+  async update(id: string, payload: UpdatePractitionerRequest) {
     const practitioners = await this.getCollection();
 
     return practitioners
-      .findOneAndUpdate({ _id: new ObjectId(id) }, payload, {
-        returnDocument: "after",
-      })
+      .findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: payload },
+        { returnDocument: "after" }
+      )
       .then(({ value }) => this.mapToPlain(value));
   }
 
   async getCollection() {
     const db = await getDb();
-    return db.collection<PractitionerDoc>("practitioners");
+    return db.collection<PractitionerEntity>("practitioners");
   }
 
   async getCounters() {
@@ -84,7 +91,7 @@ export class PractitionersService {
     return db.collection<{ current: number; countryCode: string }>("counters");
   }
 
-  mapToPlain(practitioner: WithId<PractitionerDoc> | null) {
+  mapToPlain(practitioner: WithId<PractitionerEntity> | null) {
     if (!practitioner) return null;
 
     return {

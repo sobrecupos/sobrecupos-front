@@ -1,13 +1,9 @@
 import { getDb } from "@marketplace/libs/persistence";
+import { CreateUserRequest } from "@marketplace/utils/types/users/create-user-request.type";
+import { UserEntity } from "@marketplace/utils/types/users/user-entity.type";
 
 export class UsersService {
-  async createUser({
-    email,
-    referralCode,
-  }: {
-    email?: string;
-    referralCode?: string;
-  }) {
+  async createUser({ email, referralCode }: CreateUserRequest) {
     if (!email) {
       throw new Error("Attribute `email` is required");
     }
@@ -31,7 +27,7 @@ export class UsersService {
 
   async getCollection() {
     const db = await getDb();
-    return db.collection("users");
+    return db.collection<UserEntity>("users");
   }
 }
 

@@ -1,6 +1,11 @@
 import { getDb } from "@marketplace/libs/persistence";
+import {
+  CreatePracticeRequest,
+  Practice,
+  PracticeEntity,
+  UpdatePracticeRequest,
+} from "@marketplace/utils/types/practices";
 import { ObjectId, WithId } from "mongodb";
-import { Practice, PracticeDoc } from "./practices.types";
 
 export class PracticesService {
   async findOne(id: string) {
@@ -27,7 +32,7 @@ export class PracticesService {
     return response;
   }
 
-  async create(practice: PracticeDoc) {
+  async create(practice: CreatePracticeRequest) {
     const practices = await this.collection();
     const practiceWithDefaults = this.mergeDefaults(practice);
 
@@ -40,7 +45,7 @@ export class PracticesService {
       .then(({ value }) => this.mapToPlain(value));
   }
 
-  async update(id: string, practice: Partial<PracticeDoc>) {
+  async update(id: string, practice: UpdatePracticeRequest) {
     const practices = await this.collection();
 
     const payload = this.mergeDefaults(practice);
@@ -55,10 +60,11 @@ export class PracticesService {
   async collection() {
     const db = await getDb();
 
-    return db.collection<PracticeDoc>("practices");
+    return db.collection<PracticeEntity>("practices");
   }
 
-  mergeDefaults(practice: PracticeDoc | Partial<PracticeDoc>) {
+  mergeDefaults(practice: CreatePracticeRequest | UpdatePracticeRequest) {
+    const country = "country" in practice ? practice.country : "Chile";
     const street = [practice.route, practice.streetNumber]
       .filter((term) => !!term)
       .join(" ");
@@ -72,7 +78,7 @@ export class PracticesService {
       practice.administrativeAreaLevel3,
       practice.administrativeAreaLevel2,
       practice.administrativeAreaLevel1,
-      practice.country,
+      country,
     ].filter((term) => !!term);
 
     return {
@@ -83,7 +89,7 @@ export class PracticesService {
     };
   }
 
-  mapToPlain(practice: WithId<PracticeDoc> | null) {
+  mapToPlain(practice: WithId<PracticeEntity> | null) {
     if (!practice) return null;
 
     return {
