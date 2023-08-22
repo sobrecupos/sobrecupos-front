@@ -1,71 +1,41 @@
 "use client";
 
-import classNames from "classnames";
-import { ChangeEvent, FocusEvent, useId } from "react";
-import { getComponentClassNames } from "../namespace";
-import "./select.scss";
+import { ChangeEvent } from "react";
+import { useField } from "../form";
+import { SelectUI, SelectUIProps } from "./select-ui";
 
-export type SelectProps = {
-  options: {
-    value: string;
-    label: string;
-    disabled?: boolean;
-  }[];
-  value?: string;
+export type SelectProps = Omit<SelectUIProps, "onChange"> & {
   onChange?: (value: string) => void;
-  onBlur?: (event: FocusEvent) => void;
-  label?: string;
-  error?: string;
-  className?: string;
 };
 
-const classes = getComponentClassNames("select", {
-  labelText: "label-text",
-  field: "field",
-  error: "error",
-});
-
-export const Select = ({
-  options,
-  value,
-  onChange,
-  onBlur,
-  label,
-  error,
-  className,
-}: SelectProps) => {
-  const id = useId();
+export const Select = ({ name, onChange, ...props }: SelectProps) => {
+  const {
+    setFieldValue,
+    validateField,
+    value: contextValue,
+    errors,
+  } = useField<string>(name);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
 
-    onChange?.(value);
+    if (onChange) {
+      onChange(value);
+      return;
+    }
+
+    if (name) {
+      setFieldValue(name, value);
+    }
   };
 
   return (
-    <label
-      className={classNames(
-        classes.namespace,
-        {
-          [`${classes.namespace}--error`]: error,
-        },
-        className
-      )}
-    >
-      {label ? <span className={classes.labelText}>{label}</span> : null}
-      <select
-        className={classes.field}
-        onBlur={onBlur}
-        onChange={handleChange}
-        value={value}
-      >
-        {options.map(({ value, label: optionLabel, disabled }) => (
-          <option key={`${id}-${value}`} value={value} disabled={disabled}>
-            {optionLabel}
-          </option>
-        ))}
-      </select>
-      {error ? <span className={classes.error}>{error}</span> : null}
-    </label>
+    <SelectUI
+      value={contextValue}
+      error={errors?.[0]}
+      onBlur={() => validateField(name)}
+      {...props}
+      onChange={handleChange}
+    />
   );
 };
