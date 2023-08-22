@@ -2,10 +2,9 @@
 
 import { practicesClient } from "@marketplace/data-access/practices/practices.client";
 import { Button } from "@marketplace/ui/button";
+import { Form } from "@marketplace/ui/form";
 import { Input } from "@marketplace/ui/input";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
-import { useForm } from "../form/use-form";
 import { required } from "../form/validators/required";
 
 export type PracticeFormProps = {
@@ -17,95 +16,104 @@ export type PracticeFormProps = {
   administrativeAreaLevel3?: string;
 };
 
-const initialValues = {
-  name: "",
-  streetNumber: "",
-  route: "",
-  administrativeAreaLevel1: "",
-  administrativeAreaLevel3: "",
-};
-
-const rules = {
-  name: {
-    validator: required,
-    message: "Ingresa un nombre",
-  },
-  streetNumber: {
-    validator: required,
-    message: "Ingresa un número de calle",
-  },
-  route: {
-    validator: required,
-    message: "Ingresa una calle",
-  },
-  administrativeAreaLevel1: {
-    validator: required,
-    message: "Ingresa una comuna",
-  },
-  administrativeAreaLevel3: {
-    validator: required,
-    message: "Ingresa una región",
-  },
-};
-
-export const PracticeForm = ({ id, ...practice }: PracticeFormProps) => {
+export const PracticeForm = ({
+  id,
+  name = "",
+  streetNumber = "",
+  route = "",
+  administrativeAreaLevel1 = "",
+  administrativeAreaLevel3 = "",
+}: PracticeFormProps) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const { register, validate, values } = useForm({
-    initialValues: { ...initialValues, ...practice },
-    rules,
-  });
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    setIsLoading(true);
-    setHasError(false);
-    const { isValid } = await validate();
-
-    if (!isValid || isLoading) return;
-
-    try {
-      if (id) {
-        await practicesClient.update(id, values);
-      } else {
-        const created = await practicesClient.create(values);
-        router.push(`/app/instituciones/${created.id}`);
-      }
-    } catch (error) {
-      console.error(error);
-      setHasError(true);
+  const handleSubmit = async (values: {
+    name: string;
+    streetNumber: string;
+    route: string;
+    administrativeAreaLevel1: string;
+    administrativeAreaLevel3: string;
+  }) => {
+    if (id) {
+      await practicesClient.update(id, values);
+    } else {
+      const created = await practicesClient.create(values);
+      router.push(`/app/instituciones/${created.id}`);
     }
-
-    setIsLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form
+      schema={{
+        name: {
+          value: name,
+        },
+        streetNumber: {
+          value: streetNumber,
+        },
+        route: {
+          value: route,
+        },
+        administrativeAreaLevel1: {
+          value: administrativeAreaLevel1,
+        },
+        administrativeAreaLevel3: {
+          value: administrativeAreaLevel3,
+        },
+      }}
+      rules={{
+        name: [
+          {
+            validator: required,
+            message: "Ingresa un nombre",
+          },
+        ],
+        streetNumber: [
+          {
+            validator: required,
+            message: "Ingresa un número de calle",
+          },
+        ],
+        route: [
+          {
+            validator: required,
+            message: "Ingresa una calle",
+          },
+        ],
+        administrativeAreaLevel1: [
+          {
+            validator: required,
+            message: "Ingresa una comuna",
+          },
+        ],
+        administrativeAreaLevel3: [
+          {
+            validator: required,
+            message: "Ingresa una región",
+          },
+        ],
+      }}
+      onSubmit={handleSubmit}
+    >
       <Input
         label="Nombre del centro médico"
-        {...register("name")}
+        name="name"
         placeholder="Clínica RedSalud Providencia"
       />
-      <Input label="Calle" {...register("route")} placeholder="Av. Salvador" />
-      <Input
-        label="Número de calle"
-        {...register("streetNumber")}
-        placeholder="100"
-      />
+      <Input label="Calle" name="route" placeholder="Av. Salvador" />
+      <Input label="Número de calle" name="streetNumber" placeholder="100" />
       <Input
         label="Comuna"
-        {...register("administrativeAreaLevel1")}
+        name="administrativeAreaLevel1"
         placeholder="Providencia"
       />
       <Input
         label="Región"
-        {...register("administrativeAreaLevel3")}
+        name="administrativeAreaLevel3"
         placeholder="Región Metropolitana"
       />
-      <Button block type="submit" disabled={isLoading}>
+      <Button block type="submit">
         Guardar
       </Button>
-    </form>
+    </Form>
   );
 };

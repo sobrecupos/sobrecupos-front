@@ -2,10 +2,10 @@
 
 import { specialtiesClient } from "@marketplace/data-access/specialties/specialties.client";
 import { Button } from "@marketplace/ui/button";
+import { Form } from "@marketplace/ui/form";
 import { Input } from "@marketplace/ui/input";
+import { CreateSpecialtyRequest } from "@marketplace/utils/types/specialties";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
-import { useForm } from "../form/use-form";
 import { required } from "../form/validators/required";
 import { UploadPicture } from "../upload-picture";
 
@@ -20,56 +20,53 @@ const initialValues = {
   name: "",
 };
 
-const rules = {
-  name: {
-    validator: required,
-    message: "Ingresa un nombre",
-  },
-  picture: {
-    validator: required,
-    message: "Sube una imagen para la especialidad!",
-  },
-};
-
-export const SpecialtyForm = ({ id, ...specialty }: SpecialtyFormProps) => {
+export const SpecialtyForm = ({
+  id,
+  name = "",
+  picture = "",
+}: SpecialtyFormProps) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const { register, validate, values } = useForm({
-    initialValues: { ...initialValues, ...specialty },
-    rules,
-  });
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    setIsLoading(true);
-    setHasError(false);
-    const { isValid } = await validate();
-
-    if (!isValid || isLoading) return;
-
-    try {
-      if (id) {
-        await specialtiesClient.update(id, values);
-      } else {
-        const created = await specialtiesClient.create(values);
-        router.push(`/app/especialidades/${created.id}`);
-      }
-    } catch (error) {
-      console.error(error);
-      setHasError(true);
+  const handleSubmit = async (values: CreateSpecialtyRequest) => {
+    if (id) {
+      await specialtiesClient.update(id, values);
+    } else {
+      const created = await specialtiesClient.create(values);
+      router.push(`/app/especialidades/${created.id}`);
     }
-
-    setIsLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <UploadPicture {...register("picture")} />
-      <Input label="Nombre" {...register("name")} />
-      <Button block type="submit" disabled={isLoading}>
+    <Form
+      onSubmit={handleSubmit}
+      schema={{
+        name: {
+          value: name,
+        },
+        picture: {
+          value: picture,
+        },
+      }}
+      rules={{
+        name: [
+          {
+            validator: required,
+            message: "Ingresa un nombre",
+          },
+        ],
+        picture: [
+          {
+            validator: required,
+            message: "Sube una imagen para la especialidad!",
+          },
+        ],
+      }}
+    >
+      <UploadPicture name="picture" />
+      <Input label="Nombre" name="name" />
+      <Button block type="submit">
         Guardar
       </Button>
-    </form>
+    </Form>
   );
 };

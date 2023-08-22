@@ -2,6 +2,7 @@
 
 import { filesClient } from "@marketplace/data-access/files/files.client";
 import { Button } from "@marketplace/ui/button";
+import { useField } from "@marketplace/ui/form";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import classNames from "classnames";
 import { CameraIcon, Loader2Icon } from "lucide-react";
@@ -9,9 +10,10 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import "./upload-picture.scss";
 
-export type XMLHttpRequestUploadPictureProps = {
+export type UploadPictureProps = {
   onChange?: (url: string) => void;
   value?: string;
+  name?: string;
 };
 
 const classes = getComponentClassNames("upload-picture", {
@@ -27,8 +29,10 @@ const classes = getComponentClassNames("upload-picture", {
 export const UploadPicture = ({
   onChange,
   value = "",
-}: XMLHttpRequestUploadPictureProps) => {
-  const [preview, setPreview] = useState(value);
+  name = "",
+}: UploadPictureProps) => {
+  const { setFieldValue, value: contextValue } = useField<string>(name);
+  const [preview, setPreview] = useState(value || contextValue);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<{ type: string; message: string } | null>(
     null
@@ -66,7 +70,12 @@ export const UploadPicture = ({
 
       if (uploaded) {
         setPreview(uploaded);
-        onChange?.(uploaded);
+
+        if (onChange) {
+          onChange(uploaded);
+        } else {
+          setFieldValue(name, uploaded);
+        }
       }
     } catch (error) {
       console.error(error);
