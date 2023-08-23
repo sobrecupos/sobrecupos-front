@@ -2,7 +2,7 @@
 
 import { specialtiesClient } from "@marketplace/data-access/specialties/specialties.client";
 import { Button } from "@marketplace/ui/button";
-import { Form } from "@marketplace/ui/form";
+import { Form, useForm } from "@marketplace/ui/form";
 import { Input } from "@marketplace/ui/input";
 import { CreateSpecialtyRequest } from "@marketplace/utils/types/specialties";
 import { useRouter } from "next/navigation";
@@ -27,41 +27,41 @@ export const SpecialtyForm = ({
 }: SpecialtyFormProps) => {
   const router = useRouter();
 
-  const handleSubmit = async (values: CreateSpecialtyRequest) => {
-    if (id) {
-      await specialtiesClient.update(id, values);
-    } else {
-      const created = await specialtiesClient.create(values);
-      router.push(`/app/especialidades/${created.id}`);
-    }
-  };
+  const formContext = useForm({
+    onSubmit: async (values: CreateSpecialtyRequest) => {
+      if (id) {
+        await specialtiesClient.update(id, values);
+      } else {
+        const created = await specialtiesClient.create(values);
+        router.push(`/app/especialidades/${created.id}`);
+      }
+    },
+    schema: {
+      name: {
+        value: name,
+      },
+      picture: {
+        value: picture,
+      },
+    },
+    rules: {
+      name: [
+        {
+          validator: required,
+          message: "Ingresa un nombre",
+        },
+      ],
+      picture: [
+        {
+          validator: required,
+          message: "Sube una imagen para la especialidad!",
+        },
+      ],
+    },
+  });
 
   return (
-    <Form
-      onSubmit={handleSubmit}
-      schema={{
-        name: {
-          value: name,
-        },
-        picture: {
-          value: picture,
-        },
-      }}
-      rules={{
-        name: [
-          {
-            validator: required,
-            message: "Ingresa un nombre",
-          },
-        ],
-        picture: [
-          {
-            validator: required,
-            message: "Sube una imagen para la especialidad!",
-          },
-        ],
-      }}
-    >
+    <Form {...formContext}>
       <UploadPicture name="picture" />
       <Input label="Nombre" name="name" />
       <Button block type="submit">

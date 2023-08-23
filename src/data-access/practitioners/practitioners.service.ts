@@ -1,6 +1,7 @@
 import { getDb } from "@marketplace/libs/persistence";
 import {
   CreatePractitionerRequest,
+  Practitioner,
   PractitionerEntity,
   UpdatePractitionerRequest,
 } from "@marketplace/utils/types/practitioners";
@@ -91,7 +92,9 @@ export class PractitionersService {
     return db.collection<{ current: number; countryCode: string }>("counters");
   }
 
-  mapToPlain(practitioner: WithId<PractitionerEntity> | null) {
+  mapToPlain(
+    practitioner: WithId<PractitionerEntity> | null
+  ): Practitioner | null {
     if (!practitioner) return null;
 
     return {

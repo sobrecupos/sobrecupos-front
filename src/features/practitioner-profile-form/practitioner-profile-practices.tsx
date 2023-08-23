@@ -2,17 +2,14 @@ import { Badge } from "@marketplace/ui/badge";
 import { Button } from "@marketplace/ui/button";
 import { Card } from "@marketplace/ui/card";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { PractitionerPractice } from "@marketplace/utils/types/practitioners";
 import "./practitioner-profile-practices.scss";
 
 export type PractitionerProfilePracticesProps = {
-  practices: {
-    id: string;
-    address: string;
-    insuranceProviders: { id: string; name: string; isActive: boolean }[];
-  }[];
+  practices: PractitionerPractice[];
   error?: string;
   onAdd: () => void;
-  onEdit: (index: number) => void;
+  onEdit: (practice: PractitionerPractice) => void;
   onRemove: (index: number) => void;
 };
 
@@ -32,15 +29,17 @@ export const PractitionerProfilePractices = ({
   onRemove,
 }: PractitionerProfilePracticesProps) => (
   <div className={classes.namespace}>
-    {practices.map(({ address, insuranceProviders }, index) => (
+    {practices.map(({ shortFormattedAddress, insuranceProviders }, index) => (
       <Card
-        key={`address-readonly-${address}`}
+        key={`address-readonly-${shortFormattedAddress}`}
         className={classes.practiceContainer}
       >
-        <p className={classes.address}>{address}</p>
+        <p className={classes.address}>{shortFormattedAddress}</p>
         {insuranceProviders.map(({ name, isActive }) =>
           isActive ? (
-            <Badge key={`insurance-provider-${address}-${name}`}>{name}</Badge>
+            <Badge key={`insurance-provider-${shortFormattedAddress}-${name}`}>
+              {name}
+            </Badge>
           ) : null
         )}
         <div className={classes.actions}>
@@ -51,7 +50,7 @@ export const PractitionerProfilePractices = ({
           >
             Eliminar
           </Button>
-          <Button variant="text" onClick={() => onEdit(index)}>
+          <Button variant="text" onClick={() => onEdit(practices[index])}>
             Editar
           </Button>
         </div>

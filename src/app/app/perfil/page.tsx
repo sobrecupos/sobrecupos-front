@@ -19,28 +19,6 @@ const ProfilePage = async () => {
     practicesService.list(),
     specialtiesService.list(),
   ]);
-  const addressOptions = [
-    {
-      value: "default",
-      label: "Selecciona una opción",
-      disabled: true,
-    },
-    ...practices.map(({ shortFormattedAddress, id }) => ({
-      label: shortFormattedAddress,
-      value: id,
-    })),
-  ];
-  const specialtyOptions = [
-    {
-      value: "default",
-      label: "Selecciona una opción",
-      disabled: true,
-    },
-    ...specialties.map(({ id, name }) => ({
-      value: id,
-      label: name,
-    })),
-  ];
 
   return (
     <div className={classes.namespace}>
@@ -51,8 +29,8 @@ const ProfilePage = async () => {
           userEmail={session.user.email}
           {...profile}
           specialty={profile?.specialty.id}
-          addressOptions={addressOptions}
-          specialtyOptions={specialtyOptions}
+          availablePractices={practices}
+          availableSpecialties={specialties}
         />
       </Card>
     </div>

@@ -1,3 +1,5 @@
 import { PractitionerEntity } from "./practitioner-entity.type";
 
-export type UpdatePractitionerRequest = Partial<PractitionerEntity>;
+export type UpdatePractitionerRequest = Partial<PractitionerEntity> & {
+  id?: string;
+};

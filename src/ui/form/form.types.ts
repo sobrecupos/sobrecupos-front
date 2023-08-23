@@ -1,3 +1,5 @@
+import { FormEvent } from "react";
+
 export type BaseField = {
   value: unknown;
   errors?: string[];
@@ -22,6 +24,7 @@ export type FormProvider = {
   setCurrentSchema: (
     setterOrValue: FormSchema | ((prevValues: FormSchema) => FormSchema)
   ) => void;
+  handleSubmit: (event: FormEvent) => void;
   isSubmitting?: boolean;
   hasSubmitError?: boolean;
 };
