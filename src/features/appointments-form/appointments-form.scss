@@ -1,0 +1,11 @@
+$namespace: "ui-mp-appointments-form";
+
+.#{$namespace} {
+  &__panel-container {
+    display: flex;
+  }
+
+  &__left-panel {
+    margin-right: 16px;
+  }
+}
