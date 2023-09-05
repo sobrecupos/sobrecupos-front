@@ -29,41 +29,39 @@ const nextConfig = {
       },
     ],
   },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: "/:path*",
-          has: [
-            {
-              type: "host",
-              value: "profesionales.sobrecupos.com",
-            },
-          ],
-          destination: "https://sobrecupos.pro/:path*",
-        },
-        {
-          source: "/:path*",
-          has: [
-            {
-              type: "host",
-              value: "app.sobrecupos.com",
-            },
-          ],
-          destination: "/app/:path*",
-        },
-        {
-          source: "/:path*",
-          has: [
-            {
-              type: "host",
-              value: "admin.sobrecupos.com",
-            },
-          ],
-          destination: "/admin/:path*",
-        },
-      ],
-    };
+  rewrites() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "profesionales.sobrecupos.com",
+          },
+        ],
+        destination: "https://sobrecupos.pro/:path*",
+      },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "app.sobrecupos.com",
+          },
+        ],
+        destination: "/app/:path*",
+      },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "admin.sobrecupos.com",
+          },
+        ],
+        destination: "/admin/:path*",
+      },
+    ];
   },
 };
 
