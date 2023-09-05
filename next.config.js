@@ -29,6 +29,42 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/:path*",
+          has: [
+            {
+              type: "host",
+              value: "profesionales.sobrecupos.com",
+            },
+          ],
+          destination: "https://www.sobrecupos.pro/:path*",
+        },
+        {
+          source: "/:path*",
+          has: [
+            {
+              type: "host",
+              value: "app.sobrecupos.com",
+            },
+          ],
+          destination: "/app/:path*",
+        },
+        {
+          source: "/:path*",
+          has: [
+            {
+              type: "host",
+              value: "admin.sobrecupos.com",
+            },
+          ],
+          destination: "/admin/:path*",
+        },
+      ],
+    };
+  },
 };
 
 module.exports = nextConfig;
