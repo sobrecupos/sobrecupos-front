@@ -40,7 +40,7 @@ const nextConfig = {
               value: "profesionales.sobrecupos.com",
             },
           ],
-          destination: "https://www.sobrecupos.pro/:path*",
+          destination: "https://sobrecupos.pro/:path*",
         },
         {
           source: "/:path*",
