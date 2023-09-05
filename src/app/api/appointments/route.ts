@@ -1,13 +1,6 @@
 import { appointmentsService } from "@marketplace/data-access/appointments/appointments.service";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
-  const body = await req.json();
-  const result = await appointmentsService.saveAppointments(body);
-
-  return NextResponse.json(result);
-};
-
 export const GET = async (req: NextRequest) => {
   const { searchParams } = req.nextUrl;
   const practitionerId = searchParams.get("practitionerId");

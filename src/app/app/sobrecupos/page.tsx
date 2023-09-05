@@ -29,7 +29,7 @@ const AppointmentsPage = async () => {
       <Card className={classes.formContainer}>
         <AppointmentsForm
           schedule={schedule}
-          practices={practitioner.practices}
+          practices={practitioner.practices as any}
         />
       </Card>
     </div>
