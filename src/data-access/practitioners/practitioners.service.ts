@@ -78,7 +78,11 @@ export class PractitionersService {
 
     const codeSuffix = fullNameTerms
       .map((term) => term?.toLowerCase())
-      .join("-");
+      .join("-")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace("ñ", "n")
+      .replace(" ", "-");
 
     const practitioner = {
       ...payload,
