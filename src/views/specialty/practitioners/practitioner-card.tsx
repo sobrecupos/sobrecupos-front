@@ -46,9 +46,15 @@ export const PractitionerCard = ({
   specialty,
   appointments,
 }: PractitionerCardProps) => {
-  const freeTimeSlots = appointments.filter(({ start }) =>
-    dayjs(start).isAfter(dayjs())
-  );
+  const freeTimeSlots = appointments.filter(({ start }) => {
+    const appointmentStart = dayjs(start);
+    const now = dayjs();
+
+    return (
+      appointmentStart.isAfter(now) &&
+      appointmentStart.isBefore(now.endOf("day"))
+    );
+  });
   const timeSlotCount = freeTimeSlots.length;
 
   return (

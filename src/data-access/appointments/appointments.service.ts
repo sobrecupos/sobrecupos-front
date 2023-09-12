@@ -73,15 +73,6 @@ export class AppointmentsService {
           specialtyCode,
           start: {
             $gt: fromDate.toDate(),
-            $lt: fromDate
-              .add(-3, "hours")
-              .startOf("day")
-              .add(
-                this.scheduleConfig.CL.startingHour +
-                  this.scheduleConfig.CL.workingHours,
-                "hours"
-              )
-              .toDate(),
           },
           status: "FREE",
         },
