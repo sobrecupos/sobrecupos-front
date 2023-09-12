@@ -5,22 +5,21 @@ import { Button } from "@marketplace/ui/button";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { Select } from "@marketplace/ui/select";
 import {
-  Appointment,
-  NewAppointment,
   SaveAppointmentsRequest,
+  Schedule,
 } from "@marketplace/utils/types/appointments";
-import { Practice } from "@marketplace/utils/types/practices";
+import { PractitionerPractice } from "@marketplace/utils/types/practitioners";
 import { FormEvent, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
 import "./appointments-form.scss";
 import { AppointmentsPanel } from "./appointments-panel";
 import { WeekdayPanel } from "./weekday-panel";
 
 export type AppointmentsFormProps = {
-  schedule: {
-    day: string;
-    appointments: (NewAppointment | Appointment)[];
-  }[];
-  practices: Practice[];
+  specialtyCode: string;
+  practitionerId: string;
+  schedule: Schedule;
+  practices: PractitionerPractice[];
 };
 
 const classes = getComponentClassNames("appointments-form", {
@@ -29,6 +28,8 @@ const classes = getComponentClassNames("appointments-form", {
 });
 
 export const AppointmentsForm = ({
+  specialtyCode,
+  practitionerId,
   schedule,
   practices,
 }: AppointmentsFormProps) => {
@@ -43,14 +44,14 @@ export const AppointmentsForm = ({
 
   const practiceOptions = useMemo(
     () =>
-      practices.map(({ id, shortFormattedAddress }) => ({
+      practices.map(({ id, address }) => ({
         value: id,
-        label: shortFormattedAddress,
+        label: address,
       })),
     [practices]
   );
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     if (isLoading) return;
@@ -58,19 +59,36 @@ export const AppointmentsForm = ({
     setIsLoading(true);
 
     const actualAppointments = currentSchedule.flatMap(({ appointments }) =>
-      appointments.filter(
-        (appointment) =>
-          ("id" in appointment && !!appointment.id) ||
-          appointment.status === "FREE"
-      )
+      appointments
+        .filter(
+          (appointment) =>
+            ("id" in appointment && !!appointment.id) ||
+            appointment.status === "FREE"
+        )
+        .map((appointment) => ({
+          ...appointment,
+          specialtyCode,
+        }))
     ) as SaveAppointmentsRequest["appointments"];
 
     if (actualAppointments.length === 0) return;
 
-    appointmentsClient
-      .saveSchedule({ appointments: actualAppointments })
-      .catch((error) => console.error(error))
-      .then(() => setIsLoading(false));
+    try {
+      await appointmentsClient.saveSchedule({
+        practitionerId,
+        appointments: actualAppointments,
+      });
+      const schedule = await appointmentsClient.getSchedule({
+        practitionerId,
+      });
+      setCurrentSchedule(schedule);
+      toast.success("¡Sobrecupos guardados!");
+    } catch (error) {
+      console.error(error);
+      toast.error("¡Algo salió mal! Recarga la página y reinténtalo.");
+    }
+
+    setIsLoading(false);
   };
 
   return (

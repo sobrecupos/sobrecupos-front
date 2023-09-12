@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { authLayoutClasses } from "../classes";
 
@@ -16,5 +17,22 @@ const ErrorPage = ({
     <Link href="/iniciar">Inicia sesión nuevamente.</Link>
   </>
 );
+
+export const metadata: Metadata = {
+  title: "Algo salió mal | Sobrecupos",
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: false,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
 export default ErrorPage;

@@ -1,19 +1,23 @@
+import { ordersService } from "@marketplace/data-access/orders/orders.service";
 import { Icon } from "@marketplace/ui/legacy/icon";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { OrderResponse } from "@marketplace/utils/types/orders";
 import classNames from "classnames";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
-type SummaryProps = {
-  date: string;
-  intervalInMinutes: number;
-  practitionerName: string;
-  practiceAddress: string;
-  amount: string;
-  paymentMethod: string;
-  totalAmount: string;
-  status: string;
+dayjs.extend(utc);
+
+type SummaryProps = OrderResponse;
+
+const formatHours = (dateString: string, durationInMinutes: number) => {
+  const start = dayjs(dateString);
+  const end = start.add(durationInMinutes, "minutes");
+
+  return `${start.format("HH:mm")} - ${end.format("HH:mm")}`;
 };
 
 const classes = getComponentClassNames("ts-summary", {
@@ -26,15 +30,7 @@ const classes = getComponentClassNames("ts-summary", {
   tableData: "table-data",
 });
 
-const Summary = ({
-  date,
-  intervalInMinutes,
-  practitionerName,
-  practiceAddress,
-  amount,
-  paymentMethod,
-  status,
-}: SummaryProps) => {
+const Summary = ({ status, ...props }: SummaryProps) => {
   if (status === "ERROR") {
     return (
       <div
@@ -88,18 +84,17 @@ const Summary = ({
   }
 
   if (status === "PAID") {
-    const currentDate = new Date(date);
+    const {
+      itemDetails: { start, durationInMinutes, practitionerName, address },
+      total,
+    } = props;
+
+    const currentDate = dayjs.utc(start).toDate();
     const formattedDate = new Intl.DateTimeFormat("es-CL", {
       dateStyle: "full",
     }).format(currentDate);
-    const endDate = new Date(
-      currentDate.getTime() + intervalInMinutes * 60 * 1000
-    );
-    const timeSlot = `${currentDate.getHours()}:${String(
-      currentDate.getMinutes()
-    ).padStart(2, "0")} - ${endDate.getHours()}:${String(
-      endDate.getMinutes()
-    ).padStart(2, "0")}`;
+    const appointment = formatHours(start, durationInMinutes);
+
     return (
       <div className={classes.namespace}>
         <Image
@@ -129,7 +124,7 @@ const Summary = ({
           </div>
           <div className={classes.tableRow}>
             <span className={classes.tableData}>Horario:</span>
-            <span className={classes.tableData}>{timeSlot}</span>
+            <span className={classes.tableData}>{appointment}</span>
           </div>
           <div className={classes.tableRow}>
             <span className={classes.tableData}>Especialista:</span>
@@ -137,15 +132,20 @@ const Summary = ({
           </div>
           <div className={classes.tableRow}>
             <span className={classes.tableData}>Dirección:</span>
-            <span className={classes.tableData}>{practiceAddress}</span>
+            <span className={classes.tableData}>{address}</span>
           </div>
           <div className={classes.tableRow}>
             <span className={classes.tableData}>Forma de pago:</span>
-            <span className={classes.tableData}>{paymentMethod}</span>
+            <span className={classes.tableData}>Flow</span>
           </div>
           <div className={classes.tableRow}>
             <span className={classes.tableData}>Pagado:</span>
-            <span className={classes.tableData}>{amount}</span>
+            <span className={classes.tableData}>
+              {new Intl.NumberFormat("es-CL", {
+                currency: "CLP",
+                style: "currency",
+              }).format(total)}
+            </span>
           </div>
         </div>
       </div>
@@ -171,35 +171,27 @@ export const getServerSideProps = async (
   try {
     const { paymentId } = context.query;
 
-    const paymentData = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/payments`,
-      { method: "POST", body: JSON.stringify({ paymentId }) }
-    ).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-
-      return { status: "ERROR" };
-    });
-
-    if (!paymentData.itemId) {
-      return { props: paymentData };
+    if (typeof paymentId !== "string") {
+      return {
+        props: {
+          status: "ERROR",
+        },
+      };
     }
 
-    const orderData = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/orders/status?itemId=${paymentData.itemId}`
-    ).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
+    const order = await ordersService.findByPaymentId(paymentId);
 
-      return { status: "ERROR" };
-    });
+    if (!order) {
+      return {
+        props: {
+          status: "ERROR",
+        },
+      };
+    }
 
     return {
       props: {
-        ...paymentData,
-        ...orderData,
+        ...order,
       },
     };
   } catch (error) {

@@ -1,5 +1,6 @@
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { getClientPromise } from "@marketplace/libs/persistence";
+import { EmailParams, MailerSend, Recipient, Sender } from "mailersend";
 import { AuthOptions, getServerSession } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { redirect } from "next/navigation";
@@ -12,15 +13,46 @@ export class AuthService {
     }) as AuthOptions["adapter"],
     providers: [
       EmailProvider({
-        server: {
-          host: process.env.EMAIL_SERVER_HOST,
-          port: process.env.EMAIL_SERVER_PORT,
-          auth: {
-            user: process.env.EMAIL_SERVER_USER,
-            pass: process.env.EMAIL_SERVER_PASSWORD,
-          },
-        },
         from: process.env.EMAIL_FROM,
+        sendVerificationRequest: async ({ identifier, url }) => {
+          const mailerSend = new MailerSend({
+            apiKey: String(process.env.MAILER_SEND_API_KEY),
+          });
+          const sentFrom = new Sender(
+            "contacto@sobrecupos.com",
+            "Equipo de Sobrecupos"
+          );
+          const recipients = [new Recipient(identifier)];
+          const variables = [
+            {
+              email: identifier,
+              substitutions: [
+                {
+                  var: "supportEmail",
+                  value: "contacto@sobrecupos.com",
+                },
+              ],
+            },
+          ];
+          const personalization = [
+            {
+              email: identifier,
+              data: {
+                login: url,
+              },
+            },
+          ];
+          const emailParams = new EmailParams()
+            .setFrom(sentFrom)
+            .setTo(recipients)
+            .setReplyTo(sentFrom)
+            .setSubject(`Inicia sesión en Sobrecupos`)
+            .setTemplateId("351ndgwz6mngzqx8")
+            .setVariables(variables)
+            .setPersonalization(personalization);
+
+          await mailerSend.email.send(emailParams);
+        },
       }),
     ],
     pages: {
@@ -47,11 +79,15 @@ export class AuthService {
     },
   };
 
-  async getSessionOrRedirect(_callbackUrl?: string) {
+  async getSessionOrRedirect(callbackUrl: string = "/app/perfil") {
     const session = await getServerSession(this.options);
 
+    const query = callbackUrl
+      ? `?callbackUrl=${encodeURIComponent(callbackUrl)}`
+      : "";
+
     if (!session?.user) {
-      redirect(`/iniciar`);
+      redirect(`/iniciar${query}`);
     }
 
     return session;

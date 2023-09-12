@@ -1,32 +1,44 @@
 import { getDb } from "@marketplace/libs/persistence";
 import {
   CreateSpecialtyRequest,
-  Specialty,
   SpecialtyEntity,
+  SpecialtyResponse,
   UpdateSpecialtyRequest,
 } from "@marketplace/utils/types/specialties";
-import { ObjectId, WithId } from "mongodb";
+import { ObjectId } from "mongodb";
+import { specialtyProjection } from "./utils";
 
 export class SpecialtiesService {
+  async findByCode(code: string) {
+    const specialties = await this.collection();
+    const specialty = await specialties.findOne<SpecialtyResponse>(
+      { code },
+      { projection: specialtyProjection }
+    );
+
+    return specialty;
+  }
+
   async findOne(id: string) {
     const specialties = await this.collection();
 
-    return specialties
-      .findOne({ _id: new ObjectId(id) })
-      .then((specialtyOrFalsy) => this.mapToPlain(specialtyOrFalsy));
+    const found = await specialties.findOne<SpecialtyResponse>(
+      { _id: new ObjectId(id) },
+      { projection: specialtyProjection }
+    );
+    return found;
   }
 
   async list() {
     const specialties = await this.collection();
-    const findCursor = specialties.find({});
-    const response: Specialty[] = [];
+    const findCursor = specialties.find<SpecialtyResponse>(
+      {},
+      { projection: specialtyProjection }
+    );
+    const response: SpecialtyResponse[] = [];
 
     for await (const specialty of findCursor) {
-      const data = this.mapToPlain(specialty);
-
-      if (data) {
-        response.push(data);
-      }
+      response.push(specialty);
     }
 
     return response;
@@ -36,13 +48,13 @@ export class SpecialtiesService {
     const specialties = await this.collection();
     const code = this.getCode(specialty.name);
 
-    return specialties
-      .findOneAndUpdate(
-        { code },
-        { $setOnInsert: { ...specialty, code } },
-        { upsert: true, returnDocument: "after" }
-      )
-      .then(({ value }) => this.mapToPlain(value));
+    const { value } = await specialties.findOneAndUpdate(
+      { code },
+      { $setOnInsert: { ...specialty, code } },
+      { upsert: true, returnDocument: "after", projection: specialtyProjection }
+    );
+
+    return value as unknown as SpecialtyResponse;
   }
 
   async update(id: string, specialty: UpdateSpecialtyRequest) {
@@ -52,11 +64,16 @@ export class SpecialtiesService {
       ? { ...specialty, code: this.getCode(specialty.name) }
       : specialty;
 
-    return specialties
-      .findOneAndUpdate({ _id: new ObjectId(id) }, payload, {
+    const { value } = await specialties.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      payload,
+      {
         returnDocument: "after",
-      })
-      .then(({ value }) => this.mapToPlain(value));
+        projection: specialtyProjection,
+      }
+    );
+
+    return value as unknown as SpecialtyResponse;
   }
 
   async collection() {
@@ -72,17 +89,6 @@ export class SpecialtiesService {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(" ", "");
-  }
-
-  mapToPlain(specialty: WithId<SpecialtyEntity> | null) {
-    if (!specialty) return null;
-
-    return {
-      id: specialty._id.toHexString(),
-      code: specialty.code,
-      name: specialty.name,
-      picture: specialty.picture,
-    };
   }
 }
 

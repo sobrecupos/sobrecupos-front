@@ -1,24 +1,17 @@
+import { ordersClient } from "@marketplace/data-access/orders/orders.client";
 import { Icon } from "@marketplace/ui/legacy/icon";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { AppointmentsByPractice } from "@marketplace/utils/types/appointments";
 import classNames from "classnames";
+import dayjs from "dayjs";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 export type ScheduleProps = {
   showSpinner?: boolean;
-  schedule: {
-    date: string;
-    results: {
-      address: string;
-      insuranceProviders: string[];
-      timeSlots: {
-        id: string;
-        start: string;
-        intervalInMinutes: number;
-      }[];
-    }[];
-  };
+  schedule: AppointmentsByPractice;
   practitioner: string;
+  practitionerId: string;
 };
 
 const classes = getComponentClassNames("schedule", {
@@ -59,17 +52,16 @@ const isBefore = (now: number, start: string) => {
 };
 
 const formatHours = (dateString: string, intervalInMinutes: number) => {
-  const startDate = new Date(dateString);
-  const endDate = new Date(startDate.getTime() + intervalInMinutes * 60 * 1000);
-  return `${startDate.getHours()}:${String(startDate.getMinutes()).padStart(
-    2,
-    "0"
-  )} - ${endDate.getHours()}:${String(endDate.getMinutes()).padStart(2, "0")}`;
+  const start = dayjs(dateString);
+  const end = start.add(intervalInMinutes, "minutes");
+
+  return `${start.format("HH:mm")} - ${end.format("HH:mm")}`;
 };
 
 export const Schedule = ({
   schedule,
   practitioner,
+  practitionerId,
   showSpinner,
 }: ScheduleProps) => {
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
@@ -79,7 +71,7 @@ export const Schedule = ({
     name: "",
     email: "",
     phone: "",
-    authorization: false,
+    paymentAcknowledgement: false,
     termsAndConditions: false,
   });
 
@@ -89,6 +81,7 @@ export const Schedule = ({
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    event.stopPropagation();
 
     if (isLoading || !selected) return;
 
@@ -100,24 +93,26 @@ export const Schedule = ({
     }
 
     setIsLoading(true);
-    fetch("/api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...values,
+    ordersClient
+      .create({
         itemId: selected.id,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-
-        throw new Error("Failed timeslot purchase");
+        status: "PENDING",
+        itemDetails: {
+          id: selected.id,
+          start: selected.start,
+          durationInMinutes: Number(selected.durationInMinutes),
+          address: selected.address,
+          insuranceProviders: selected.insuranceProviders,
+          practitionerId,
+          practitionerName: practitioner,
+        },
+        customerDetails: {
+          ...values,
+        },
       })
-      .then(({ url }) => {
+      .then((response) => {
+        const { url } = response;
+
         if (url) {
           window.location.href = url;
           return;
@@ -227,10 +222,10 @@ export const Schedule = ({
                 className={classes.input}
                 type="checkbox"
                 required
-                checked={values.authorization}
+                checked={values.paymentAcknowledgement}
                 onChange={(event) => {
                   const { checked } = event.target;
-                  handleFieldChange("authorization", checked);
+                  handleFieldChange("paymentAcknowledgement", checked);
                 }}
               />
               <span className={classes.label}>
@@ -262,6 +257,9 @@ export const Schedule = ({
                 </Link>
               </span>
             </label>
+            <div className="ui-mp-alert ui-mp-alert--warning">
+              Tendrás 5 minutos para finalizar tu compra en el portal de pagos.
+            </div>
             <button
               className={classes.submit}
               type="submit"
@@ -277,7 +275,11 @@ export const Schedule = ({
       ) : (
         <>
           <div className={classes.title}>Pide tu sobrecupo aquí:</div>
-          <div className={classes.subtitle}>{formatDate(schedule.date)}</div>
+          <div className={classes.subtitle}>
+            {formatDate(
+              dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
+            )}
+          </div>
           {showSpinner ? (
             <div className={classes.spinner}>
               <Icon id="circle-notch" variant="solid" spin />
@@ -287,23 +289,19 @@ export const Schedule = ({
             <div className={classes.empty}>Sin sobrecupos disponibles 😥</div>
           ) : null}
           {schedule.results.map(
-            ({ address, insuranceProviders, timeSlots }) => {
-              const freeTimeSlots = timeSlots.filter(
-                ({ start }) => Date.now() < new Date(start).getTime()
+            ({ id, address, insuranceProviders, appointments }) => {
+              const activeInsuranceProviders = insuranceProviders
+                .map(({ name, isActive }) => (isActive ? name : null))
+                .filter((term) => !!term)
+                .join(" | ");
+              const activeAppointments = appointments.filter(({ start }) =>
+                dayjs(start).isAfter(dayjs())
               );
-
-              if (freeTimeSlots.length === 0) {
-                return (
-                  <div className={classes.empty} key="unavailable-time-slots">
-                    Sin sobrecupos disponibles 😥
-                  </div>
-                );
-              }
 
               return (
                 <div
                   className={classes.timeSlotsContainer}
-                  key={`time-slots-${address}-${schedule.date}`}
+                  key={`time-slots-${id}-${schedule.from}`}
                 >
                   <div className={classes.address}>
                     <div className={classes.addressIcon}>
@@ -312,30 +310,34 @@ export const Schedule = ({
                     <div>{address}</div>
                   </div>
                   <div className={classes.insurances}>
-                    Atiende: {insuranceProviders.join(" | ")}
+                    Atiende: {activeInsuranceProviders}
                   </div>
 
                   <div className={classes.timeSlots}>
-                    {freeTimeSlots.map(({ id, start, intervalInMinutes }) =>
-                      isBefore(Date.now(), start) ? (
+                    {activeAppointments.map(
+                      ({ id, start, durationInMinutes }) => (
                         <button
                           key={`timeslot-${id}`}
                           className={classes.timeSlot}
                           onClick={() =>
                             setSelected({
                               id,
-                              label: formatHours(start, intervalInMinutes),
+                              label: formatHours(start, durationInMinutes),
                               start,
+                              durationInMinutes: String(durationInMinutes),
+                              date: formatDate(
+                                dayjs(start).format(
+                                  "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+                                )
+                              ),
                               address,
-                              date: formatDate(schedule.date),
-                              insuranceProviders:
-                                insuranceProviders.join(" | "),
+                              insuranceProviders: activeInsuranceProviders,
                             })
                           }
                         >
-                          {formatHours(start, intervalInMinutes)}
+                          {formatHours(start, durationInMinutes)}
                         </button>
-                      ) : null
+                      )
                     )}
                   </div>
                 </div>

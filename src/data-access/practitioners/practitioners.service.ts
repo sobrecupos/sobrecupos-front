@@ -1,21 +1,63 @@
 import { getDb } from "@marketplace/libs/persistence";
 import {
   CreatePractitionerRequest,
-  Practitioner,
   PractitionerEntity,
+  PrivatePractitionerProfileResponse,
+  PublicPractitionerProfileResponse,
   UpdatePractitionerRequest,
 } from "@marketplace/utils/types/practitioners";
-import { ObjectId, WithId } from "mongodb";
-import { specialtiesService } from "../specialties/specialties.service";
+import { ObjectId } from "mongodb";
+import { eventBrokerService } from "../event-broker/event-broker.service";
+import {
+  privatePractitionerProfileProjection,
+  publicPractitionerProfileProjection,
+} from "./utils";
 
 export class PractitionersService {
-  async getProfile(email: string) {
+  async getPublicProfile(code: string) {
     const practitioners = await this.getCollection();
-    const profile = await practitioners.findOne({
-      email,
-    });
+    const profile =
+      await practitioners.findOne<PublicPractitionerProfileResponse>(
+        { code },
+        { projection: publicPractitionerProfileProjection }
+      );
 
-    return this.mapToPlain(profile);
+    return profile;
+  }
+
+  async getPrivateProfile({ email, id }: { email?: string; id?: string }) {
+    const practitioners = await this.getCollection();
+    const query: Record<string, unknown> = {};
+
+    if (email) {
+      query.email = email;
+    }
+
+    if (id) {
+      query._id = new ObjectId(id);
+    }
+
+    const profile =
+      await practitioners.findOne<PrivatePractitionerProfileResponse>(query, {
+        projection: privatePractitionerProfileProjection,
+      });
+
+    return profile;
+  }
+
+  async listBySpecialtyCode(specialtyCode: string) {
+    const practitioners = await this.getCollection();
+    const cursor = practitioners.find<PublicPractitionerProfileResponse>(
+      { "specialty.code": specialtyCode },
+      { projection: publicPractitionerProfileProjection }
+    );
+    const results = [];
+
+    for await (const entry of cursor) {
+      results.push(entry);
+    }
+
+    return { results };
   }
 
   async create(payload: CreatePractitionerRequest) {
@@ -24,16 +66,7 @@ export class PractitionersService {
       this.getCollection(),
       this.getCounters(),
     ]);
-    const [specialty, counter] = await Promise.all([
-      specialtiesService.findOne(payload.specialty.id),
-      counters.findOne({ countryCode }),
-    ]);
-
-    if (!specialty) {
-      throw new Error(
-        `Cannot create user. Specialty with id ${payload.specialty} was not found`
-      );
-    }
+    const counter = await counters.findOne({ countryCode });
 
     const fullNameTerms = [
       payload.names,
@@ -53,11 +86,6 @@ export class PractitionersService {
       code: `${countryCode}${
         counter?.current ? counter.current + 1 : 1
       }-${codeSuffix}`,
-      specialty: {
-        id: specialty.id,
-        name: specialty.name,
-        code: specialty.code,
-      },
     };
 
     const { insertedId } = await practitioners.insertOne(practitioner);
@@ -66,20 +94,32 @@ export class PractitionersService {
       { $inc: { current: 1 }, $setOnInsert: { countryCode } },
       { upsert: true }
     );
+    await this.publishProfileChange(insertedId.toHexString());
 
-    return { ...payload, id: insertedId.toHexString() };
+    return { ...practitioner, id: insertedId.toHexString() };
   }
 
   async update(id: string, payload: UpdatePractitionerRequest) {
     const practitioners = await this.getCollection();
+    const { value } = await practitioners.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: payload },
+      {
+        returnDocument: "after",
+        projection: privatePractitionerProfileProjection,
+      }
+    );
 
-    return practitioners
-      .findOneAndUpdate(
-        { _id: new ObjectId(id) },
-        { $set: payload },
-        { returnDocument: "after" }
-      )
-      .then(({ value }) => this.mapToPlain(value));
+    await this.publishProfileChange(id);
+
+    return value as PrivatePractitionerProfileResponse | null;
+  }
+
+  publishProfileChange(practitionerId?: string) {
+    return eventBrokerService.publish({
+      url: process.env.EVENT_SCHEDULE_CHANGE_URL,
+      body: { practitionerId },
+    });
   }
 
   async getCollection() {
@@ -90,25 +130,6 @@ export class PractitionersService {
   async getCounters() {
     const db = await getDb();
     return db.collection<{ current: number; countryCode: string }>("counters");
-  }
-
-  mapToPlain(
-    practitioner: WithId<PractitionerEntity> | null
-  ): Practitioner | null {
-    if (!practitioner) return null;
-
-    return {
-      id: practitioner._id.toHexString(),
-      picture: practitioner.picture,
-      names: practitioner.names,
-      firstSurname: practitioner.firstSurname,
-      secondSurname: practitioner.secondSurname,
-      phone: practitioner.phone,
-      description: practitioner.description,
-      licenseId: practitioner.licenseId,
-      specialty: practitioner.specialty,
-      practices: practitioner.practices,
-    };
   }
 }
 

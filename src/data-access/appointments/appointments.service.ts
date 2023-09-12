@@ -2,12 +2,14 @@ import { getDb } from "@marketplace/libs/persistence";
 import {
   Appointment,
   AppointmentEntity,
-  GetScheduleRequest,
+  PractitionersAppointments,
   SaveAppointmentsRequest,
+  Schedule,
 } from "@marketplace/utils/types/appointments";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { ObjectId, WithId } from "mongodb";
+import { eventBrokerService } from "../event-broker/event-broker.service";
 
 dayjs.extend(utc);
 
@@ -16,17 +18,118 @@ const VISIBLE_DAYS_IN_SCHEDULE = 7;
 export class AppointmentsService {
   readonly scheduleConfig = {
     CL: {
-      // 8 am with UTC -4 offset, eventually this should
+      // 8 am with UTC -3 offset, eventually this should
       // be dynamic.
-      startingHour: 12,
+      startingHour: 11,
       workingHours: 13,
     },
   };
 
-  async saveSchedule({ appointments }: SaveAppointmentsRequest) {
-    const collection = await this.collection();
+  async reserve(id: string) {
+    const response = await this.updateStatus(id, "RESERVED");
+    await this.publishAppointmentReservation(id);
 
-    console.log(appointments);
+    return response;
+  }
+
+  async cancelReservation(id: string) {
+    const appointments = await this.collection();
+
+    const { value } = await appointments.findOneAndUpdate(
+      {
+        status: "RESERVED",
+        _id: new ObjectId(id),
+      },
+      {
+        $set: { status: "FREE" },
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+    await this.publishScheduleChange(value?.practitionerId);
+
+    return value;
+  }
+
+  async updateStatus(id: string, status: string | null) {
+    const appointments = await this.collection();
+    const { value } = await appointments.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: { status } },
+      { returnDocument: "after" }
+    );
+    await this.publishScheduleChange(value?.practitionerId);
+
+    return value;
+  }
+
+  async getPractitionersAppointments(specialtyCode: string, from?: string) {
+    const appointments = await this.collection();
+    const fromDate = dayjs.utc(from).toDate();
+    const cursor = appointments.aggregate<PractitionersAppointments>([
+      {
+        $match: {
+          specialtyCode,
+          start: { $gt: fromDate },
+          status: "FREE",
+        },
+      },
+      {
+        $group: {
+          _id: "$practitionerId",
+          appointments: {
+            $push: {
+              id: { $toString: "$_id" },
+              start: {
+                $dateToString: {
+                  date: "$start",
+                  format: "%Y-%m-%dT%H:%M:%S.%LZ",
+                },
+              },
+              durationInMinutes: "$durationInMinutes",
+              status: "$status",
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          results: {
+            $push: {
+              k: "$_id",
+              v: "$appointments",
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          results: { $arrayToObject: "$results" },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$results",
+        },
+      },
+    ]);
+
+    const data = [];
+
+    for await (const doc of cursor) {
+      data.push(doc);
+    }
+
+    return data[0] || {};
+  }
+
+  async saveSchedule({
+    practitionerId,
+    appointments,
+  }: SaveAppointmentsRequest) {
+    const collection = await this.collection();
 
     const result = await collection.bulkWrite(
       appointments.map(({ id, start, ...appointment }) => {
@@ -59,6 +162,8 @@ export class AppointmentsService {
       { ordered: false }
     );
 
+    await this.publishScheduleChange(practitionerId);
+
     return result;
   }
 
@@ -67,33 +172,49 @@ export class AppointmentsService {
     fromDateString?: string
   ) {
     const collection = await this.collection();
-    const from = fromDateString ? new Date(fromDateString) : new Date();
+    const from = dayjs.utc(fromDateString);
 
     const cursor = collection.aggregate([
       {
         $match: {
           practitionerId: practitionerId,
           start: {
-            $gt: from,
+            $gt: from.toDate(),
+            // Offset in CL, this should be dynamic
+            $lt: from
+              .add(-3, "hours")
+              .startOf("day")
+              .add(
+                this.scheduleConfig.CL.startingHour +
+                  this.scheduleConfig.CL.workingHours,
+                "hours"
+              )
+              .toDate(),
           },
+          status: "FREE",
         },
       },
       {
         $group: {
           _id: "$practice.id",
-          name: {
-            $first: "$practice.name",
-          },
-          shortFormattedAddress: {
-            $first: "$practice.shortFormattedAddress",
+          address: {
+            $first: "$practice.address",
           },
           insuranceProviders: {
             $first: "$practice.insuranceProviders",
           },
           appointments: {
             $push: {
-              id: "$_id",
+              id: {
+                $toString: "$_id",
+              },
               status: "$status",
+              start: {
+                $dateToString: {
+                  date: "$start",
+                  format: "%Y-%m-%dT%H:%M:%S.%LZ",
+                },
+              },
               durationInMinutes: "$durationInMinutes",
             },
           },
@@ -101,16 +222,19 @@ export class AppointmentsService {
       },
     ]);
 
-    const data = [];
+    const results = [];
 
     for await (const { _id, ...grouped } of cursor) {
-      data.push({
+      results.push({
         ...grouped,
         id: _id,
       });
     }
 
-    return data;
+    return {
+      from: from.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      results,
+    };
   }
 
   async getSchedule(practitionerId: string, fromDateString?: string) {
@@ -121,7 +245,7 @@ export class AppointmentsService {
       fromDateString
     );
 
-    const dailySchedule: GetScheduleRequest = [];
+    const dailySchedule: Schedule = [];
     let index = -1;
 
     availableHours.forEach((hour, innerIndex) => {
@@ -234,6 +358,21 @@ export class AppointmentsService {
       start: dayjs.utc(start).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       id: objId.toHexString(),
     };
+  }
+
+  publishScheduleChange(practitionerId?: string) {
+    return eventBrokerService.publish({
+      url: process.env.EVENT_SCHEDULE_CHANGE_URL,
+      body: { practitionerId },
+    });
+  }
+
+  publishAppointmentReservation(id: string) {
+    return eventBrokerService.publish({
+      topic: process.env.EVENT_APPOINTMENT_RESERVATION_URL,
+      body: { id },
+      delayInSeconds: 30,
+    });
   }
 
   async collection() {

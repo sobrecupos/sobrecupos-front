@@ -6,7 +6,7 @@ export const specialties = [
   },
   {
     id: "action",
-    path: "/especialidades/otorrino",
+    path: "/especialidades/otorrinolaringologia",
     label: "Otorrino",
   },
   {

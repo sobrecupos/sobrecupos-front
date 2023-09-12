@@ -8,9 +8,13 @@ import { Modal } from "@marketplace/ui/modal";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { Select } from "@marketplace/ui/select";
 import { Practice } from "@marketplace/utils/types/practices";
-import { PractitionerPractice } from "@marketplace/utils/types/practitioners";
-import { Specialty } from "@marketplace/utils/types/specialties";
+import {
+  PractitionerPractice,
+  PrivatePractitionerProfileResponse,
+} from "@marketplace/utils/types/practitioners";
+import { SpecialtyResponse } from "@marketplace/utils/types/specialties";
 import { useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { required } from "../form/validators/required";
 import { requiredWithoutDefault } from "../form/validators/required-without-default";
 import {
@@ -21,22 +25,17 @@ import { UploadPicture } from "../upload-picture";
 import "./practitioner-profile-form.scss";
 import { PractitionerProfilePractices } from "./practitioner-profile-practices";
 
-export type PractitionerProfileFormProps = {
-  availablePractices: Practice[];
-  availableSpecialties: Specialty[];
-  userId: string;
-  userEmail: string;
-  id?: string;
-  picture?: string;
-  names?: string;
-  firstSurname?: string;
-  secondSurname?: string;
-  phone?: string;
-  description?: string;
-  licenseId?: string;
-  specialty?: string;
-  practices?: PractitionerPractice[];
-};
+export type PractitionerProfileFormProps =
+  Partial<PrivatePractitionerProfileResponse> & {
+    availablePractices: Practice[];
+    availableSpecialties: SpecialtyResponse[];
+    userId: string;
+    userEmail: string;
+  };
+
+export type OnPractitionerProfileFormSubmit = Partial<
+  Omit<PrivatePractitionerProfileResponse, "specialty">
+> & { specialty?: string };
 
 const classes = getComponentClassNames("practitioner-profile-form", {
   sectionTitle: "section-title",
@@ -65,7 +64,7 @@ export const PractitionerProfileForm = ({
   phone = "",
   description = "",
   licenseId = "",
-  specialty = "",
+  specialty,
   practices = [],
   availablePractices,
   availableSpecialties,
@@ -90,9 +89,9 @@ export const PractitionerProfileForm = ({
   const practiceOptions = useMemo(
     () => [
       { value: "default", label: "Selecciona una institución", disabled: true },
-      ...availablePractices.map(({ id, shortFormattedAddress }) => ({
+      ...availablePractices.map(({ id, name, shortFormattedAddress }) => ({
         value: id,
-        label: shortFormattedAddress,
+        label: `${name} - ${shortFormattedAddress}`,
       })),
     ],
     [availablePractices]
@@ -101,27 +100,37 @@ export const PractitionerProfileForm = ({
     onSubmit: async ({
       specialty,
       ...values
-    }: {
-      picture: string;
-      names: string;
-      firstSurname: string;
-      secondSurname: string;
-      phone: string;
-      description: string;
-      licenseId: string;
-      specialty: string;
-      practices: PractitionerPractice[];
-    }) => {
+    }: OnPractitionerProfileFormSubmit) => {
       const currentSpecialty = availableSpecialties.find(
         ({ id }) => id === specialty
       );
-      await practitionersClient.updateOrCreate({
-        ...values,
-        specialty: currentSpecialty,
-        userId,
-        email: userEmail,
-        id,
-      });
+
+      try {
+        await practitionersClient.updateOrCreate({
+          ...values,
+          specialty: currentSpecialty
+            ? {
+                id: currentSpecialty.id,
+                name: currentSpecialty.name,
+                code: currentSpecialty.code,
+              }
+            : undefined,
+          userId,
+          email: userEmail,
+          id: id || "",
+        });
+        toast.success("¡Perfil guardado exitosamente!", {
+          duration: 5000,
+        });
+      } catch (error) {
+        console.error(
+          `Failed to save profile, reason: ${JSON.stringify(error)}`
+        );
+
+        toast.error("¡Algo salió mal! Inténtalo de nuevo.", {
+          duration: 5000,
+        });
+      }
     },
     schema: {
       picture: { value: picture },
@@ -131,10 +140,16 @@ export const PractitionerProfileForm = ({
       phone: { value: phone },
       description: { value: description },
       licenseId: { value: licenseId },
-      specialty: { value: specialty },
+      specialty: { value: specialty?.id || "default" },
       practices: { value: practices },
     },
     rules: {
+      picture: [
+        {
+          validator: required,
+          message: "Ingresa una imagen",
+        },
+      ],
       names: [
         {
           validator: required,
@@ -183,8 +198,8 @@ export const PractitionerProfileForm = ({
     if (currentPractice) {
       const nextPractice = {
         id: currentPractice.id,
-        name: currentPractice.name,
-        shortFormattedAddress: currentPractice.shortFormattedAddress,
+        address: `${currentPractice.name}, ${currentPractice.shortFormattedAddress}`,
+        tag: currentPractice.administrativeAreaLevel3,
         insuranceProviders: values.insuranceProviders,
       };
 
@@ -223,7 +238,8 @@ export const PractitionerProfileForm = ({
       <h3 className={classes.sectionTitle}>Mis direcciones</h3>
       <PractitionerProfilePractices
         practices={
-          formContext.currentSchema.practices.value as PractitionerPractice[]
+          formContext.currentSchema.practices
+            .value as PrivatePractitionerProfileResponse["practices"]
         }
         error={formContext.currentSchema.practices.errors?.[0]}
         onAdd={() => setIsModalOpen(true)}
@@ -234,10 +250,10 @@ export const PractitionerProfileForm = ({
         onRemove={(index) => {
           formContext.setCurrentSchema((prevSchema) => {
             const nextSchema = structuredClone(prevSchema);
-            (nextSchema.practices.value as PractitionerPractice[]).splice(
-              index,
-              1
-            );
+            (
+              nextSchema.practices
+                .value as PrivatePractitionerProfileResponse["practices"]
+            ).splice(index, 1);
 
             return nextSchema;
           });

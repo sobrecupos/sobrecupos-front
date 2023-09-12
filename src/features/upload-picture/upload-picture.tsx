@@ -31,12 +31,14 @@ export const UploadPicture = ({
   value = "",
   name = "",
 }: UploadPictureProps) => {
-  const { setFieldValue, value: contextValue } = useField<string>(name);
+  const { setFieldValue, value: contextValue, errors } = useField<string>(name);
   const [preview, setPreview] = useState(value || contextValue);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<{ type: string; message: string } | null>(
     null
   );
+  const currentError = errors?.[0] || error?.message || "";
+
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -109,7 +111,7 @@ export const UploadPicture = ({
         </div>
         {isLoading ? <Loader2Icon className={classes.loader} /> : null}
       </div>
-      <div className={classes.error}>{error?.message || ""}</div>
+      <div className={classes.error}>{currentError}</div>
       <Button disabled={isLoading} variant="text" className={classes.upload}>
         Subir foto
         <input

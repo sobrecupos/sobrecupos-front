@@ -1,6 +1,7 @@
 import { Navbar } from "@marketplace/ui/navbar";
 import { NavbarConfig } from "@marketplace/ui/navbar/navbar.types";
 import { PropsWithChildren } from "react";
+import { Toaster } from "react-hot-toast";
 
 const navbarConfig = [
   {
@@ -30,6 +31,7 @@ const AppLayout = async ({
     <>
       <Navbar config={navbarConfig} />
       {children}
+      <Toaster />
     </>
   );
 };

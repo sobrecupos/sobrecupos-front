@@ -29,17 +29,15 @@ export const PractitionerProfilePractices = ({
   onRemove,
 }: PractitionerProfilePracticesProps) => (
   <div className={classes.namespace}>
-    {practices.map(({ shortFormattedAddress, insuranceProviders }, index) => (
+    {practices.map(({ address, insuranceProviders }, index) => (
       <Card
-        key={`address-readonly-${shortFormattedAddress}`}
+        key={`address-readonly-${address}`}
         className={classes.practiceContainer}
       >
-        <p className={classes.address}>{shortFormattedAddress}</p>
+        <p className={classes.address}>{address}</p>
         {insuranceProviders.map(({ name, isActive }) =>
           isActive ? (
-            <Badge key={`insurance-provider-${shortFormattedAddress}-${name}`}>
-              {name}
-            </Badge>
+            <Badge key={`insurance-provider-${address}-${name}`}>{name}</Badge>
           ) : null
         )}
         <div className={classes.actions}>

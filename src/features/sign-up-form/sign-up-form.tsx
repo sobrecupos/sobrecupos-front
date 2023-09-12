@@ -23,7 +23,11 @@ export const SignUpForm = ({ referralCode = "" }: SignUpFormProps) => {
     usersClient
       .createUser({ email, referralCode })
       .then(() => {
-        router.push(`/iniciar?email=${email}`);
+        router.push(
+          `/iniciar?email=${email}&callbackUrl=${encodeURIComponent(
+            "/app/perfil"
+          )}`
+        );
       })
       .catch((error) => {
         console.error(error);

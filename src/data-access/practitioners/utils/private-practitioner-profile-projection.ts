@@ -1,0 +1,18 @@
+export const privatePractitionerProfileProjection = {
+  _id: 0,
+  id: { $toString: "$_id" },
+  countryCode: 1,
+  userId: 1,
+  code: 1,
+  email: 1,
+  picture: 1,
+  names: 1,
+  firstSurname: 1,
+  secondSurname: 1,
+  fullName: 1,
+  phone: 1,
+  description: 1,
+  licenseId: 1,
+  specialty: 1,
+  practices: 1,
+};

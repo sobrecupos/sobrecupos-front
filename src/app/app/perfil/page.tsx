@@ -5,6 +5,7 @@ import { specialtiesService } from "@marketplace/data-access/specialties/special
 import { PractitionerProfileForm } from "@marketplace/features/practitioner-profile-form";
 import { Card } from "@marketplace/ui/card";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { Metadata } from "next";
 import "./page.scss";
 
 const classes = getComponentClassNames("practitioner-profile-page", {
@@ -13,9 +14,9 @@ const classes = getComponentClassNames("practitioner-profile-page", {
 });
 
 const ProfilePage = async () => {
-  const session = await authService.getSessionOrRedirect();
+  const session = await authService.getSessionOrRedirect("/app/perfil");
   const [profile, practices, specialties] = await Promise.all([
-    practitionersService.getProfile(session.user.email),
+    practitionersService.getPrivateProfile({ email: session.user.email }),
     practicesService.list(),
     specialtiesService.list(),
   ]);
@@ -28,13 +29,29 @@ const ProfilePage = async () => {
           userId={session.user.id}
           userEmail={session.user.email}
           {...profile}
-          specialty={profile?.specialty.id}
           availablePractices={practices}
           availableSpecialties={specialties}
         />
       </Card>
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Mi perfil | Sobrecupos",
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: false,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default ProfilePage;

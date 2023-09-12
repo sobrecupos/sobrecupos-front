@@ -1,22 +1,28 @@
+import { appointmentsService } from "@marketplace/data-access/appointments/appointments.service";
+import { practitionersService } from "@marketplace/data-access/practitioners/practitioners.service";
+import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { Appointment } from "@marketplace/utils/types/appointments";
+import { PublicPractitionerProfileResponse } from "@marketplace/utils/types/practitioners";
+import { SpecialtyResponse } from "@marketplace/utils/types/specialties";
 import { Practitioners } from "@marketplace/views/specialty/practitioners";
-import type { Practitioner } from "@marketplace/views/specialty/practitioners/types";
 import { SpecialtyHeader } from "@marketplace/views/specialty/specialty-header";
 import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 
 type SpecialtyProps = {
-  seo: {
-    title: string;
-    description: string;
-  };
-  title: string;
-  practitioners: Practitioner[];
+  specialty: SpecialtyResponse;
+  practitioners: (PublicPractitionerProfileResponse & {
+    appointments: Appointment[];
+  })[];
 };
 
 const { namespace } = getComponentClassNames("specialty", {});
 
-const Specialty = ({ seo, title, practitioners }: SpecialtyProps) => (
+const Specialty = ({
+  specialty: { seo, name },
+  practitioners,
+}: SpecialtyProps) => (
   <div className={namespace}>
     <Head>
       <title>{seo.title}</title>
@@ -26,7 +32,7 @@ const Specialty = ({ seo, title, practitioners }: SpecialtyProps) => (
         key="meta-description"
       />
     </Head>
-    <SpecialtyHeader specialtyName={title} />
+    <SpecialtyHeader specialtyName={name} />
     <Practitioners practitioners={practitioners} />
   </div>
 );
@@ -34,19 +40,30 @@ const Specialty = ({ seo, title, practitioners }: SpecialtyProps) => (
 export const getStaticProps = async (context: GetStaticPropsContext) => {
   const specialtyCode = context.params?.["specialtyCode"];
 
-  if (!specialtyCode) {
+  if (typeof specialtyCode !== "string") {
     return {
       notFound: true,
     };
   }
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/specialties/${specialtyCode}`
-  );
-  const specialtiesByCode = await response.json();
+  const [specialty, { results }, appointments] = await Promise.all([
+    specialtiesService.findByCode(specialtyCode),
+    practitionersService.listBySpecialtyCode(specialtyCode),
+    appointmentsService.getPractitionersAppointments(specialtyCode),
+  ]);
+
+  const props = {
+    specialty,
+    practitioners: results
+      .map((practitioner) => ({
+        ...practitioner,
+        appointments: appointments[practitioner.id] || [],
+      }))
+      .sort((a, b) => b.appointments.length - a.appointments.length),
+  };
 
   return {
-    props: specialtiesByCode,
+    props,
     revalidate: 60 * 5,
   };
 };

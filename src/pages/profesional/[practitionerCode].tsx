@@ -1,37 +1,48 @@
+import { appointmentsService } from "@marketplace/data-access/appointments/appointments.service";
+import { practitionersService } from "@marketplace/data-access/practitioners/practitioners.service";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { AppointmentsByPractice } from "@marketplace/utils/types/appointments";
+import { PublicPractitionerProfileResponse } from "@marketplace/utils/types/practitioners";
 import { AboutMe } from "@marketplace/views/practitioner/about-me";
 import { ProfileCard } from "@marketplace/views/practitioner/profile-card";
 import { Schedule } from "@marketplace/views/practitioner/schedule";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+
+type PractitionerProps = {
+  profile: PublicPractitionerProfileResponse;
+  schedule: AppointmentsByPractice;
+};
 
 const classes = getComponentClassNames("practitioner", {
   profile: "profile",
 });
 
-const Practitioner = ({ profile, seo, schedule }: any) => (
+const Practitioner = ({ profile, schedule }: PractitionerProps) => (
   <>
     <Head>
-      <title>{seo.title}</title>
+      <title>{`${profile.fullName} | ${profile.specialty.name}`}</title>
       <meta
         name="description"
-        content={seo.description}
+        content={profile.description}
         key="meta-description"
       />
-      {seo.noIndex ? (
-        <meta name="robots" content="noindex" data-testid="seo-robots" />
-      ) : null}
     </Head>
     <div className={classes.namespace}>
       <div className={classes.profile}>
-        <ProfileCard {...profile} />
+        <ProfileCard
+          name={profile.fullName}
+          picture={profile.picture}
+          specialty={profile.specialty.name}
+          licenseId={profile.licenseId}
+        />
         <AboutMe description={profile.description} />
       </div>
       <Schedule
         showSpinner={false}
         schedule={schedule}
-        practitioner={profile.name}
+        practitioner={profile.fullName}
+        practitionerId={profile.id}
       />
     </div>
   </>
@@ -40,25 +51,26 @@ const Practitioner = ({ profile, seo, schedule }: any) => (
 export const getStaticProps = async (context: GetServerSidePropsContext) => {
   const practitionerCode = context.params?.["practitionerCode"];
 
-  if (!practitionerCode) {
+  if (!practitionerCode || typeof practitionerCode !== "string") {
     return {
       notFound: true,
     };
   }
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/practitioners/${practitionerCode}`
-  );
-  const scheduleResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/practitioners/${practitionerCode}/schedule`
-  );
+  const profile = await practitionersService.getPublicProfile(practitionerCode);
 
-  const { profile, seo } = await response.json();
-  const schedule = await scheduleResponse.json();
+  if (!profile) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const schedule = await appointmentsService.getAppointmentsByPractice(
+    profile.id
+  );
 
   return {
     props: {
-      seo,
       profile,
       practitionerCode,
       schedule,

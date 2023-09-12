@@ -1,4 +1,5 @@
 import { SignOutForm } from "@marketplace/features/sign-out-form";
+import { Metadata } from "next";
 import { getCsrfToken } from "next-auth/react";
 import { authLayoutClasses } from "../classes";
 
@@ -12,6 +13,23 @@ const SignOut = async () => {
       <SignOutForm csrfToken={csrfToken} />
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Salir | Sobrecupos",
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: false,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default SignOut;

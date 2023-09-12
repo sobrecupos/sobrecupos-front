@@ -77,13 +77,13 @@ export const PracticeForm = ({
           message: "Ingresa una calle",
         },
       ],
-      administrativeAreaLevel1: [
+      administrativeAreaLevel3: [
         {
           validator: required,
           message: "Ingresa una comuna",
         },
       ],
-      administrativeAreaLevel3: [
+      administrativeAreaLevel1: [
         {
           validator: required,
           message: "Ingresa una región",
@@ -103,12 +103,12 @@ export const PracticeForm = ({
       <Input label="Número de calle" name="streetNumber" placeholder="100" />
       <Input
         label="Comuna"
-        name="administrativeAreaLevel1"
+        name="administrativeAreaLevel3"
         placeholder="Providencia"
       />
       <Input
         label="Región"
-        name="administrativeAreaLevel3"
+        name="administrativeAreaLevel1"
         placeholder="Región Metropolitana"
       />
       <Button block type="submit">

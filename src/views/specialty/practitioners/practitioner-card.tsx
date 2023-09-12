@@ -1,10 +1,14 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { Appointment } from "@marketplace/utils/types/appointments";
+import { PublicPractitionerProfileResponse } from "@marketplace/utils/types/practitioners";
+import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
-import { Practitioner } from "./types";
 import { PropsWithChildren } from "react";
 
-export type PractitionerCardProps = Practitioner;
+type PractitionerCardProps = PublicPractitionerProfileResponse & {
+  appointments: Appointment[];
+};
 
 const classes = getComponentClassNames("practitioner-card", {
   link: "link",
@@ -36,14 +40,14 @@ const Wrapper = ({
 
 export const PractitionerCard = ({
   picture,
-  name,
+  fullName,
   code,
   addressTags,
   specialty,
-  timeSlots,
+  appointments,
 }: PractitionerCardProps) => {
-  const freeTimeSlots = timeSlots.filter(
-    (start: string) => Date.now() < new Date(start).getTime()
+  const freeTimeSlots = appointments.filter(({ start }) =>
+    dayjs(start).isAfter(dayjs())
   );
   const timeSlotCount = freeTimeSlots.length;
 
@@ -57,15 +61,15 @@ export const PractitionerCard = ({
         <div className={classes.imageContainer}>
           <Image
             src={picture}
-            alt={name}
+            alt={fullName}
             height="100"
             width="100"
             className={classes.image}
           />
         </div>
         <div className={classes.content}>
-          <h3 className={classes.title}>{name}</h3>
-          <div className={classes.specialty}>{specialty}</div>
+          <h3 className={classes.title}>{fullName}</h3>
+          <div className={classes.specialty}>{specialty.name}</div>
           <div className={classes.addressesContainer}>
             <div className={classes.addresses}>
               {addressTags.map((tag) => (

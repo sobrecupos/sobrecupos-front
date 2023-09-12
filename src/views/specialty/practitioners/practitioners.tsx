@@ -1,9 +1,12 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
-import { Practitioner } from "./types";
+import { Appointment } from "@marketplace/utils/types/appointments";
+import { PublicPractitionerProfileResponse } from "@marketplace/utils/types/practitioners";
 import { PractitionerCard } from "./practitioner-card";
 
 export type PractitionersProps = {
-  practitioners: Practitioner[];
+  practitioners: (PublicPractitionerProfileResponse & {
+    appointments: Appointment[];
+  })[];
 };
 
 const classes = getComponentClassNames("practitioners", {});
