@@ -66,12 +66,23 @@ export class AppointmentsService {
 
   async getPractitionersAppointments(specialtyCode: string, from?: string) {
     const appointments = await this.collection();
-    const fromDate = dayjs.utc(from).toDate();
+    const fromDate = dayjs.utc(from);
     const cursor = appointments.aggregate<PractitionersAppointments>([
       {
         $match: {
           specialtyCode,
-          start: { $gt: fromDate },
+          start: {
+            $gt: fromDate.toDate(),
+            $lt: fromDate
+              .add(-3, "hours")
+              .startOf("day")
+              .add(
+                this.scheduleConfig.CL.startingHour +
+                  this.scheduleConfig.CL.workingHours,
+                "hours"
+              )
+              .toDate(),
+          },
           status: "FREE",
         },
       },
