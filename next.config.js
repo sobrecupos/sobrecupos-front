@@ -29,6 +29,16 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/invitacion-founder",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_FOUNDER",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [
