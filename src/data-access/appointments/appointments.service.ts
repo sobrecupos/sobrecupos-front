@@ -373,7 +373,7 @@ export class AppointmentsService {
     return eventBrokerService.publish({
       topic: process.env.EVENT_APPOINTMENT_RESERVATION_URL,
       body: { id },
-      delayInSeconds: 30,
+      delayInSeconds: 6 * 60,
     });
   }
 
