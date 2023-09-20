@@ -25,6 +25,21 @@ export class AppointmentsService {
     },
   };
 
+  async validateAvailability(id: string) {
+    const appointments = await this.collection();
+    const appointment = await appointments.findOne({ _id: new ObjectId(id) });
+
+    if (!appointment) {
+      throw new Error(`Appointment with id ${id} not found`);
+    }
+
+    if (appointment.status !== "FREE") {
+      throw new Error(`Appointment with id ${id} is already reserved`);
+    }
+
+    return { isAvailable: true };
+  }
+
   async reserve(id: string) {
     const response = await this.updateStatus(id, "RESERVED");
     await this.publishAppointmentReservation(id);

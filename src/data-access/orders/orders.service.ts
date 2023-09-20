@@ -60,6 +60,8 @@ export class OrdersService {
   }
 
   async create(order: CreateOrderRequest) {
+    await appointmentsService.validateAvailability(order.itemId);
+
     const { id, total } = await this.createNewOrder(order);
 
     await appointmentsService.reserve(order.itemId);
