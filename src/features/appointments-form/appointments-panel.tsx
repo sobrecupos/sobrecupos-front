@@ -39,7 +39,8 @@ export const AppointmentsPanel = ({
             onChange={(checked) => onAppointmentChange(checked, index)}
             disabled={
               startDate.getTime() < now ||
-              (!!practice && practice.id !== selectedPractice)
+              (!!practice && practice.id !== selectedPractice) ||
+              (status !== null && status !== "FREE")
             }
           />
         );
