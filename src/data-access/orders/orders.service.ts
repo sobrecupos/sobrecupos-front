@@ -49,6 +49,7 @@ export class OrdersService {
 
     if (status === "PAID") {
       await Promise.all([
+        appointmentsService.updateStatus(order.itemId, "PAID"),
         orderNotificationsService.notifyPaidOrderToCustomer(order),
         orderNotificationsService.notifyPaidOrderToPractitioner(order),
       ]);
