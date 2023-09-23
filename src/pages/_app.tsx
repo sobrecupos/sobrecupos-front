@@ -3,9 +3,10 @@ import { Layout } from "@marketplace/ui/legacy/layout";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
-import { useEffect } from "react";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { useEffect } from "react";
+import { tracking } from "../utils/tracking";
 
 NProgress.configure({ showSpinner: false });
 
@@ -13,6 +14,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
   useEffect(() => {
     const handleStart = () => {
       NProgress.start();
+      tracking.capture("$pageview");
     };
 
     const handleEnd = () => {
