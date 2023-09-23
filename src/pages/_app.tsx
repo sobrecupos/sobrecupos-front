@@ -5,8 +5,9 @@ import Head from "next/head";
 import Script from "next/script";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import posthog from "posthog-js";
 import { useEffect } from "react";
-import { tracking } from "../utils/tracking";
+import "../utils/tracking/init";
 
 NProgress.configure({ showSpinner: false });
 
@@ -14,7 +15,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
   useEffect(() => {
     const handleStart = () => {
       NProgress.start();
-      tracking.capture("$pageview");
+      posthog.capture("$pageview");
     };
 
     const handleEnd = () => {
