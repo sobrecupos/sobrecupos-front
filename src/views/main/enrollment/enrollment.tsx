@@ -1,8 +1,5 @@
-import { Modal } from "@marketplace/ui/legacy/modal";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
-import { PractitionerSignupForm } from "@marketplace/ui/legacy/practitioner-signup-form";
 import Image from "next/image";
-import { useState } from "react";
 
 const classes = getComponentClassNames("enrollment", {
   imageContainer: "image-container",
@@ -14,7 +11,10 @@ const classes = getComponentClassNames("enrollment", {
 });
 
 export const Enrollment = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleButtonClick = () => {
+    window.location.href = "https://profesionales.sobrecupos.com";
+  };
+
   return (
     <div className={classes.namespace}>
       <div className={classes.imageContainer}>
@@ -31,20 +31,10 @@ export const Enrollment = () => {
           ¿Eres <span className={classes.highlight}>médico</span> y realizas
           sobrecupos?
         </p>
-        <button className={classes.button} onClick={() => setIsModalOpen(true)}>
+        <button className={classes.button} onClick={handleButtonClick}>
           Quiero más información
         </button>
       </div>
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        variant="small"
-        showCloseButton
-        closeOnBackdropClick
-      >
-        <PractitionerSignupForm />
-      </Modal>
     </div>
   );
 };

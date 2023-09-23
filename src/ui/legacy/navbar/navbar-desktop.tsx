@@ -1,18 +1,18 @@
 import classNames from "classnames";
-import { classes } from "./classes";
-import Link from "next/link";
 import Image from "next/image";
-import { specialties } from "./links";
-import { Icon } from "../icon";
+import Link from "next/link";
 import { useClosable } from "../../use-closable";
-import { useState } from "react";
-import { Modal } from "../modal";
-import { PractitionerSignupForm } from "../practitioner-signup-form";
+import { Icon } from "../icon";
+import { classes } from "./classes";
+import { specialties } from "./links";
 
 export const NavbarDesktop = () => {
   const { container, isOpen, setIsOpen, toggleOpen } =
     useClosable<HTMLLIElement>();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCtaClick = () => {
+    window.location.href = "https://profesionales.sobrecupos.com";
+  };
 
   return (
     <nav
@@ -77,21 +77,12 @@ export const NavbarDesktop = () => {
           <button
             type="button"
             className={classes.barAction}
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleCtaClick}
           >
             🧐 ¿Eres médico?
           </button>
         </li>
       </ul>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        variant="small"
-        showCloseButton
-        closeOnBackdropClick
-      >
-        <PractitionerSignupForm />
-      </Modal>
     </nav>
   );
 };
