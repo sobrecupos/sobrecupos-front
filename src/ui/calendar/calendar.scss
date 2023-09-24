@@ -1,0 +1,143 @@
+$namespace: "ui-mp-calendar";
+
+$border-color: lighten(#000, 80%);
+$cell-mobile-height: 40px;
+$cell-desktop-height: 80px;
+
+.#{$namespace} {
+  font-size: 14px;
+  color: #444;
+
+  &__row {
+    display: flex;
+  }
+
+  &__title {
+    flex-grow: 1;
+    font-size: 16px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  &__action {
+    text-decoration: none;
+    color: #444;
+    cursor: pointer;
+    display: block;
+    padding: 8px 12px;
+    margin-left: 8px;
+
+    &--today {
+      border: 1px solid $border-color;
+      border-radius: 4px;
+    }
+  }
+
+  &__header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 2;
+  }
+
+  &__body {
+    margin-top: 16px;
+  }
+
+  &__day {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__day-name {
+    font-size: 12px;
+  }
+
+  &__day-number {
+    height: 32px;
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+
+    &--selected {
+      background-color: rgb(66, 133, 244);
+      color: #fff;
+    }
+  }
+
+  &__slot {
+    width: calc(100% / 8);
+    min-height: $cell-mobile-height;
+    display: flex;
+    align-items: center;
+  }
+
+  &__cell {
+    border-top: 1px solid $border-color;
+    border-left: 1px solid $border-color;
+    border-right: 0;
+    border-bottom: 0;
+    background-color: #fff;
+
+    &:last-child {
+      border-right: 1px solid $border-color;
+    }
+
+    &--current {
+      position: relative;
+      --calendar-v-progress-display: none;
+
+      &::before {
+        content: " ";
+        display: var(--calendar-v-progress-display);
+        position: absolute;
+        top: -3px;
+        top: calc(var(--calendar-v-progress) - 3px);
+        left: -4px;
+        height: 8px;
+        width: 8px;
+        background-color: rgb(234, 67, 53);
+        border-radius: 100%;
+      }
+
+      &::after {
+        content: " ";
+        position: absolute;
+        display: var(--calendar-v-progress-display);
+        top: 0;
+        top: var(--calendar-v-progress);
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background-color: rgb(234, 67, 53);
+      }
+    }
+  }
+
+  &__row:last-child &__cell {
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__hour {
+    position: relative;
+  }
+
+  &__hour-label {
+    position: absolute;
+    top: -8px;
+  }
+
+  @media (min-width: 991px) {
+    &__slot {
+      min-height: $cell-desktop-height;
+    }
+  }
+}
