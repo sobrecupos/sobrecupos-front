@@ -4,8 +4,8 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(timezone);
 
 export const getHours = () => {
-  const startOfDay = dayjs().hour(8).minute(0);
-  const endOfDay = dayjs().hour(21).minute(0);
+  const startOfDay = dayjs().hour(8).minute(0).second(0).millisecond(0);
+  const endOfDay = dayjs().hour(21).minute(0).second(0).millisecond(0);
   const hours = [];
   let currentHour = startOfDay;
 

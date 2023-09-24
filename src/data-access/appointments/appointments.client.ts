@@ -6,6 +6,10 @@ export class AppointmentsClient extends RestClient {
     return this.get("/api/appointments/schedule", { params });
   }
 
+  getCalendar(params: { practitionerId: string; week: number; year: number }) {
+    return this.get("/api/appointments/calendar", { params });
+  }
+
   saveSchedule(body: SaveAppointmentsRequest) {
     return this.post("/api/appointments/schedule", {
       body,

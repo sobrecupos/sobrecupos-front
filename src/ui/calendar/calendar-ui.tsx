@@ -1,20 +1,26 @@
 "use client";
 
+import { Appointment } from "@marketplace/utils/types/appointments";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import localeEs from "dayjs/locale/es";
 import isoWeek from "dayjs/plugin/isoWeek";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import Link from "next/link";
+import {
+  CheckCircle2Icon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ClockIcon,
+} from "lucide-react";
 import { useEffect, useMemo, useRef } from "react";
 import { getComponentClassNames } from "../namespace";
-import "./calendar.scss";
 import { getHours } from "./get-hours";
 import { getWeek } from "./get-week";
 
 export type CalendarUIProps = {
   week: number;
   year: number;
+  appointments: Record<string, Appointment>;
+  onDateChange: (values: { week: number; year: number }) => void;
 };
 
 const classes = getComponentClassNames("calendar", {
@@ -31,24 +37,34 @@ const classes = getComponentClassNames("calendar", {
   actions: "actions",
   action: "action",
   title: "title",
+  appointment: "appointment",
 });
 
 dayjs.extend(isoWeek);
 
-export const CalendarUI = ({ week, year }: CalendarUIProps) => {
+const statusMapping = new Map([
+  ["RESERVED", "Por pagar"],
+  ["PAID", "Pagado"],
+  ["FREE", "Libre"],
+]);
+
+export const CalendarUI = ({
+  appointments,
+  week,
+  year,
+  onDateChange,
+}: CalendarUIProps) => {
   const cellRef = useRef<HTMLButtonElement>(null);
-  const { currentWeek, today, currentMonth, prevWeekKey, nextWeekKey } =
+  const { currentWeek, today, currentMonth, prevWeek, nextWeek } =
     useMemo(() => {
       const fullWeek = getWeek({ week, year });
       const dayReference = fullWeek[0];
-      const prevWeek = dayReference.subtract(1, "week");
-      const nextWeek = dayReference.add(1, "week");
 
       return {
         currentWeek: fullWeek,
         today: dayjs(),
-        prevWeekKey: `year=${prevWeek.year()}&week=${prevWeek.isoWeek()}`,
-        nextWeekKey: `year=${nextWeek.year()}&week=${nextWeek.isoWeek()}`,
+        prevWeek: dayReference.subtract(1, "week"),
+        nextWeek: dayReference.add(1, "week"),
         currentMonth: fullWeek[0].locale(localeEs).format("MMMM YYYY"),
       };
     }, [week]);
@@ -70,24 +86,33 @@ export const CalendarUI = ({ week, year }: CalendarUIProps) => {
         <div className={classes.title}>
           {currentMonth[0].toUpperCase() + currentMonth.slice(1)}
         </div>
-        <Link
+        <a
           className={classNames(classes.action, `${classes.action}--today`)}
-          href="/app/calendario"
+          onClick={() =>
+            onDateChange({ year: today.year(), week: today.isoWeek() })
+          }
+          role="button"
         >
           Hoy
-        </Link>
-        <Link
+        </a>
+        <a
           className={classes.action}
-          href={`/app/calendario?${prevWeekKey}`}
+          onClick={() =>
+            onDateChange({ year: prevWeek.year(), week: prevWeek.isoWeek() })
+          }
+          role="button"
         >
           <ChevronLeftIcon />
-        </Link>
-        <Link
+        </a>
+        <a
           className={classes.action}
-          href={`/app/calendario?${nextWeekKey}`}
+          onClick={() =>
+            onDateChange({ year: nextWeek.year(), week: nextWeek.isoWeek() })
+          }
+          role="button"
         >
           <ChevronRightIcon />
-        </Link>
+        </a>
       </div>
       <div className={classNames(classes.row, classes.header)}>
         <div className={classes.slot} />
@@ -126,6 +151,9 @@ export const CalendarUI = ({ week, year }: CalendarUIProps) => {
             {currentWeek.map((date) => {
               const isCurrent =
                 date.isSame(today, "day") && hour.isSame(today, "hour");
+              const key =
+                date.format("YYYY-MM-DD[T]") + hour.format("HH:mm:ss.SSSZZ");
+              const currentAppointment = appointments[key];
 
               return (
                 <button
@@ -133,10 +161,34 @@ export const CalendarUI = ({ week, year }: CalendarUIProps) => {
                     [`${classes.cell}--current`]: isCurrent,
                   })}
                   ref={isCurrent ? cellRef : null}
-                  key={`calendar-hour-cell-${date.format(
-                    "YYYY-MM-DD"
-                  )}-${hour.format("HH:mm")}`}
-                ></button>
+                  key={key}
+                >
+                  {currentAppointment && currentAppointment.status !== null ? (
+                    <div
+                      className={classNames(
+                        classes.appointment,
+                        `${
+                          classes.appointment
+                        }--${currentAppointment.status.toLowerCase()}`,
+                        {
+                          [`${classes.appointment}--expired`]: dayjs(
+                            currentAppointment.start
+                          ).isBefore(today),
+                        }
+                      )}
+                    >
+                      {currentAppointment.status === "RESERVED" ? (
+                        <ClockIcon width={10} height={10} />
+                      ) : null}
+                      {currentAppointment.status === "PAID" ? (
+                        <CheckCircle2Icon width={10} height={10} />
+                      ) : null}
+                      <span>
+                        {statusMapping.get(currentAppointment.status) || ""}
+                      </span>
+                    </div>
+                  ) : null}
+                </button>
               );
             })}
           </div>

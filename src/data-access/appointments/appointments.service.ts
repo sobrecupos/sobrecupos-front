@@ -254,6 +254,88 @@ export class AppointmentsService {
     };
   }
 
+  async getCalendar({
+    practitionerId,
+    week,
+    year,
+  }: {
+    practitionerId: string;
+    week: number;
+    year: number;
+  }) {
+    const start = dayjs()
+      .utc()
+      .year(year)
+      .isoWeek(week)
+      .startOf("week")
+      .add(this.scheduleConfig.CL.startingHour, "hour");
+    const end = start.endOf("week");
+    const appointments = await this.collection();
+
+    const cursor = appointments.aggregate([
+      {
+        $match: {
+          practitionerId: practitionerId,
+          start: {
+            $gt: start.toDate(),
+            $lt: end.toDate(),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          appointments: {
+            $push: {
+              k: {
+                $dateToString: {
+                  date: "$start",
+                  format: "%Y-%m-%dT%H:%M:%S.%L%z",
+                  timezone: "America/Santiago",
+                },
+              },
+              v: {
+                id: { $toString: "$_id" },
+                practitionerId: "$practitionerId",
+                start: {
+                  $dateToString: {
+                    date: "$start",
+                    format: "%Y-%m-%dT%H:%M:%S.%L%z",
+                    timezone: "America/Santiago",
+                  },
+                },
+                specialtyCode: "$specialtyCode",
+                durationInMinutes: "$durationInMinutes",
+                status: "$status",
+                practice: "$practice",
+              },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          results: {
+            $arrayToObject: "$appointments",
+          },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$results",
+        },
+      },
+    ]);
+
+    const data = [];
+
+    for await (const grouped of cursor) {
+      data.push(grouped);
+    }
+
+    return data[0] || {};
+  }
+
   async getSchedule(practitionerId: string, fromDateString?: string) {
     const { workingHours } = this.scheduleConfig.CL;
     const availableHours = this.getAvailableHours(fromDateString);

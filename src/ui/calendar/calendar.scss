@@ -81,6 +81,7 @@ $cell-desktop-height: 80px;
   }
 
   &__cell {
+    padding: 0;
     border-top: 1px solid $border-color;
     border-left: 1px solid $border-color;
     border-right: 0;
@@ -133,6 +134,48 @@ $cell-desktop-height: 80px;
   &__hour-label {
     position: absolute;
     top: -8px;
+  }
+
+  &__appointment {
+    height: calc(100% - 1px);
+    width: calc(100% - 1px);
+    border-radius: 4px;
+    color: #444;
+    font-family: inherit;
+    font-size: 10px;
+    padding: 2px;
+    white-space: nowrap;
+    text-align: left;
+    margin: -3px 0 0 -1px;
+
+    &--free {
+      border: 1px dashed #724ef7;
+    }
+
+    &--reserved {
+      border: 1px solid #724ef7;
+    }
+
+    &--paid {
+      border: 1px solid #724ef7;
+      background-color: #724ef7;
+      color: #fff;
+    }
+
+    &--expired {
+      opacity: 0.6;
+    }
+
+    svg {
+      margin-right: 2px;
+      vertical-align: middle;
+    }
+
+    span {
+      white-space: initial;
+      word-wrap: break-word;
+      vertical-align: middle;
+    }
   }
 
   @media (min-width: 991px) {
