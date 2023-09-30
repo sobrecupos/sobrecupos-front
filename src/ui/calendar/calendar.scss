@@ -87,6 +87,8 @@ $cell-desktop-height: 80px;
     border-right: 0;
     border-bottom: 0;
     background-color: #fff;
+    cursor: pointer;
+    outline: 0;
 
     &:last-child {
       border-right: 1px solid $border-color;
@@ -147,6 +149,7 @@ $cell-desktop-height: 80px;
     white-space: nowrap;
     text-align: left;
     margin: -3px 0 0 -1px;
+    animation: scale-in-center 0.3s both;
 
     &--free {
       border: 1px dashed #724ef7;
@@ -181,6 +184,17 @@ $cell-desktop-height: 80px;
   @media (min-width: 991px) {
     &__slot {
       min-height: $cell-desktop-height;
+    }
+  }
+
+  @keyframes scale-in-center {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
     }
   }
 }

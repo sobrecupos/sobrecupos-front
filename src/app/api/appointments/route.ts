@@ -17,3 +17,15 @@ export const GET = async (req: NextRequest) => {
 
   return NextResponse.json(result);
 };
+
+export const POST = async (req: NextRequest) => {
+  const body = await req.json();
+
+  try {
+    const response = await appointmentsService.create(body);
+    return NextResponse.json(response, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: true }, { status: 500 });
+  }
+};

@@ -6,6 +6,8 @@ import {
   SaveAppointmentsRequest,
   Schedule,
 } from "@marketplace/utils/types/appointments";
+import { CreateAppointmentRequest } from "@marketplace/utils/types/appointments/requests/create-appointment-request.type";
+import { UpdateAppointmentRequest } from "@marketplace/utils/types/appointments/requests/update-appointment-request.type";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { ObjectId, WithId } from "mongodb";
@@ -267,9 +269,9 @@ export class AppointmentsService {
       .utc()
       .year(year)
       .isoWeek(week)
-      .startOf("week")
-      .add(this.scheduleConfig.CL.startingHour, "hour");
-    const end = start.endOf("week");
+      .startOf("isoWeek")
+      .add(3, "hours");
+    const end = start.endOf("isoWeek").add(3, "hours");
     const appointments = await this.collection();
 
     const cursor = appointments.aggregate([
@@ -445,6 +447,80 @@ export class AppointmentsService {
     }
 
     return entries;
+  }
+
+  async create(appointment: CreateAppointmentRequest) {
+    const appointments = await this.collection();
+
+    const { insertedId } = await appointments.insertOne({
+      ...appointment,
+      start: dayjs.utc(appointment.start).toDate(),
+    });
+
+    return { ...appointment, id: insertedId.toHexString() };
+  }
+
+  async update(id: string, appointment: UpdateAppointmentRequest) {
+    const appointments = await this.collection();
+
+    const { value } = await appointments.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          ...appointment,
+          start: dayjs.utc(appointment.start).toDate(),
+        },
+      },
+      {
+        projection: {
+          id: { $toString: "$_id" },
+          practitionerId: "$practitionerId",
+          start: {
+            $dateToString: {
+              date: "$start",
+              format: "%Y-%m-%dT%H:%M:%S.%L%z",
+              timezone: "America/Santiago",
+            },
+          },
+          specialtyCode: "$specialtyCode",
+          durationInMinutes: "$durationInMinutes",
+          status: "$status",
+          practice: "$practice",
+        },
+        returnDocument: "after",
+      }
+    );
+
+    return value;
+  }
+
+  async remove(id: string) {
+    const appointments = await this.collection();
+
+    const { value } = await appointments.findOneAndDelete(
+      {
+        _id: new ObjectId(id),
+      },
+      {
+        projection: {
+          id: { $toString: "$_id" },
+          practitionerId: "$practitionerId",
+          start: {
+            $dateToString: {
+              date: "$start",
+              format: "%Y-%m-%dT%H:%M:%S.%L%z",
+              timezone: "America/Santiago",
+            },
+          },
+          specialtyCode: "$specialtyCode",
+          durationInMinutes: "$durationInMinutes",
+          status: "$status",
+          practice: "$practice",
+        },
+      }
+    );
+
+    return value;
   }
 
   mapToPlain(entry: WithId<Appointment> | null): Appointment | null {

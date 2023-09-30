@@ -30,6 +30,7 @@ export type ModalUIProps = PropsWithChildren<{
   className?: string;
   footer?: JSX.Element | string;
   onClose: () => void;
+  onCloseStart?: () => void;
   showCloseButton?: boolean;
   title?: JSX.Element | string;
   variant?: ModalUIVariants;
@@ -42,6 +43,7 @@ export const ModalUI = ({
   closeOnBackdropClick,
   footer,
   onClose,
+  onCloseStart,
   title,
   renderBody,
   showCloseButton = false,
@@ -52,6 +54,7 @@ export const ModalUI = ({
   const showHeader = title || showCloseButton;
 
   const closeModal = () => {
+    onCloseStart?.();
     setIsOpen(false);
   };
 

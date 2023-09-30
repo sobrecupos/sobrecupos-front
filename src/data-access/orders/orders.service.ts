@@ -15,6 +15,28 @@ import { orderNotificationsService } from "./order-notifications.service";
 dayjs.extend(utc);
 
 export class OrdersService {
+  async findByItemId(itemId: string) {
+    const orders = await this.getCollection();
+    const result = await orders.findOne(
+      { itemId },
+      {
+        projection: {
+          _id: 0,
+          id: { $toString: "$_id" },
+          itemId: 1,
+          itemDetails: 1,
+          status: 1,
+          customerId: 1,
+          customerDetails: 1,
+          paymentId: 1,
+          total: 1,
+        },
+      }
+    );
+
+    return result;
+  }
+
   async findByPaymentId(paymentId: string) {
     const orders = await this.getCollection();
     const result = await orders.findOne(

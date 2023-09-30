@@ -1,0 +1,82 @@
+$namespace: "ui-mp-appointments-calendar";
+$modal-height: 280px;
+
+.#{$namespace} {
+  &--closing {
+    .ui-mp-calendar {
+      &__appointment--free-pending {
+        animation: puff-out-center 1s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+      }
+    }
+  }
+
+  &__modal {
+    .ui-mp-modal {
+      &__content {
+        border-radius: 12px 12px 0 0;
+        height: auto;
+        min-height: unset;
+        position: relative;
+        transform: translateY(calc(100vh - 100%));
+      }
+    }
+  }
+
+  &__form-container {
+    padding: 20px 16px 12px;
+
+    .ui-mp-button {
+      margin: 0 0 8px;
+    }
+  }
+
+  &__remove-button {
+    color: #ff4d4f;
+
+    svg {
+      margin-right: 4px;
+    }
+
+    svg,
+    span {
+      vertical-align: middle;
+    }
+  }
+
+  &__summary-container {
+    padding: 20px 16px;
+  }
+
+  @keyframes puff-out-center {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      -webkit-filter: blur(0px);
+      filter: blur(0px);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      -webkit-filter: blur(4px);
+      filter: blur(4px);
+      opacity: 0;
+    }
+  }
+
+  @media (min-width: 991px) {
+    &__modal {
+      .ui-mp-modal {
+        &__content {
+          border-radius: 12px;
+          height: auto;
+          min-height: unset;
+          position: relative;
+          transform: translateY(calc(50vh - 50%));
+          max-width: 400px;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}

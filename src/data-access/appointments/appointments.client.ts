@@ -1,5 +1,6 @@
 import { RestClient } from "@marketplace/libs/rest-client";
 import { SaveAppointmentsRequest } from "@marketplace/utils/types/appointments";
+import { UpdateOrCreateAppointmentRequest } from "@marketplace/utils/types/appointments/requests/update-or-create-appointment-request.type";
 
 export class AppointmentsClient extends RestClient {
   getSchedule(params: { practitionerId: string; from?: string }) {
@@ -8,6 +9,18 @@ export class AppointmentsClient extends RestClient {
 
   getCalendar(params: { practitionerId: string; week: number; year: number }) {
     return this.get("/api/appointments/calendar", { params });
+  }
+
+  save({ id, ...body }: UpdateOrCreateAppointmentRequest) {
+    if (id) {
+      return this.patch(`/api/appointments/${id}`, { body });
+    }
+
+    return this.post("/api/appointments", { body });
+  }
+
+  remove(id: string) {
+    return this.delete(`/api/appointments/${id}`);
   }
 
   saveSchedule(body: SaveAppointmentsRequest) {

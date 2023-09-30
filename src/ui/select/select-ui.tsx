@@ -16,6 +16,7 @@ export type SelectUIProps = {
   error?: string;
   className?: string;
   name?: string;
+  disabled?: boolean;
 };
 
 const classes = getComponentClassNames("select", {
@@ -32,6 +33,7 @@ export const SelectUI = ({
   label,
   error,
   className,
+  disabled,
 }: SelectUIProps) => {
   const id = useId();
 
@@ -51,6 +53,7 @@ export const SelectUI = ({
         onBlur={onBlur}
         onChange={onChange}
         value={value}
+        disabled={disabled}
       >
         {options.map(({ value, label: optionLabel, disabled }) => (
           <option key={`${id}-${value}`} value={value} disabled={disabled}>
