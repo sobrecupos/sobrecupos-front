@@ -3,6 +3,7 @@ import { SignInForm } from "@marketplace/features/sign-in-form";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { getCsrfToken } from "next-auth/react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { authLayoutClasses } from "../classes";
 
@@ -16,6 +17,15 @@ const SignIn = async ({
 
   if (typeof searchParams.callbackUrl === "string" && session?.user) {
     redirect(searchParams.callbackUrl);
+  }
+
+  if (session?.user) {
+    return (
+      <>
+        <h1 className={authLayoutClasses.title}>Ya iniciaste sesión</h1>
+        <Link href="/app/sobrecupos">Ir a Sobrecupos</Link>
+      </>
+    );
   }
 
   return (
