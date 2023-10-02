@@ -46,8 +46,8 @@ const classes = getComponentClassNames("calendar", {
 dayjs.extend(isoWeek);
 
 const statusMapping = new Map([
-  ["RESERVED", "Por pagar"],
-  ["PAID", "Pagado"],
+  ["RESERVED", "Reservado"],
+  ["PAID", "Confirmado"],
   ["FREE", "Sobrecupo"],
 ]);
 
