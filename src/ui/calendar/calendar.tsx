@@ -9,7 +9,8 @@ import {
   CheckCircle2Icon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  ClockIcon,
+  CircleDollarSignIcon,
+  HeartIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useRef } from "react";
 import { getComponentClassNames } from "../namespace";
@@ -47,7 +48,7 @@ dayjs.extend(isoWeek);
 const statusMapping = new Map([
   ["RESERVED", "Por pagar"],
   ["PAID", "Pagado"],
-  ["FREE", "Libre"],
+  ["FREE", "Sobrecupo"],
 ]);
 
 export const Calendar = ({
@@ -184,8 +185,11 @@ export const Calendar = ({
                         }
                       )}
                     >
+                      {currentAppointment.status === "FREE" ? (
+                        <HeartIcon width={10} height={10} />
+                      ) : null}
                       {currentAppointment.status === "RESERVED" ? (
-                        <ClockIcon width={10} height={10} />
+                        <CircleDollarSignIcon width={10} height={10} />
                       ) : null}
                       {currentAppointment.status === "PAID" ? (
                         <CheckCircle2Icon width={10} height={10} />
