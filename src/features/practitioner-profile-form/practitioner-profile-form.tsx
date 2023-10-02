@@ -1,6 +1,7 @@
 "use client";
 
 import { practitionersClient } from "@marketplace/data-access/practitioners/practitioners.client";
+import { usersClient } from "@marketplace/data-access/users/users.client";
 import { Button } from "@marketplace/ui/button";
 import { Form, useForm } from "@marketplace/ui/form";
 import { Input } from "@marketplace/ui/input";
@@ -29,8 +30,8 @@ export type PractitionerProfileFormProps =
   Partial<PrivatePractitionerProfileResponse> & {
     availablePractices: Practice[];
     availableSpecialties: SpecialtyResponse[];
-    userId: string;
-    userEmail: string;
+    userId?: string;
+    userEmail?: string;
   };
 
 export type OnPractitionerProfileFormSubmit = Partial<
@@ -106,6 +107,15 @@ export const PractitionerProfileForm = ({
       );
 
       try {
+        let uId = values.userId;
+
+        if (!uId) {
+          const user = await usersClient.createUser({
+            email: values.email as string,
+          });
+          uId = user.id;
+        }
+
         await practitionersClient.updateOrCreate({
           ...values,
           specialty: currentSpecialty
@@ -115,8 +125,7 @@ export const PractitionerProfileForm = ({
                 code: currentSpecialty.code,
               }
             : undefined,
-          userId,
-          email: userEmail,
+          userId: uId,
           id: id || "",
         });
         toast.success("¡Perfil guardado exitosamente!", {
@@ -133,6 +142,8 @@ export const PractitionerProfileForm = ({
       }
     },
     schema: {
+      userId: { value: userId },
+      email: { value: userEmail },
       picture: { value: picture },
       names: { value: names },
       firstSurname: { value: firstSurname },
@@ -223,6 +234,9 @@ export const PractitionerProfileForm = ({
     <Form className={classes.namespace} {...formContext}>
       <UploadPicture name="picture" />
       <h3 className={classes.sectionTitle}>Información personal</h3>
+      {!userId ? (
+        <Input label="Correo electrónico" name="email" type="email" />
+      ) : null}
       <Input label="Nombre(s)" name="names" />
       <Input label="Primer apellido" name="firstSurname" />
       <Input label="Segundo apellido" name="secondSurname" />
