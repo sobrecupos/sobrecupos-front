@@ -54,7 +54,12 @@ export const AppointmentsCalendarForm = ({
 
   return (
     <Form {...form}>
-      <Select label="Lugar de atención" options={options} disabled={readOnly} />
+      <Select
+        label="Lugar de atención"
+        options={options}
+        disabled={readOnly}
+        name="practice"
+      />
       <Button type="submit" block disabled={readOnly}>
         Guardar
       </Button>
