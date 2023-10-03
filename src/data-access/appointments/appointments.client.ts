@@ -19,8 +19,10 @@ export class AppointmentsClient extends RestClient {
     return this.post("/api/appointments", { body });
   }
 
-  remove(id: string) {
-    return this.delete(`/api/appointments/${id}`);
+  remove(id: string, practitionerId: string) {
+    return this.delete(
+      `/api/appointments/${id}?practitionerId=${practitionerId}`
+    );
   }
 
   saveSchedule(body: SaveAppointmentsRequest) {

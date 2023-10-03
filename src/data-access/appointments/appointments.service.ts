@@ -457,6 +457,8 @@ export class AppointmentsService {
       start: dayjs.utc(appointment.start).toDate(),
     });
 
+    await this.publishScheduleChange(appointment.practitionerId);
+
     return { ...appointment, id: insertedId.toHexString() };
   }
 
@@ -491,10 +493,12 @@ export class AppointmentsService {
       }
     );
 
+    await this.publishScheduleChange(appointment.practitionerId);
+
     return value;
   }
 
-  async remove(id: string) {
+  async remove(id: string, practitionerId: string) {
     const appointments = await this.collection();
 
     const { value } = await appointments.findOneAndDelete(
@@ -519,6 +523,8 @@ export class AppointmentsService {
         },
       }
     );
+
+    await this.publishScheduleChange(practitionerId);
 
     return value;
   }
