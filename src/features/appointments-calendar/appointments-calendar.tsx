@@ -213,7 +213,10 @@ export const AppointmentsCalendar = ({
                       setIsRemoving(true);
 
                       try {
-                        await appointmentsClient.remove(selectedAppointment.id);
+                        await appointmentsClient.remove(
+                          selectedAppointment.id,
+                          selectedAppointment.practitionerId
+                        );
                         setAppointments((prevAppointments) => {
                           const nextAppointments = {
                             ...prevAppointments,
