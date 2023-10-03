@@ -11,7 +11,7 @@ export const NavbarDesktop = () => {
     useClosable<HTMLLIElement>();
 
   const handleCtaClick = () => {
-    window.location.href = "https://profesionales.sobrecupos.com";
+    window.location.href = "https://sobrecupos.pro";
   };
 
   return (

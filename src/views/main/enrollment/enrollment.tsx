@@ -12,7 +12,7 @@ const classes = getComponentClassNames("enrollment", {
 
 export const Enrollment = () => {
   const handleButtonClick = () => {
-    window.location.href = "https://profesionales.sobrecupos.com";
+    window.location.href = "https://sobrecupos.pro";
   };
 
   return (
