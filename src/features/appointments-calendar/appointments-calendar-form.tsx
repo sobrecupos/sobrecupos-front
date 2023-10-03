@@ -58,7 +58,7 @@ export const AppointmentsCalendarForm = ({
         label="Lugar de atención"
         options={options}
         disabled={readOnly}
-        name="practice"
+        name="practiceId"
       />
       <Button type="submit" block disabled={readOnly}>
         Guardar
