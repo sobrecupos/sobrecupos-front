@@ -37,7 +37,7 @@ export const DELETE = async (
   try {
     const response = await appointmentsService.remove(
       params.id,
-      practitionerId1
+      practitionerId
     );
     return NextResponse.json(response, { status: 200 });
   } catch (error) {
