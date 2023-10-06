@@ -1,0 +1,15 @@
+$namespace: "ui-mp-faq-page";
+
+.#{$namespace} {
+  &__title {
+    font-size: 22px;
+    margin: 0 0 16px;
+    text-align: center;
+  }
+
+  @media (min-width: 991px) {
+    &__title {
+      font-size: 36px;
+    }
+  }
+}
