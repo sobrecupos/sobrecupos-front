@@ -1,5 +1,6 @@
 import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
 import { Button } from "@marketplace/ui/button";
+import { Footer } from "@marketplace/ui/footer";
 import { Navbar } from "@marketplace/ui/navbar";
 import { PropsWithChildren } from "react";
 
@@ -39,6 +40,7 @@ const PublicLayout = async ({
         cta={<Button>¿Eres médico?</Button>}
       />
       <main>{children}</main>
+      <Footer />
     </>
   );
 };
