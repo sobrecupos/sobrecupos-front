@@ -64,7 +64,6 @@ export class AppointmentsService {
         returnDocument: "after",
       }
     );
-    await this.publishScheduleChange(value?.practitionerId);
 
     return value;
   }
@@ -76,7 +75,6 @@ export class AppointmentsService {
       { $set: { status } },
       { returnDocument: "after" }
     );
-    await this.publishScheduleChange(value?.practitionerId);
 
     return value;
   }
@@ -180,8 +178,6 @@ export class AppointmentsService {
       }),
       { ordered: false }
     );
-
-    await this.publishScheduleChange(practitionerId);
 
     return result;
   }
@@ -457,8 +453,6 @@ export class AppointmentsService {
       start: dayjs.utc(appointment.start).toDate(),
     });
 
-    await this.publishScheduleChange(appointment.practitionerId);
-
     return { ...appointment, id: insertedId.toHexString() };
   }
 
@@ -493,8 +487,6 @@ export class AppointmentsService {
       }
     );
 
-    await this.publishScheduleChange(appointment.practitionerId);
-
     return value;
   }
 
@@ -524,8 +516,6 @@ export class AppointmentsService {
       }
     );
 
-    await this.publishScheduleChange(practitionerId);
-
     return value;
   }
 
@@ -539,13 +529,6 @@ export class AppointmentsService {
       start: dayjs.utc(start).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       id: objId.toHexString(),
     };
-  }
-
-  publishScheduleChange(practitionerId?: string) {
-    return eventBrokerService.publish({
-      url: process.env.EVENT_SCHEDULE_CHANGE_URL,
-      body: { practitionerId },
-    });
   }
 
   publishAppointmentReservation(id: string) {

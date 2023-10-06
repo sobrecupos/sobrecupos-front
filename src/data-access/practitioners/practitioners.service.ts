@@ -7,7 +7,6 @@ import {
   UpdatePractitionerRequest,
 } from "@marketplace/utils/types/practitioners";
 import { ObjectId } from "mongodb";
-import { eventBrokerService } from "../event-broker/event-broker.service";
 import {
   privatePractitionerProfileProjection,
   publicPractitionerProfileProjection,
@@ -98,7 +97,6 @@ export class PractitionersService {
       { $inc: { current: 1 }, $setOnInsert: { countryCode } },
       { upsert: true }
     );
-    await this.publishProfileChange(insertedId.toHexString());
 
     return { ...practitioner, id: insertedId.toHexString() };
   }
@@ -114,16 +112,7 @@ export class PractitionersService {
       }
     );
 
-    await this.publishProfileChange(id);
-
     return value as PrivatePractitionerProfileResponse | null;
-  }
-
-  publishProfileChange(practitionerId?: string) {
-    return eventBrokerService.publish({
-      url: process.env.EVENT_SCHEDULE_CHANGE_URL,
-      body: { practitionerId },
-    });
   }
 
   async getCollection() {
