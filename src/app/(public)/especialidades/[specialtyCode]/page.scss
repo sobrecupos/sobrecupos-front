@@ -1,0 +1,44 @@
+$namespace: "ui-mp-specialty-page";
+
+.#{$namespace} {
+  &__header {
+    text-align: center;
+    color: #444;
+    padding-top: 8px;
+  }
+
+  &__title {
+    color: #724ef7;
+    font-size: 20px;
+    margin: 0 0 16px;
+  }
+
+  &__specialty {
+    font-weight: bold;
+    font-size: 24px;
+    margin: 0 0 24px;
+  }
+
+  &__description {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0 0 24px;
+  }
+
+  &__practitioners {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 991px) {
+    &__specialty {
+      font-size: 36px;
+    }
+
+    &__practitioners {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}
