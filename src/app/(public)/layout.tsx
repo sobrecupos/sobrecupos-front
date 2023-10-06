@@ -1,5 +1,5 @@
 import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
-import { Button } from "@marketplace/ui/button";
+import { ButtonLink } from "@marketplace/ui/button";
 import { Footer } from "@marketplace/ui/footer";
 import { Navbar } from "@marketplace/ui/navbar";
 import { PropsWithChildren } from "react";
@@ -40,7 +40,11 @@ const PublicLayout = async ({
             contents: [],
           },
         ]}
-        cta={<Button>¿Eres médico?</Button>}
+        cta={
+          <ButtonLink href="https://sobrecupos.pro">
+            🧐 ¿Eres médico?
+          </ButtonLink>
+        }
       />
       <main className="ui-mp-layout__main">{children}</main>
       <Footer />
