@@ -88,7 +88,7 @@ export class AppointmentsService {
           specialtyCode,
           start: {
             $gt: fromDate.toDate(),
-            $lt: fromDate.endOf("day"),
+            $lt: fromDate.endOf("day").toDate(),
           },
           status: "FREE",
         },
