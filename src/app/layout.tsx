@@ -1,7 +1,8 @@
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { TrackPageview, TrackingProvider } from "@marketplace/ui/tracking";
 import classNames from "classnames";
 import { Montserrat } from "next/font/google";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, Suspense } from "react";
 import "./layout.scss";
 
 const montserrat = Montserrat({
@@ -18,7 +19,12 @@ const RootLayout = ({ children }: PropsWithChildren<Record<never, never>>) => (
     lang="es-CL"
     className={classNames(classes.namespace, montserrat.className)}
   >
-    <body>{children}</body>
+    <Suspense>
+      <TrackPageview />
+    </Suspense>
+    <TrackingProvider>
+      <body>{children}</body>
+    </TrackingProvider>
   </html>
 );
 
