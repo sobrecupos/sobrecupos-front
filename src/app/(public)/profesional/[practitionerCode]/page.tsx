@@ -13,6 +13,7 @@ export type PractitionerPageProps = {
 };
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const classes = getComponentClassNames("practitioner-page", {
   profile: "profile",
