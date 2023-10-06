@@ -4,6 +4,8 @@ import { Footer } from "@marketplace/ui/footer";
 import { Navbar } from "@marketplace/ui/navbar";
 import { PropsWithChildren } from "react";
 
+export const revalidate = 60 * 15;
+
 const PublicLayout = async ({
   children,
 }: PropsWithChildren<Record<never, never>>) => {
