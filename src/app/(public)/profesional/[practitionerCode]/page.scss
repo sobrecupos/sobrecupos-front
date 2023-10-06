@@ -1,14 +1,8 @@
-@use '../../views/practitioner/profile-card/profile-card';
-@use '../../views/practitioner/about-me/about-me';
-@use '../../views/practitioner/schedule/schedule';
-
-$namespace: 'ui-mp-practitioner';
+$namespace: "ui-mp-practitioner-page";
 
 .#{$namespace} {
-  padding: 28px 16px;
-
   .ui-mp-profile-card,
-  .ui-mp-about-me {
+  .ui-mp-profile-description {
     margin-bottom: 24px;
   }
 
@@ -16,7 +10,7 @@ $namespace: 'ui-mp-practitioner';
     max-width: 1140px;
     margin: 0 auto;
     display: flex;
-    
+
     &__profile {
       margin-right: 12px;
       width: 50%;

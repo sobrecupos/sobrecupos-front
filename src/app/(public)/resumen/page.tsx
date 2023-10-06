@@ -1,17 +1,18 @@
 import { ordersService } from "@marketplace/data-access/orders/orders.service";
-import { Icon } from "@marketplace/ui/legacy/icon";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
-import { OrderResponse } from "@marketplace/utils/types/orders";
 import classNames from "classnames";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import { GetServerSidePropsContext } from "next";
-import Head from "next/head";
+import { MailOpenIcon } from "lucide-react";
 import Image from "next/image";
+import "./page.scss";
 
-dayjs.extend(utc);
+type SummaryPageProps = {
+  searchParams: {
+    paymentId?: string;
+  };
+};
 
-type SummaryProps = OrderResponse;
+export const dynamic = "force-dynamic";
 
 const formatHours = (dateString: string, durationInMinutes: number) => {
   const start = dayjs(dateString);
@@ -30,34 +31,28 @@ const classes = getComponentClassNames("ts-summary", {
   tableData: "table-data",
 });
 
-const Summary = ({ status, ...props }: SummaryProps) => {
-  if (status === "ERROR") {
-    return (
-      <div
-        className={classNames(
-          classes.namespace,
-          `${classes.namespace}--exception`
-        )}
-      >
-        Algo salió mal 😥 por favor reintenta más tarde
-      </div>
-    );
+const Error = () => (
+  <div
+    className={classNames(classes.namespace, `${classes.namespace}--exception`)}
+  >
+    Algo salió mal 😥 por favor reintenta más tarde
+  </div>
+);
+
+const SummaryPage = async ({
+  searchParams: { paymentId },
+}: SummaryPageProps) => {
+  if (!paymentId) {
+    return <Error />;
   }
 
-  if (status === "REJECTED") {
-    return (
-      <div
-        className={classNames(
-          classes.namespace,
-          `${classes.namespace}--exception`
-        )}
-      >
-        El pago fue rechazado, por favor reintenta la transacción
-      </div>
-    );
+  const order = await ordersService.findByPaymentId(paymentId);
+
+  if (!order) {
+    return <Error />;
   }
 
-  if (status === "CANCELED") {
+  if (order.status === "CANCELED") {
     return (
       <div
         className={classNames(
@@ -70,7 +65,7 @@ const Summary = ({ status, ...props }: SummaryProps) => {
     );
   }
 
-  if (status === "PENDING") {
+  if (order.status === "PENDING") {
     return (
       <div
         className={classNames(
@@ -83,11 +78,11 @@ const Summary = ({ status, ...props }: SummaryProps) => {
     );
   }
 
-  if (status === "PAID") {
+  if (order.status === "PAID") {
     const {
       itemDetails: { start, durationInMinutes, practitionerName, address },
       total,
-    } = props;
+    } = order as any;
 
     const currentDate = dayjs.utc(start).toDate();
     const formattedDate = new Intl.DateTimeFormat("es-CL", {
@@ -106,7 +101,7 @@ const Summary = ({ status, ...props }: SummaryProps) => {
         />
 
         <div className={classes.alert}>
-          <Icon id="envelope" />
+          <MailOpenIcon size={32} />
           <span className={classes.alertText}>
             Te enviamos una copia del sobrecupo a tu correo electrónico. Si no
             la ves, revisa tu carpeta de spam. Y recuerda presentar este email
@@ -151,53 +146,54 @@ const Summary = ({ status, ...props }: SummaryProps) => {
       </div>
     );
   }
-
-  return null;
 };
 
-const SummaryWithSeo = (props: SummaryProps) => (
-  <>
-    <Head>
-      <title>Resumen de la compra | Sobrecupos</title>
-      <meta name="robots" content="noindex" data-testid="seo-robots" />
-    </Head>
-    <Summary {...props} />
-  </>
-);
+const errorMetadata = {
+  title: "Algo salió mal | Sobrecupos",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  try {
-    const { paymentId } = context.query;
-
-    if (typeof paymentId !== "string") {
-      return {
-        props: {
-          status: "ERROR",
-        },
-      };
-    }
-
-    const order = await ordersService.findByPaymentId(paymentId);
-
-    if (!order) {
-      return {
-        props: {
-          status: "ERROR",
-        },
-      };
-    }
-
-    return {
-      props: {
-        ...order,
-      },
-    };
-  } catch (error) {
-    console.error(error);
-    return { props: { status: "ERROR" } };
+export const generateMetadata = async ({
+  searchParams: { paymentId },
+}: SummaryPageProps) => {
+  if (!paymentId) {
+    return errorMetadata;
   }
+
+  const order = await ordersService.findByPaymentId(paymentId);
+
+  if (!order) {
+    return errorMetadata;
+  }
+
+  return {
+    title: "Resumen de tu compra | Sobrecupos",
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: {
+        index: false,
+        follow: false,
+        noimageindex: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+  };
 };
 
-export default SummaryWithSeo;
+export default SummaryPage;
