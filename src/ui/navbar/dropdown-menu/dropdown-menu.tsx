@@ -25,9 +25,7 @@ export const DropdownMenu = ({ label, contents }: DropdownMenuProps) => {
     >
       <button type="button" className={classes.barLink} onClick={toggleOpen}>
         {label}
-        <span className={classes.barLinkIcon}>
-          <ChevronDown />
-        </span>
+        <ChevronDown size={16} className={classes.barLinkIcon} />
       </button>
       <ul
         className={classNames(classes.innerBar, {

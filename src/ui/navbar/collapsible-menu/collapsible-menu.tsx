@@ -1,5 +1,5 @@
-import { Icon } from "@marketplace/ui/legacy/icon";
 import classNames from "classnames";
+import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { classes } from "../classes";
 import { NavbarConfig } from "../navbar.types";
@@ -54,7 +54,7 @@ export const CollapsibleMenu = ({
             >
               {label}
               <span className={classes.collapsibleLinkIcon}>
-                <Icon id="chevron-down" variant="solid" />
+                <ChevronDownIcon id="chevron-down" size={14} />
               </span>
             </button>
             <ul
