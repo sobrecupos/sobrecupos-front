@@ -70,6 +70,7 @@ export const PractitionerProfileForm = ({
   availablePractices,
   availableSpecialties,
 }: PractitionerProfileFormProps) => {
+  const [practitionerId, setPractitionerId] = useState(id || "");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPractice, setSelectedPractice] =
     useState<PractitionerPractice | null>(null);
@@ -116,7 +117,7 @@ export const PractitionerProfileForm = ({
           uId = user.id;
         }
 
-        await practitionersClient.updateOrCreate({
+        const result = await practitionersClient.updateOrCreate({
           ...values,
           specialty: currentSpecialty
             ? {
@@ -126,8 +127,9 @@ export const PractitionerProfileForm = ({
               }
             : undefined,
           userId: uId,
-          id: id || "",
+          id: practitionerId,
         });
+        setPractitionerId(result.id);
         toast.success("¡Perfil guardado exitosamente!", {
           duration: 5000,
         });

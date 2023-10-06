@@ -12,7 +12,9 @@ export class PractitionersClient extends RestClient {
       return this.patch("/api/practitioners", { body: payload });
     }
 
-    return this.post("/api/practitioners", { body: payload });
+    return this.post("/api/practitioners", {
+      body: { ...payload, id: undefined },
+    });
   }
 }
 
