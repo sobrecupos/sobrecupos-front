@@ -4,6 +4,11 @@ export type RestClientConfig = RequestInit & {
 
 export type RequestOptions = RequestInit & {
   params?: object;
+  next?: {
+    tags?: string[];
+    revalidate?: number;
+    cache?: "no-store";
+  };
 };
 
 export type RequestWithBodyOptions = Omit<RequestOptions, "body"> & {
