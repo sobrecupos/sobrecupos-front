@@ -1,0 +1,42 @@
+$namespace: "ui-mp-specialties";
+
+.#{$namespace} {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  &__card {
+    width: 140px;
+    padding: 16px;
+    text-align: center;
+    text-decoration: none;
+    color: #444;
+
+    &:focus,
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__card-title {
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  &__image {
+    border-radius: 100%;
+    box-shadow: -3px 0px 23px 0px
+      rgba(103.56123135485572, 43.47004076086961, 197.24999999999997, 0.21);
+  }
+
+  @media (min-width: 991px) {
+    &__card {
+      width: 160px;
+      margin: 8px 0;
+    }
+
+    &__card-title {
+      font-size: 16px;
+    }
+  }
+}

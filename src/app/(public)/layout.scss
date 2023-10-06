@@ -1,0 +1,14 @@
+$namespace: "ui-mp-layout";
+
+.#{$namespace} {
+  &__main {
+    padding: 28px 16px;
+  }
+
+  @media (min-width: 991px) {
+    &__main {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+  }
+}

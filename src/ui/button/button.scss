@@ -13,6 +13,13 @@ $namespace: "ui-mp-button";
   color: #444;
   cursor: pointer;
 
+  &--link {
+    text-decoration: none;
+    width: fit-content;
+    display: inline-block;
+    cursor: pointer;
+  }
+
   &--d-block {
     display: block;
     width: 100%;
@@ -25,6 +32,16 @@ $namespace: "ui-mp-button";
     &:focus,
     &:hover {
       box-shadow: inset 0 0 0 2px darken($color: #ffd814, $amount: 20);
+    }
+  }
+
+  &--secondary {
+    background-color: #724ef7;
+    color: #fff;
+
+    &:focus,
+    &:hover {
+      box-shadow: inset 0 0 0 2px darken($color: #724ef7, $amount: 20);
     }
   }
 

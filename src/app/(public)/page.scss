@@ -1,14 +1,6 @@
-@use '../views/main/about-us/about-us';
-@use '../views/main/header/header';
-@use '../views/main/enrollment/enrollment';
-@use '../views/main/specialties/specialties';
-@use '../views/main/partnerships/partnerships';
-
-$namespace: 'ui-mp-home';
+$namespace: "ui-mp-home";
 
 .#{$namespace} {
-  padding: 28px 16px;
-
   .ui-mp-header {
     margin-bottom: 16px;
   }
@@ -21,9 +13,6 @@ $namespace: 'ui-mp-home';
   }
 
   @media (min-width: 991px) {
-    max-width: 1140px;
-    margin: 0 auto;
-
     .ui-mp-specialties,
     .ui-mp-about-us,
     .ui-mp-enrollment,

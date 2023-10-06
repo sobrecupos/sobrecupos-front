@@ -3,6 +3,7 @@ import { Button } from "@marketplace/ui/button";
 import { Footer } from "@marketplace/ui/footer";
 import { Navbar } from "@marketplace/ui/navbar";
 import { PropsWithChildren } from "react";
+import "./layout.scss";
 
 export const revalidate = 60 * 15;
 
@@ -41,7 +42,7 @@ const PublicLayout = async ({
         ]}
         cta={<Button>¿Eres médico?</Button>}
       />
-      <main>{children}</main>
+      <main className="ui-mp-layout__main">{children}</main>
       <Footer />
     </>
   );
