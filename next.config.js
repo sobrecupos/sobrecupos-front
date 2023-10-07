@@ -37,6 +37,18 @@ const nextConfig = {
           "https://app.sobrecupos.com/registro?referralCode=INVITACION_FOUNDER",
         permanent: true,
       },
+      {
+        source: "/invitacion-dr-mencia",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_MENCIA",
+        permanent: true,
+      },
+      {
+        source: "/invitacion-dr-escobedo",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_ESCOBEDO",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
