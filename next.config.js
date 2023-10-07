@@ -49,6 +49,12 @@ const nextConfig = {
           "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_ESCOBEDO",
         permanent: true,
       },
+      {
+        source: "/invitacion-dr-retuert",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_RETUERT",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
