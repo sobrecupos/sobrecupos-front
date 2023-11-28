@@ -55,6 +55,12 @@ const nextConfig = {
           "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_RETUERT",
         permanent: true,
       },
+      {
+        source: "/invitacion-pasteur",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_PASTEUR",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
