@@ -9,8 +9,6 @@ const classes = getComponentClassNames("faq-page", {
 const FAQPage = () => (
   <div className={classes.namespace}>
     <h1 className={classes.title}>Preguntas frecuentes</h1>
-    <p className="text-transparent">Sobrecupos v2024</p>
-
     <Question
       title="¿Qué es un sobrecupo?"
       text="Es una hora extraordinaria dentro de la agenda u horario de atención del médico(a). Que no es ofertada en agenda normal."
