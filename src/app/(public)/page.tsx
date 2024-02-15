@@ -10,7 +10,9 @@ export const revalidate = 60 * 15;
 
 const HomePage = async () => {
   const specialties = await specialtiesService.list();
-
+ 
+  console.log('home sobrecupos');
+  
   return (
     <div className="ui-mp-home">
       <Header />
