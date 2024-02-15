@@ -9,6 +9,7 @@ const classes = getComponentClassNames("faq-page", {
 const FAQPage = () => (
   <div className={classes.namespace}>
     <h1 className={classes.title}>Preguntas frecuentes</h1>
+    <p className="text-transparent">Sobrecupos v2024</p>
 
     <Question
       title="¿Qué es un sobrecupo?"
