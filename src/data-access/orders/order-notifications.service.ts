@@ -16,7 +16,7 @@ const formatDate = (dateString: string) => {
 
 const formatHours = (dateString: string, durationInMinutes: number) => {
   // timezone offset for mails, this should be dynamic
-  const start = dayjs.utc(dateString).add(-3, "hours");
+  const start = dayjs.utc(dateString).add(0, "hours");
   const end = start.add(durationInMinutes, "minutes");
 
   return `${start.format("HH:mm")} - ${end.format("HH:mm")}`;
