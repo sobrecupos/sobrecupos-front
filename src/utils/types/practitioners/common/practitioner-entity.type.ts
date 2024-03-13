@@ -19,4 +19,5 @@ export type PractitionerEntity = {
     name: string;
   };
   practices: PractitionerPractice[];
+  enabled: boolean;
 };

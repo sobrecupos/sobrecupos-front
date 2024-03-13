@@ -3,13 +3,17 @@
 import { ordersClient } from "@marketplace/data-access/orders/orders.client";
 import { Alert } from "@marketplace/ui/alert";
 import { Button } from "@marketplace/ui/button";
+import { Calendar } from "@marketplace/ui/calendar";
+import CalendarWeek from "@marketplace/ui/calendars/calendarsWeek/calendarWeek";
+import CalendarWeekMobile from "@marketplace/ui/calendars/calendarsWeek/calendarWeekMobile";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { AppointmentsByPractice } from "@marketplace/utils/types/appointments";
+import { UpdateOrCreateAppointmentRequest } from "@marketplace/utils/types/appointments/requests/update-or-create-appointment-request.type";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { ArrowLeftIcon, Loader2Icon, MapIcon } from "lucide-react";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import "./schedule.scss";
 
 export type ScheduleProps = {
@@ -29,6 +33,7 @@ const classes = getComponentClassNames("schedule", {
   insurances: "insurances",
   timeSlots: "time-slots",
   timeSlot: "time-slot",
+  timeSlotDisabled: "time-slot--disabled",
   back: "back",
   table: "table",
   tableRow: "table-row",
@@ -39,6 +44,7 @@ const classes = getComponentClassNames("schedule", {
   input: "input",
   submit: "submit",
   empty: "empty",
+  scheduleDay: "schedule-day",
 });
 
 const formatDate = (dateString: string) => {
@@ -51,7 +57,8 @@ const formatDate = (dateString: string) => {
 };
 
 const formatHours = (dateString: string, intervalInMinutes: number) => {
-  const start = dayjs(dateString);
+  //se quita la Z para que no se muestre la hora en UTC
+  const start = dayjs(dateString.replace("Z", ""));
   const end = start.add(intervalInMinutes, "minutes");
 
   return `${start.format("HH:mm")} - ${end.format("HH:mm")}`;
@@ -63,6 +70,7 @@ export const Schedule = ({
   practitionerId,
   showSpinner,
 }: ScheduleProps) => {
+  console.log('schedule', schedule)
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -73,6 +81,31 @@ export const Schedule = ({
     paymentAcknowledgement: false,
     termsAndConditions: false,
   });
+  const [date, setDate] = useState(() => {
+    const today = dayjs();
+    return { week: today.isoWeek(), year: today.year() };
+  });
+
+
+  const [Appointments, setAppointments] = useState<{
+    id: string;
+    start: string;
+    durationInMinutes: number;
+  }[]>([])
+  const [Appointmentsx, setAppointmentsx] = useState<
+    Record<string, UpdateOrCreateAppointmentRequest>
+  >({});
+
+  // Crear matriz de horarios disponibles para cada día de la semana
+  const horas = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+  const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
+  const horariosDisponibles: boolean[][] = Array.from({ length: horas.length }, () =>
+    Array.from({ length: diasSemana.length }, () => false)
+  );
+
+  // Iterar sobre las citas y marcar los horarios disponibles
+
 
   const handleFieldChange = (field: string, value: unknown) => {
     setValues((prevValues) => ({ ...prevValues, [field]: value }));
@@ -133,6 +166,30 @@ export const Schedule = ({
       </div>
     );
   }
+  const hours = Array.from({ length: horas.length }, (_, index) => index + 9);
+
+  useEffect(() => {
+    if (schedule.results[0]?.appointments) {
+      setAppointments(schedule.results[0]?.appointments);
+    }
+  }, [schedule.results[0]?.appointments]);
+
+  useEffect(() => {
+    if (Appointments) {
+      Appointments.forEach((appointment) => {
+        const start = new Date(appointment.start);
+        const diaIndex = start.getDay() - 1; // Obtener el índice del día en días de la semana (lunes = 0, martes = 1, ...)
+        const horaIndex = start.getHours() - 9; // Obtener el índice de la hora (9:00 = 0, 10:00 = 1, ...)
+
+        if (diaIndex >= 0 && diaIndex < diasSemana.length && horaIndex >= 0 && horaIndex < horas.length) {
+          horariosDisponibles[horaIndex][diaIndex] = true;
+        }
+      });
+      console.log(horariosDisponibles, "horariosDisponibles")
+    }
+  }, [Appointments]);
+
+
 
   return (
     <div className={classes.namespace} id="sobrecupos">
@@ -310,39 +367,47 @@ export const Schedule = ({
                     Atiende: {activeInsuranceProviders}
                   </div>
 
-                  <div className={classes.timeSlots}>
-                    {activeAppointments.map(
-                      ({ id, start, durationInMinutes }) => (
-                        <button
-                          key={`timeslot-${id}`}
-                          className={classes.timeSlot}
-                          onClick={() =>
-                            setSelected({
-                              id,
-                              label: formatHours(start, durationInMinutes),
-                              start,
-                              durationInMinutes: String(durationInMinutes),
-                              date: formatDate(
-                                dayjs(start).format(
-                                  "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
-                                )
-                              ),
-                              address,
-                              insuranceProviders: activeInsuranceProviders,
-                            })
-                          }
-                        >
-                          {formatHours(start, durationInMinutes)}
-                        </button>
-                      )
-                    )}
+
+
+
+
+                  <div id="calendar">
+                    <CalendarWeek
+                      Appointments={Appointments}
+                      schedule={schedule}
+                      setSelected={setSelected}
+                      hours={hours}
+                      hoursAvailable={horariosDisponibles}
+                      hoursPerDay={horas}
+                      daysWeek={diasSemana}
+                    />
+                    <Calendar
+                      week={date.week}
+                      year={date.year}
+                      appointments={Appointmentsx}
+                      onDateChange={setDate}
+                      onCalendarClick={(date) => {
+                        console.log('date', date)
+                      }}
+                    />
+
+                    <CalendarWeekMobile
+                      Appointments={Appointments}
+                      schedule={schedule}
+                      setSelected={setSelected}
+                      hours={hours}
+                      hoursAvailable={horariosDisponibles}
+                      hoursPerDay={horas}
+                      daysWeek={diasSemana} />
+
                   </div>
                 </div>
               );
             }
           )}
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };

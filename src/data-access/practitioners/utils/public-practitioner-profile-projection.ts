@@ -25,4 +25,5 @@ export const publicPractitionerProfileProjection = {
       },
     },
   },
+  enabled: 1,
 };

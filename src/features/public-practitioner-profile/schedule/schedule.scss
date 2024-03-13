@@ -59,10 +59,10 @@ $namespace: "ui-mp-schedule";
   }
 
   &__time-slot {
-    padding: 12px;
+    padding: 4px;
     border: 2px solid #40e998;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 14px;
     font-family: inherit;
     background-color: #fff;
     max-width: 92px;
@@ -71,6 +71,14 @@ $namespace: "ui-mp-schedule";
     outline: 0;
     transition: all 0.2s ease;
     color: #444;
+
+    &--disabled {
+      background-color: #f3f3f3;
+      padding: 12px;
+      border-color: #f3f3f3;
+      color: #000;
+      cursor: not-allowed;
+    }
 
     &:hover {
       background-color: #40e998;
@@ -175,6 +183,13 @@ $namespace: "ui-mp-schedule";
   &__input[type="checkbox"] {
     transform: scale(1.2);
     min-width: 15.6px;
+  }
+
+  &__schedule {
+    &-day {
+      width: 80px;
+      height: 30px;
+    }
   }
 
   @media (min-width: 991px) {

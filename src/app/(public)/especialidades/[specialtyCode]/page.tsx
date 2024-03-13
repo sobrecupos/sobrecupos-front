@@ -29,6 +29,7 @@ const SpecialtyPage = async ({
     practitionersService.listBySpecialtyCode(specialtyCode),
     appointmentsService.getPractitionersAppointments(specialtyCode),
   ]);
+  console.log('SpecialtyPage', specialty, results, appointments)
   const practitioners = results
     .map((practitioner) => ({
       ...practitioner,
@@ -52,17 +53,19 @@ const SpecialtyPage = async ({
         </p>
       </div>
       <ul className={classes.practitioners}>
-        {practitioners.map((props) => (
-          <PublicPractitionerCard
-            picture={props.picture}
-            fullName={props.fullName}
-            code={props.code}
-            addressTags={props.addressTags}
-            specialty={props.specialty}
-            appointments={props.appointments}
-            key={`professional-card-${props.code}`}
-          />
-        ))}
+        {practitioners.map((props) => {
+          if (props?.enabled || false) {
+            return (<PublicPractitionerCard
+              picture={props.picture}
+              fullName={props.fullName}
+              code={props.code}
+              addressTags={props.addressTags}
+              specialty={props.specialty}
+              appointments={props.appointments}
+              key={`professional-card-${props.code}`}
+            />)
+          }
+        })}
       </ul>
     </div>
   );

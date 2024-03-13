@@ -1,0 +1,31 @@
+$namespace: "ui-mp-schedule";
+
+.#{$namespace} {
+  @media screen and (max-width: 768px) {
+    &__schedule-table {
+      display: none;
+    }
+    &__schedule-table--mobile {
+      display: block;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    &__schedule-table {
+      display: block;
+    }
+    &__schedule-table--mobile {
+      display: none;
+    }
+    &__schedule-mobile {
+      &-day {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    &__time-slots--mobile {
+      padding: 0;
+      font-size: 12px;
+    }
+  }
+}

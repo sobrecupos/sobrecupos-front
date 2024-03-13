@@ -29,7 +29,9 @@ const PractitionerPage = async ({
   }
 
   const schedule = (await appointmentsService.getAppointmentsByPractice(
-    profile.id
+    profile.id,
+    //first day of the week
+    new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 1)).toString(),
   )) as any;
 
   return (

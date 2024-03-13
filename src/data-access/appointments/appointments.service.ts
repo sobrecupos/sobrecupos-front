@@ -88,7 +88,6 @@ export class AppointmentsService {
           specialtyCode,
           start: {
             $gt: fromDate.toDate(),
-            $lt: fromDate.endOf("day").toDate(),
           },
           status: "FREE",
         },
@@ -190,6 +189,8 @@ export class AppointmentsService {
     const collection = await this.collection();
     const from = dayjs.utc(fromDateString);
 
+    console.log("practiceId", practitionerId, "from", from.toDate());
+
     const cursor = collection.aggregate([
       {
         $match: {
@@ -198,13 +199,14 @@ export class AppointmentsService {
             $gt: from.toDate(),
             // Offset in CL, this should be dynamic
             $lt: from
-              .add(-3, "hours")
+
               .startOf("day")
               .add(
                 this.scheduleConfig.CL.startingHour +
                   this.scheduleConfig.CL.workingHours,
                 "hours"
               )
+              .endOf("months")
               .toDate(),
           },
           status: "FREE",
