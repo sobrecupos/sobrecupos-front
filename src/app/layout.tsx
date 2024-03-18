@@ -3,6 +3,8 @@ import { TrackPageview, TrackingProvider } from "@marketplace/ui/tracking";
 import classNames from "classnames";
 import { Montserrat } from "next/font/google";
 import { PropsWithChildren } from "react";
+
+import "../styles/globals.scss";
 import "./layout.scss";
 
 const montserrat = Montserrat({
