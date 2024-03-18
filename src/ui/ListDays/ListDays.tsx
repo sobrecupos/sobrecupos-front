@@ -2,9 +2,7 @@ import { appointmentsClient } from '@marketplace/data-access/appointments/appoin
 import dayjs from "dayjs";
 import { useEffect, useState } from 'react';
 
-String.prototype.capitalize = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1);
-};
+
 
 export type ListDaysProps = {
   selectDay: (date: string) => void;
@@ -12,6 +10,8 @@ export type ListDaysProps = {
   activesAppointments: any;
   practitionerId: string;
 };
+
+const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
 
 export const ListDays = ({ selectDay, schedule, activesAppointments, practitionerId }: ListDaysProps) => {
   const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
@@ -68,7 +68,7 @@ export const ListDays = ({ selectDay, schedule, activesAppointments, practitione
 
           // //console.log('IndexDaySelected === index', IndexDaySelected === index)
           const date = dynamicDate.setDate(firstDayOfWeek.getDate() + 1);
-          const month = dynamicDate.toLocaleString('default', { month: 'short' }).capitalize();
+          const month = capitalize(dynamicDate.toLocaleString('default', { month: 'short' }));
           const countActiveAppointments = activesAppointments?.filter((appointment: any) => {
             const date = new Date(appointment.start);
             return dayjs(appointment.start).isAfter(dayjs());
