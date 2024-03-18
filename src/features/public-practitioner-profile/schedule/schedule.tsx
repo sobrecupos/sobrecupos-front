@@ -322,7 +322,7 @@ export const Schedule = ({
               <Loader2Icon />
             </div>
           ) : null}
-          {selectScheduleDay.results.length === 0 && !showSpinner && !isLoading ? (
+          {selectScheduleDay?.results?.length === 0 && !showSpinner && !isLoading ? (
             <div className={classes.empty}>Sin sobrecupos disponibles 😥</div>
           ) : null}
           {/* schedule by address */}

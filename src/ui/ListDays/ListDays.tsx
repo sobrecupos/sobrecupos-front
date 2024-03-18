@@ -63,12 +63,12 @@ export const ListDays = ({ selectDay, schedule, activesAppointments, practitione
     <div className='relative max-w-[90vw] w-full '>
 
       <div className="absolute h-[100px] px-2 py-3 right-0 "></div>
-      <div className="flex justify-between overflow-x-scroll min-h-[110px] md:flex-wrap md:overflow-hidden gap-2 md:gap-[2px] ">
-        {days.map((day, index) => {
+      <div className="flex justify-between overflow-x-scroll min-h-[86px] md:min-h-[110px] md:flex-wrap md:overflow-hidden gap-2 md:gap-[2px] ">
+        {days?.map((day, index) => {
 
           // //console.log('IndexDaySelected === index', IndexDaySelected === index)
           const date = dynamicDate.setDate(firstDayOfWeek.getDate() + 1);
-          const month = capitalize(dynamicDate.toLocaleString('default', { month: 'short' }));
+          const month = capitalize(dynamicDate.toLocaleString('es-ES', { month: 'short' }));
           const countActiveAppointments = activesAppointments?.filter((appointment: any) => {
             const date = new Date(appointment.start);
             return dayjs(appointment.start).isAfter(dayjs());
@@ -83,7 +83,7 @@ export const ListDays = ({ selectDay, schedule, activesAppointments, practitione
           return (
             <div
               key={index}
-              className={`flex-shrink-0 flex-col w-[98px] md:w-[80px] h-[94px] ${IndexDaySelected === index ? 'bg-indigo-500' : 'bg-white border-2 w-[96px] border-indigo-500'}  rounded-lg text-center hover:cursor-pointer hover:shadow-lg`}
+              className={`flex-shrink-0 flex-col w-[98px] md:w-[80px] h-fit min-h-[72px] ${IndexDaySelected === index ? 'bg-indigo-500' : 'bg-white border-2 w-[96px] border-indigo-500'}  rounded-lg text-center hover:cursor-pointer hover:shadow-lg`}
               onClick={() => {
 
                 //console.log('click', firstDayOfWeek.getDate());

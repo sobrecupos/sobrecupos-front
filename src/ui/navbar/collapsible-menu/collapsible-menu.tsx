@@ -48,7 +48,7 @@ export const CollapsibleMenu = ({
         {id === "submenu" ? (
           <>
             <button
-              className={classes.collapsibleLink}
+              className={`${classes.collapsibleLink}`}
               onClick={() => onPanelClick(path)}
               tabIndex={isOpen ? undefined : -1}
             >
