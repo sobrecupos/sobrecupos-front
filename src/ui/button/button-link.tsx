@@ -20,13 +20,13 @@ export const ButtonLink = ({
   ...props
 }: ButtonLinkProps) => (
   <Link
-    className={classNames(
+    className={`${classNames(
       classes.namespace,
       `${classes.namespace}--link`,
       `${classes.namespace}--${variant}`,
       { [`${classes.namespace}--d-block`]: block },
       className
-    )}
+    )} md:block`}
     {...props}
   >
     {children}

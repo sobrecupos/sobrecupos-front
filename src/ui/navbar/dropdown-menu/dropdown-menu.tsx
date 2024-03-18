@@ -23,7 +23,7 @@ export const DropdownMenu = ({ label, contents }: DropdownMenuProps) => {
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button type="button" className={classes.barLink} onClick={toggleOpen}>
+      <button type="button" className={`${classes.barLink} flex items-center`} onClick={toggleOpen}>
         {label}
         <ChevronDown size={16} className={classes.barLinkIcon} />
       </button>

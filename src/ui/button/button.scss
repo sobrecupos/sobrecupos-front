@@ -28,6 +28,10 @@ $namespace: "ui-mp-button";
   &--primary {
     background-color: #ffd814;
     color: #444;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
 
     &:focus,
     &:hover {
