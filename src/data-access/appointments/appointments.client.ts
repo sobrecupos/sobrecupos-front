@@ -7,6 +7,17 @@ export class AppointmentsClient extends RestClient {
     return this.get("/api/appointments/schedule", { params });
   }
 
+  getScheduleByDate(params: { practitionerId: string; from?: string }) {
+    return this.get("/api/appointments/schedule/by-date", { params });
+  }
+
+  getAppointmentByPractitionerInDate(params: {
+    practitionerId: string;
+    date: string;
+  }) {
+    return this.get("/api/appointments/schedule/appointment-days", { params });
+  }
+
   getCalendar(params: { practitionerId: string; week: number; year: number }) {
     return this.get("/api/appointments/calendar", { params });
   }
