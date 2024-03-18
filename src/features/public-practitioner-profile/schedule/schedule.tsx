@@ -1,16 +1,20 @@
 "use client";
 
+import { appointmentsClient } from "@marketplace/data-access/appointments/appointments.client";
 import { ordersClient } from "@marketplace/data-access/orders/orders.client";
+import ListDays from "@marketplace/ui/ListDays/ListDays";
 import { Alert } from "@marketplace/ui/alert";
 import { Button } from "@marketplace/ui/button";
+import ButtonAppointment from "@marketplace/ui/buttonAppointment/buttonAppointment";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { AppointmentsByPractice } from "@marketplace/utils/types/appointments";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { ArrowLeftIcon, Loader2Icon, MapIcon } from "lucide-react";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import "./schedule.scss";
+
 
 export type ScheduleProps = {
   showSpinner?: boolean;
@@ -42,6 +46,7 @@ const classes = getComponentClassNames("schedule", {
 });
 
 const formatDate = (dateString: string) => {
+  //console.log('dateString', dateString)
   const formattedDate = new Intl.DateTimeFormat("es-CL", {
     dateStyle: "full",
     timeZone: "America/Santiago",
@@ -73,6 +78,9 @@ export const Schedule = ({
     paymentAcknowledgement: false,
     termsAndConditions: false,
   });
+  const [selectScheduleDay, setSelectScheduleDay] = useState<AppointmentsByPractice>(schedule)
+  const [SelectedDate, setSelectedDate] = useState('');
+  const [ActiveAppointments, setActiveAppointments] = useState<{}[]>([]);
 
   const handleFieldChange = (field: string, value: unknown) => {
     setValues((prevValues) => ({ ...prevValues, [field]: value }));
@@ -125,6 +133,30 @@ export const Schedule = ({
       });
   };
 
+  const selectDay = async (day: string) => {
+    setIsLoading(true);
+    //console.log('day', day);
+    const from = day;
+    setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
+    const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
+    //console.log('schedulePerDay', schedulePerDay);
+    setSelectScheduleDay(schedulePerDay);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (schedule) {
+      const actives = schedule.results.map(
+        ({ appointments }) => appointments.filter(({ start }) => dayjs(start).isAfter(dayjs())));
+      //console.log('actives', actives)
+      const activesAppointments = actives.flat();
+
+      //console.log('activesAppointments', activesAppointments);
+      setActiveAppointments(activesAppointments);
+    }
+  }, [schedule])
+
+
   if (hasError) {
     return (
       <div className={classes.namespace} id="sobrecupos">
@@ -134,8 +166,11 @@ export const Schedule = ({
     );
   }
 
+
+
+
   return (
-    <div className={classes.namespace} id="sobrecupos">
+    <div className={`${classes.namespace}`} id="sobrecupos">
       {selected ? (
         <>
           <button
@@ -272,20 +307,28 @@ export const Schedule = ({
       ) : (
         <>
           <div className={classes.title}>Pide tu sobrecupo aquí:</div>
-          <div className={classes.subtitle}>
-            {formatDate(
+          <div >
+            {/* {formatDate(
               dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
             )}
+            {" - "} */}
+            <p className={` text-left text-lg mb-5 font-medium  `}>{SelectedDate ? formatDate(SelectedDate) : formatDate(dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS"))}</p>
+          </div>
+          <div className="flex">
+            <ListDays schedule={schedule} selectDay={(day) => selectDay(day)} activesAppointments={ActiveAppointments} practitionerId={practitionerId} />
           </div>
           {showSpinner ? (
             <div className={classes.spinner}>
               <Loader2Icon />
             </div>
           ) : null}
-          {schedule.results.length === 0 && !showSpinner ? (
+          {selectScheduleDay.results.length === 0 && !showSpinner && !isLoading ? (
             <div className={classes.empty}>Sin sobrecupos disponibles 😥</div>
           ) : null}
-          {schedule.results.map(
+          {/* schedule by address */}
+          {/* <p>{ActiveAppointments.length > 0 ? 'si hay' : 'no hay'}</p> */}
+          {/* <p>{ActiveAppointments.length}</p> */}
+          {!isLoading ? selectScheduleDay.results.map(
             ({ id, address, insuranceProviders, appointments }) => {
               const activeInsuranceProviders = insuranceProviders
                 .map(({ name, isActive }) => (isActive ? name : null))
@@ -294,10 +337,12 @@ export const Schedule = ({
               const activeAppointments = appointments.filter(({ start }) =>
                 dayjs(start).isAfter(dayjs())
               );
+              // setActiveAppointments(activeAppointments);
+              //console.log('activeAppointments', activeAppointments);
 
               return (
                 <div
-                  className={classes.timeSlotsContainer}
+                  className={`border-indigo-200 border-2 p-3 rounded-lg mb-5 ${classes.timeSlotsContainer}`}
                   key={`time-slots-${id}-${schedule.from}`}
                 >
                   <div className={classes.address}>
@@ -310,12 +355,14 @@ export const Schedule = ({
                     Atiende: {activeInsuranceProviders}
                   </div>
 
+
                   <div className={classes.timeSlots}>
                     {activeAppointments.map(
                       ({ id, start, durationInMinutes }) => (
-                        <button
+                        <ButtonAppointment
                           key={`timeslot-${id}`}
-                          className={classes.timeSlot}
+                          id={id}
+                          text={formatHours(start, durationInMinutes)}
                           onClick={() =>
                             setSelected({
                               id,
@@ -331,16 +378,19 @@ export const Schedule = ({
                               insuranceProviders: activeInsuranceProviders,
                             })
                           }
-                        >
-                          {formatHours(start, durationInMinutes)}
-                        </button>
+                        />
                       )
                     )}
                   </div>
                 </div>
               );
             }
-          )}
+          ) :
+            <div className={`flex justify-center items-center text-indigo-500  min-h-[300px] relative `}>
+              <div className="animate-spin">
+                <Loader2Icon /></div>
+            </div>
+          }
         </>
       )}
     </div>

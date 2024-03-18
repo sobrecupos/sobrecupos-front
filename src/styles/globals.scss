@@ -1,4 +1,6 @@
-@use "../ui/legacy/layout/layout";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   margin: 0;

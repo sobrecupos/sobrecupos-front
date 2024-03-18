@@ -205,6 +205,7 @@ export class AppointmentsService {
                   this.scheduleConfig.CL.workingHours,
                 "hours"
               )
+              // .endOf("week")
               .toDate(),
           },
           status: "FREE",
@@ -246,7 +247,139 @@ export class AppointmentsService {
         id: _id,
       });
     }
+    // //console.log("results", results);
+    return {
+      from: from.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      results,
+    };
+  }
 
+  async getAppointmentByPractitionerAndDate(
+    practitionerId: string,
+    date: string
+  ) {
+    const collection = await this.collection();
+    const from = dayjs.utc(date);
+
+    const cursor = collection.aggregate([
+      {
+        $match: {
+          practitionerId: practitionerId,
+          start: {
+            $gt: from.toDate(),
+            // Offset in CL, this should be dynamic
+            $lt: from
+              .add(-3, "hours")
+              .startOf("day")
+              .add(
+                this.scheduleConfig.CL.startingHour +
+                  this.scheduleConfig.CL.workingHours,
+                "hours"
+              )
+              .endOf("day")
+              .toDate(),
+          },
+          status: "FREE",
+        },
+      },
+      {
+        $group: {
+          _id: "$practice.id",
+          address: {
+            $first: "$practice.address",
+          },
+          insuranceProviders: {
+            $first: "$practice.insuranceProviders",
+          },
+          appointments: {
+            $push: {
+              id: {
+                $toString: "$_id",
+              },
+              status: "$status",
+              start: {
+                $dateToString: {
+                  date: "$start",
+                  format: "%Y-%m-%dT%H:%M:%S.%LZ",
+                },
+              },
+              durationInMinutes: "$durationInMinutes",
+            },
+          },
+        },
+      },
+    ]);
+
+    const results = [];
+
+    for await (const { _id, ...grouped } of cursor) {
+      results.push({
+        ...grouped,
+        id: _id,
+      });
+    }
+    // //console.log("results", results);
+    return {
+      from: from.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      results,
+    };
+  }
+
+  async getActiveAppointmentsByPractitionerInDate(
+    practitionerId: string,
+    date: string
+  ) {
+    const collection = await this.collection();
+    const from = dayjs.utc(date);
+
+    const cursor = collection.aggregate([
+      {
+        $match: {
+          practitionerId: practitionerId,
+          start: {
+            $gt: from.toDate(),
+            $lt: from.endOf("day").toDate(),
+          },
+          status: "RESERVED",
+        },
+      },
+      {
+        $group: {
+          _id: "$practice.id",
+          address: {
+            $first: "$practice.address",
+          },
+          insuranceProviders: {
+            $first: "$practice.insuranceProviders",
+          },
+          appointments: {
+            $push: {
+              id: {
+                $toString: "$_id",
+              },
+              status: "$status",
+              start: {
+                $dateToString: {
+                  date: "$start",
+                  format: "%Y-%m-%dT%H:%M:%S.%LZ",
+                },
+              },
+              durationInMinutes: "$durationInMinutes",
+            },
+          },
+        },
+      },
+    ]);
+
+    const results = [];
+
+    for await (const { _id, ...grouped } of cursor) {
+      results.push({
+        ...grouped,
+        id: _id,
+      });
+    }
+    //console.log("results getActiveAppointmentsByPractitionerInDate", results);
     return {
       from: from.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       results,
@@ -538,6 +671,94 @@ export class AppointmentsService {
       body: { id },
       delayInSeconds: 6 * 60,
     });
+  }
+
+  async getScheduleByDate(practitionerId: string, fromDateString?: string) {
+    const { workingHours } = this.scheduleConfig.CL;
+    const availableHours = this.getAvailableHours(fromDateString);
+    const appointmentsByDate = await this.findAppointmentsByDay(
+      practitionerId,
+      fromDateString
+    );
+
+    const dailySchedule: Schedule = [];
+    let index = -1;
+
+    availableHours.forEach((hour, innerIndex) => {
+      const date = hour.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+
+      if (innerIndex % workingHours === 0) {
+        index += 1;
+        dailySchedule[index] ||= {
+          day: date,
+          appointments: [],
+        };
+      }
+
+      const value = this.mapToPlain(appointmentsByDate[date]) || {
+        status: null,
+        practice: null,
+        start: date,
+        durationInMinutes: 59,
+        practitionerId,
+      };
+
+      dailySchedule[index].appointments.push(value);
+    });
+
+    return dailySchedule;
+  }
+
+  async findAppointmentsByDay(practitionerId: string, fromDateString?: string) {
+    const collection = await this.collection();
+    const startOfDay = dayjs.utc(fromDateString).startOf("day");
+    const endOfDay = startOfDay.endOf("day");
+    const cursor = collection.aggregate([
+      {
+        $match: {
+          practitionerId: practitionerId,
+          start: {
+            $gt: startOfDay,
+            $lt: endOfDay.endOf("day").toDate(),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          appointments: {
+            $push: {
+              k: {
+                $dateToString: {
+                  date: "$start",
+                },
+              },
+              v: "$$ROOT",
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          results: {
+            $arrayToObject: "$appointments",
+          },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$results",
+        },
+      },
+    ]);
+
+    const data = [];
+
+    for await (const grouped of cursor) {
+      data.push(grouped);
+    }
+
+    return data[0] || {};
   }
 
   async collection() {

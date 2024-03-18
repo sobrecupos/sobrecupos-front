@@ -33,7 +33,7 @@ const PractitionerPage = async ({
   )) as any;
 
   return (
-    <div className={classes.namespace}>
+    <div className={`${classes.namespace}  w-max-[1440px]`}>
       <div className={classes.profile}>
         <ProfileCard
           name={profile.fullName}
