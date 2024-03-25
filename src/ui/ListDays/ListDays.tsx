@@ -1,5 +1,4 @@
 import { appointmentsClient } from '@marketplace/data-access/appointments/appointments.client';
-import dayjs from "dayjs";
 import { useEffect, useState } from 'react';
 
 
@@ -9,17 +8,29 @@ export type ListDaysProps = {
   schedule: any;
   activesAppointments: any;
   practitionerId: string;
+  indexDaySelected?: number;
+  from: string;
+  to: string;
 };
 
 const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
 
-export const ListDays = ({ selectDay, schedule, activesAppointments, practitionerId }: ListDaysProps) => {
+export const ListDays = (
+  {
+    selectDay,
+    schedule,
+    activesAppointments,
+    practitionerId,
+    indexDaySelected,
+    from,
+    to
+  }: ListDaysProps) => {
   const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-  const [IndexDaySelected, setIndexDaySelected] = useState(-1)
+  const [IndexDaySelected, setIndexDaySelected] = useState<number>(-1)
   const firstDayOfWeek = new Date();
   const dynamicDate = new Date();
   firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
-  dynamicDate.setDate(dynamicDate.getDate() - dynamicDate.getDay());
+  dynamicDate.setDate(dynamicDate.getDate());
 
   const selectedDay = (date: string, index: number) => {
     //console.log('selectedDay', date);
@@ -53,8 +64,12 @@ export const ListDays = ({ selectDay, schedule, activesAppointments, practitione
   }
 
   useEffect(() => {
-    setIndexDaySelected(new Date().getDay() - 1)
-  }, [])
+    console.log('indexDaySelected', indexDaySelected)
+    if (indexDaySelected === -1) { setIndexDaySelected(new Date().getDay() - 1) }
+    else {
+      setIndexDaySelected(indexDaySelected || -1)
+    }
+  }, [indexDaySelected])
 
 
 
@@ -65,30 +80,14 @@ export const ListDays = ({ selectDay, schedule, activesAppointments, practitione
       <div className="absolute h-[100px] px-2 py-3 right-0 "></div>
       <div className="flex justify-between overflow-x-scroll min-h-[86px] md:min-h-[110px] md:flex-wrap md:overflow-hidden gap-2 md:gap-[2px] ">
         {days?.map((day, index) => {
+          const month = capitalize(new Date(from).toLocaleString('es-ES', { month: 'short' }));
 
-          // //console.log('IndexDaySelected === index', IndexDaySelected === index)
-          const date = dynamicDate.setDate(firstDayOfWeek.getDate() + 1);
-          const month = capitalize(dynamicDate.toLocaleString('es-ES', { month: 'short' }));
-          const countActiveAppointments = activesAppointments?.filter((appointment: any) => {
-            const date = new Date(appointment.start);
-            return dayjs(appointment.start).isAfter(dayjs());
-          }
-          ).length;
-          // //console.log('countActiveAppointments', countActiveAppointments)
-          // const dayDate = new Date();
-          // dayDate.setDate(dynamicDate.getDate() + index);
-          // const countAppointments = getAppointmentPerDay(formatDate(dayDate));
-          // //console.log('countAppointments', countAppointments)
 
           return (
             <div
               key={index}
               className={`flex-shrink-0 flex-col w-[98px] md:w-[80px] h-fit min-h-[72px] ${IndexDaySelected === index ? 'bg-indigo-500' : 'bg-white border-2 w-[96px] border-indigo-500'}  rounded-lg text-center hover:cursor-pointer hover:shadow-lg`}
               onClick={() => {
-
-                //console.log('click', firstDayOfWeek.getDate());
-                //console.log('click', dynamicDate.getDate() + index);
-                //console.log(index)
                 const dayDate = new Date();
                 dayDate.setDate(dynamicDate.getDate() + index);
                 selectedDay(formatDate(dayDate), index);
@@ -97,10 +96,6 @@ export const ListDays = ({ selectDay, schedule, activesAppointments, practitione
               <div className="px-3 py-3">
                 <p className={`${IndexDaySelected !== index ? 'text-indigo-500' : 'text-white'} font-light text-sm`}>{day.slice(0, 3)}</p>
                 <p className={`${IndexDaySelected !== index ? 'text-indigo-500' : 'text-white'} font-light pb-1 text-sm`}>{dynamicDate.getDate() + index} {month}</p>
-                {/* <div className="flex justify-center items-center gap-1 bg-white rounded-lg"> */}
-                {/* <p className="font-bold text-base text-indigo-800">2</p>
-                  <HeartIcon className="h-4 w-4 text-indigo-500" /> */}
-                {/* </div> */}
               </div>
             </div>
           )

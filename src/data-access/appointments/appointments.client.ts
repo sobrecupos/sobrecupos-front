@@ -11,6 +11,14 @@ export class AppointmentsClient extends RestClient {
     return this.get("/api/appointments/schedule/by-date", { params });
   }
 
+  getScheduleFromTo(params: {
+    practitionerId: string;
+    from?: string;
+    to?: string;
+  }) {
+    return this.get("/api/appointments/schedule/from-to", { params });
+  }
+
   getAppointmentByPractitionerInDate(params: {
     practitionerId: string;
     date: string;

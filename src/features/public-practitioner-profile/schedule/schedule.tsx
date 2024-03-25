@@ -10,17 +10,20 @@ import { getComponentClassNames } from "@marketplace/ui/namespace";
 import { AppointmentsByPractice } from "@marketplace/utils/types/appointments";
 import classNames from "classnames";
 import dayjs from "dayjs";
+import localeEs from "dayjs/locale/es";
+import localeData from "dayjs/plugin/localeData";
 import { ArrowLeftIcon, Loader2Icon, MapIcon } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import "./schedule.scss";
-
 
 export type ScheduleProps = {
   showSpinner?: boolean;
   schedule: AppointmentsByPractice;
   practitioner: string;
   practitionerId: string;
+  from: string;
+  to: string;
 };
 
 const classes = getComponentClassNames("schedule", {
@@ -67,7 +70,11 @@ export const Schedule = ({
   practitioner,
   practitionerId,
   showSpinner,
+  from,
+  to
 }: ScheduleProps) => {
+  dayjs.locale("es");
+  dayjs.extend(localeData);
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -78,9 +85,15 @@ export const Schedule = ({
     paymentAcknowledgement: false,
     termsAndConditions: false,
   });
-  const [selectScheduleDay, setSelectScheduleDay] = useState<AppointmentsByPractice>(schedule)
+  const [selectScheduleDay, setSelectScheduleDay] = useState<AppointmentsByPractice>({ results: [] })
   const [SelectedDate, setSelectedDate] = useState('');
-  const [ActiveAppointments, setActiveAppointments] = useState<{}[]>([]);
+  const [ActiveAppointments, setActiveAppointments] = useState<{}>({});
+  const [FirstNextDay, setFirstNextDay] = useState({
+    day: dayjs().format('dddd D [de] MMMM'),
+    date: ''
+  })
+  const [IndexDaySelected, setIndexDaySelected] = useState(-1)
+
 
   const handleFieldChange = (field: string, value: unknown) => {
     setValues((prevValues) => ({ ...prevValues, [field]: value }));
@@ -135,27 +148,46 @@ export const Schedule = ({
 
   const selectDay = async (day: string) => {
     setIsLoading(true);
-    //console.log('day', day);
     const from = day;
     setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
-    //console.log('schedulePerDay', schedulePerDay);
     setSelectScheduleDay(schedulePerDay);
+    setIndexDaySelected(dayjs(day).day() - 1);
+    setIsLoading(false);
+  }
+
+  const getNextDayWithAppointments = async (schedule: AppointmentsByPractice) => {
+    console.log('getNextDayWithAppointments', schedule)
+    setIsLoading(true);
+    //aqui no se debe ir al siguiente día, sino al siguiente día con horas disponibles
+    const nextDay = dayjs(schedule.from).add(1, 'day').format("YYYY-MM-DDTHH:mm:ss.SSS");
+    const indexDayOfWeek = dayjs(nextDay).day();
+    setSelectedDate(nextDay);
+    const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from: nextDay });
+    selectDay(schedulePerDay.results[0].appointments[0].start.split('T')[0]);
+    setIndexDaySelected(indexDayOfWeek - 1);
     setIsLoading(false);
   }
 
   useEffect(() => {
     if (schedule) {
-      const actives = schedule.results.map(
-        ({ appointments }) => appointments.filter(({ start }) => dayjs(start).isAfter(dayjs())));
-      //console.log('actives', actives)
-      const activesAppointments = actives.flat();
-
-      //console.log('activesAppointments', activesAppointments);
-      setActiveAppointments(activesAppointments);
+      const actives = appointmentsClient.getScheduleFromTo(
+        {
+          practitionerId,
+          from: dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS"),
+          to: dayjs().add(7, 'days').format("YYYY-MM-DDTHH:mm:ss.SSS")
+        }
+      ).then((res) => {
+        console.log('res', res)
+        setActiveAppointments(res)
+        setFirstNextDay({
+          day: dayjs(res?.results[0]?.appointments[0].start.split('T')[0]).locale(localeEs).format('dddd D [de] MMMM'),
+          date: res?.results[0]?.appointments[0]?.start.split('T')[0] || ''
+        });
+        return res;
+      });
     }
   }, [schedule])
-
 
   if (hasError) {
     return (
@@ -165,9 +197,6 @@ export const Schedule = ({
       </div>
     );
   }
-
-
-
 
   return (
     <div className={`${classes.namespace}`} id="sobrecupos">
@@ -315,19 +344,32 @@ export const Schedule = ({
             <p className={` text-left text-lg mb-5 font-medium  `}>{SelectedDate ? formatDate(SelectedDate) : formatDate(dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS"))}</p>
           </div>
           <div className="flex">
-            <ListDays schedule={schedule} selectDay={(day) => selectDay(day)} activesAppointments={ActiveAppointments} practitionerId={practitionerId} />
+            <ListDays
+              schedule={schedule}
+              selectDay={(day) => selectDay(day)}
+              activesAppointments={ActiveAppointments}
+              practitionerId={practitionerId}
+              indexDaySelected={IndexDaySelected}
+              from={from}
+              to={to}
+            />
           </div>
           {showSpinner ? (
             <div className={classes.spinner}>
               <Loader2Icon />
             </div>
           ) : null}
-          {selectScheduleDay?.results?.length === 0 && !showSpinner && !isLoading ? (
-            <div className={classes.empty}>Sin sobrecupos disponibles 😥</div>
+
+          {selectScheduleDay?.results?.length <= 0 && !showSpinner && !isLoading ? (
+            <div className={`${classes.empty}`}>
+              <p className="mb-3">Próximo sobrecupo disponible:</p>
+              <p className="font-bold mb-5 capitalize">{FirstNextDay?.day}</p>
+              <button className=" border-2 rounded-full py-4 px-5 border-indigo-500 font-bold text-indigo-600" onClick={
+                () => getNextDayWithAppointments(schedule)
+              }>Ir a hora más cercana</button>
+            </div>
           ) : null}
-          {/* schedule by address */}
-          {/* <p>{ActiveAppointments.length > 0 ? 'si hay' : 'no hay'}</p> */}
-          {/* <p>{ActiveAppointments.length}</p> */}
+
           {!isLoading ? selectScheduleDay.results.map(
             ({ id, address, insuranceProviders, appointments }) => {
               const activeInsuranceProviders = insuranceProviders
@@ -337,8 +379,6 @@ export const Schedule = ({
               const activeAppointments = appointments.filter(({ start }) =>
                 dayjs(start).isAfter(dayjs())
               );
-              // setActiveAppointments(activeAppointments);
-              //console.log('activeAppointments', activeAppointments);
 
               return (
                 <div

@@ -23,13 +23,16 @@ const PractitionerPage = async ({
   params: { practitionerCode },
 }: PractitionerPageProps) => {
   const profile = await practitionersService.getPublicProfile(practitionerCode);
-
+  const from = new Date().toISOString();
+  const to = new Date(new Date().setDate(new Date().getDate() + 7)).toISOString();
   if (!profile) {
     return <div>No encontramos lo que estabas buscando 😭</div>;
   }
 
-  const schedule = (await appointmentsService.getAppointmentsByPractice(
-    profile.id
+  const schedule = (await appointmentsService.getAppointmentsByPracticeFromTo(
+    profile.id,
+    from,
+    to
   )) as any;
 
   return (
@@ -48,6 +51,8 @@ const PractitionerPage = async ({
         schedule={schedule}
         practitioner={profile.fullName}
         practitionerId={profile.id}
+        from={from}
+        to={to}
       />
     </div>
   );
