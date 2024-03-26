@@ -85,7 +85,7 @@ export const Schedule = ({
     paymentAcknowledgement: false,
     termsAndConditions: false,
   });
-  const [selectScheduleDay, setSelectScheduleDay] = useState<AppointmentsByPractice>({ results: [] })
+  const [selectScheduleDay, setSelectScheduleDay] = useState<AppointmentsByPractice>();
   const [SelectedDate, setSelectedDate] = useState('');
   const [ActiveAppointments, setActiveAppointments] = useState<{}>({});
   const [FirstNextDay, setFirstNextDay] = useState({
