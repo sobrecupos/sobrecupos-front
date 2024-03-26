@@ -26,17 +26,16 @@ export const ListDays = (
     to
   }: ListDaysProps) => {
   const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-  const [IndexDaySelected, setIndexDaySelected] = useState<number>(-1)
+  const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected)
   const firstDayOfWeek = new Date();
   const dynamicDate = new Date();
   firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
-  dynamicDate.setDate(dynamicDate.getDate());
+  dynamicDate.setDate(firstDayOfWeek.getDate() + 1);
 
   const selectedDay = (date: string, index: number) => {
-    //console.log('selectedDay', date);
+    setIndexDaySelected(index);
     selectDay(date);
 
-    setIndexDaySelected(index);
   }
 
   function formatDate(date: Date): string {
@@ -64,11 +63,15 @@ export const ListDays = (
   }
 
   useEffect(() => {
-    console.log('indexDaySelected', indexDaySelected)
-    if (indexDaySelected === -1) { setIndexDaySelected(new Date().getDay() - 1) }
-    else {
-      setIndexDaySelected(indexDaySelected || -1)
-    }
+    // console.log('indexDaySelected', indexDaySelected)
+    //aqui hay que validar bien si el indexDaySelected es -1 o no, cuando selecciono el ultimo dia de la semana, este se devuelve al día actual
+    // if (indexDaySelected === -1 && IndexDaySelected === -1) { return }
+    // else {
+    //   console.log('IndexDaySelected', IndexDaySelected)
+    //   setIndexDaySelected(indexDaySelected)
+    // }
+    if (IndexDaySelected > 0) return;
+    setIndexDaySelected(indexDaySelected)
   }, [indexDaySelected])
 
 

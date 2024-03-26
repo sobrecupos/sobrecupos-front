@@ -160,7 +160,7 @@ export const Schedule = ({
     console.log('getNextDayWithAppointments', schedule)
     setIsLoading(true);
     //aqui no se debe ir al siguiente día, sino al siguiente día con horas disponibles
-    const nextDay = dayjs(schedule.from).add(1, 'day').format("YYYY-MM-DDTHH:mm:ss.SSS");
+    const nextDay = dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS");
     const indexDayOfWeek = dayjs(nextDay).day();
     setSelectedDate(nextDay);
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from: nextDay });
@@ -178,12 +178,13 @@ export const Schedule = ({
           to: dayjs().add(7, 'days').format("YYYY-MM-DDTHH:mm:ss.SSS")
         }
       ).then((res) => {
-        console.log('res', res)
         setActiveAppointments(res)
+        // setSelectScheduleDay(res)
         setFirstNextDay({
           day: dayjs(res?.results[0]?.appointments[0].start.split('T')[0]).locale(localeEs).format('dddd D [de] MMMM'),
           date: res?.results[0]?.appointments[0]?.start.split('T')[0] || ''
         });
+        selectDay(res?.results[0]?.appointments[0].start.split('T')[0]);
         return res;
       });
     }
@@ -360,6 +361,10 @@ export const Schedule = ({
             </div>
           ) : null}
 
+          {/* {selectScheduleDay?.results?.length}
+          {showSpinner ? 'true' : 'false'}
+          {isLoading ? 'true' : 'false'} */}
+
           {selectScheduleDay?.results?.length <= 0 && !showSpinner && !isLoading ? (
             <div className={`${classes.empty}`}>
               <p className="mb-3">Próximo sobrecupo disponible:</p>
@@ -398,28 +403,33 @@ export const Schedule = ({
 
                   <div className={classes.timeSlots}>
                     {activeAppointments.map(
-                      ({ id, start, durationInMinutes }) => (
-                        <ButtonAppointment
-                          key={`timeslot-${id}`}
-                          id={id}
-                          text={formatHours(start, durationInMinutes)}
-                          onClick={() =>
-                            setSelected({
-                              id,
-                              label: formatHours(start, durationInMinutes),
-                              start,
-                              durationInMinutes: String(durationInMinutes),
-                              date: formatDate(
-                                dayjs(start).format(
-                                  "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
-                                )
-                              ),
-                              address,
-                              insuranceProviders: activeInsuranceProviders,
-                            })
-                          }
-                        />
-                      )
+                      ({ id, start, durationInMinutes }) => {
+                        if (dayjs(start).isBefore(dayjs())) return null;
+                        if (selectScheduleDay)
+                          // if (dayjs(start).isAfter(dayjs().add(1, 'day'))) return null;
+                          return (
+                            <ButtonAppointment
+                              key={`timeslot-${id}`}
+                              id={id}
+                              text={formatHours(start, durationInMinutes)}
+                              onClick={() =>
+                                setSelected({
+                                  id,
+                                  label: formatHours(start, durationInMinutes),
+                                  start,
+                                  durationInMinutes: String(durationInMinutes),
+                                  date: formatDate(
+                                    dayjs(start).format(
+                                      "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+                                    )
+                                  ),
+                                  address,
+                                  insuranceProviders: activeInsuranceProviders,
+                                })
+                              }
+                            />
+                          )
+                      }
                     )}
                   </div>
                 </div>
