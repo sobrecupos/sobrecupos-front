@@ -85,7 +85,7 @@ export const Schedule = ({
     paymentAcknowledgement: false,
     termsAndConditions: false,
   });
-  const [selectScheduleDay, setSelectScheduleDay] = useState<AppointmentsByPractice>({ results: [] })
+  const [selectScheduleDay, setSelectScheduleDay] = useState<AppointmentsByPractice>();
   const [SelectedDate, setSelectedDate] = useState('');
   const [ActiveAppointments, setActiveAppointments] = useState<{}>({});
   const [FirstNextDay, setFirstNextDay] = useState({
@@ -365,7 +365,7 @@ export const Schedule = ({
           {showSpinner ? 'true' : 'false'}
           {isLoading ? 'true' : 'false'} */}
 
-          {selectScheduleDay?.results?.length <= 0 && !showSpinner && !isLoading ? (
+          {selectScheduleDay && selectScheduleDay?.results?.length <= 0 && !showSpinner && !isLoading ? (
             <div className={`${classes.empty}`}>
               <p className="mb-3">Próximo sobrecupo disponible:</p>
               <p className="font-bold mb-5 capitalize">{FirstNextDay?.day}</p>
@@ -375,7 +375,7 @@ export const Schedule = ({
             </div>
           ) : null}
 
-          {!isLoading ? selectScheduleDay.results.map(
+          {!isLoading ? selectScheduleDay && selectScheduleDay.results.map(
             ({ id, address, insuranceProviders, appointments }) => {
               const activeInsuranceProviders = insuranceProviders
                 .map(({ name, isActive }) => (isActive ? name : null))

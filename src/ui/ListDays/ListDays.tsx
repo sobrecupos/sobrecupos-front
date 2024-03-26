@@ -26,7 +26,7 @@ export const ListDays = (
     to
   }: ListDaysProps) => {
   const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
-  const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected)
+  const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || 0)
   const firstDayOfWeek = new Date();
   const dynamicDate = new Date();
   firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
@@ -71,7 +71,7 @@ export const ListDays = (
     //   setIndexDaySelected(indexDaySelected)
     // }
     if (IndexDaySelected > 0) return;
-    setIndexDaySelected(indexDaySelected)
+    setIndexDaySelected(indexDaySelected || 0)
   }, [indexDaySelected])
 
 
