@@ -254,6 +254,75 @@ export class AppointmentsService {
     };
   }
 
+  async getAppointmentsByPracticeFromTo(
+    practitionerId: string,
+    fromDateString?: string,
+    toDateString?: string
+  ) {
+    const collection = await this.collection();
+    const from = dayjs.utc(fromDateString);
+    const to = dayjs.utc(toDateString);
+
+    const cursor = collection.aggregate([
+      {
+        $match: {
+          practitionerId: practitionerId,
+          start: {
+            $gt: from.toDate(),
+            // Offset in CL, this should be dynamic
+            $lt: to.toDate(),
+          },
+          status: "FREE",
+        },
+      },
+      {
+        $group: {
+          _id: "$practice.id",
+          address: {
+            $first: "$practice.address",
+          },
+          insuranceProviders: {
+            $first: "$practice.insuranceProviders",
+          },
+          appointments: {
+            $push: {
+              id: {
+                $toString: "$_id",
+              },
+              status: "$status",
+              start: {
+                $dateToString: {
+                  date: "$start",
+                  format: "%Y-%m-%dT%H:%M:%S.%LZ",
+                },
+              },
+              durationInMinutes: "$durationInMinutes",
+            },
+          },
+        },
+      },
+    ]);
+
+    const results = [];
+
+    for await (const { _id, ...grouped } of cursor) {
+      grouped.appointments.sort((a: Appointment, b: Appointment) => {
+        const dateA = dayjs(a.start);
+        const dateB = dayjs(b.start);
+        return dateA.isBefore(dateB) ? -1 : 1;
+      });
+      results.push({
+        ...grouped,
+        id: _id,
+      });
+    }
+    return {
+      from: from.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      to: to.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      results,
+    };
+  }
+
   async getAppointmentByPractitionerAndDate(
     practitionerId: string,
     date: string
@@ -313,6 +382,11 @@ export class AppointmentsService {
     const results = [];
 
     for await (const { _id, ...grouped } of cursor) {
+      grouped.appointments.sort((a: Appointment, b: Appointment) => {
+        const dateA = dayjs(a.start);
+        const dateB = dayjs(b.start);
+        return dateA.isBefore(dateB) ? -1 : 1;
+      });
       results.push({
         ...grouped,
         id: _id,
@@ -709,10 +783,146 @@ export class AppointmentsService {
     return dailySchedule;
   }
 
+  async getScheduleFromTo(
+    practitionerId: string,
+    fromDateString?: string,
+    toDateString?: string
+  ) {
+    const collection = await this.collection();
+    const from = dayjs.utc(fromDateString);
+    const to = dayjs.utc(toDateString);
+
+    const cursor = collection.aggregate([
+      {
+        $match: {
+          practitionerId: practitionerId,
+          start: {
+            $gt: from.toDate(),
+            // Offset in CL, this should be dynamic
+            $lt: from
+              .add(-3, "hours")
+              .startOf("day")
+              .add(
+                this.scheduleConfig.CL.startingHour +
+                  this.scheduleConfig.CL.workingHours,
+                "hours"
+              )
+              .endOf("week")
+              .toDate(),
+          },
+          status: "FREE",
+        },
+      },
+      {
+        $group: {
+          _id: "$practice.id",
+          address: {
+            $first: "$practice.address",
+          },
+          insuranceProviders: {
+            $first: "$practice.insuranceProviders",
+          },
+          appointments: {
+            $push: {
+              id: {
+                $toString: "$_id",
+              },
+              status: "$status",
+              start: {
+                $dateToString: {
+                  date: "$start",
+                  format: "%Y-%m-%dT%H:%M:%S.%LZ",
+                },
+              },
+              durationInMinutes: "$durationInMinutes",
+            },
+          },
+        },
+      },
+    ]);
+
+    const results = [];
+
+    for await (const { _id, ...grouped } of cursor) {
+      grouped.appointments.sort((a: Appointment, b: Appointment) => {
+        const dateA = dayjs(a.start);
+        const dateB = dayjs(b.start);
+        return dateA.isBefore(dateB) ? -1 : 1;
+      });
+      results.push({
+        ...grouped,
+        id: _id,
+      });
+    }
+    // //console.log("results", results);
+    return {
+      from: from.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      results,
+    };
+  }
+
   async findAppointmentsByDay(practitionerId: string, fromDateString?: string) {
     const collection = await this.collection();
     const startOfDay = dayjs.utc(fromDateString).startOf("day");
     const endOfDay = startOfDay.endOf("day");
+    const cursor = collection.aggregate([
+      {
+        $match: {
+          practitionerId: practitionerId,
+          start: {
+            $gt: startOfDay,
+            $lt: endOfDay.endOf("day").toDate(),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          appointments: {
+            $push: {
+              k: {
+                $dateToString: {
+                  date: "$start",
+                },
+              },
+              v: "$$ROOT",
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          results: {
+            $arrayToObject: "$appointments",
+          },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$results",
+        },
+      },
+    ]);
+
+    const data = [];
+
+    for await (const grouped of cursor) {
+      data.push(grouped);
+    }
+
+    return data[0] || {};
+  }
+
+  async findAppoinmentsFromTo(
+    practitionerId: string,
+    fromDateString?: string,
+    toDateString?: string
+  ) {
+    console.log("findAppoinmentsFromTo");
+    const collection = await this.collection();
+    const startOfDay = dayjs.utc(fromDateString).startOf("day");
+    const endOfDay = dayjs.utc(toDateString).endOf("day");
+    console.log("startOfDay", startOfDay.toDate(), endOfDay.toDate());
     const cursor = collection.aggregate([
       {
         $match: {
