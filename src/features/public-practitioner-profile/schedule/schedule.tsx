@@ -154,7 +154,7 @@ export const Schedule = ({
     setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
     setSelectScheduleDay(schedulePerDay);
-    setIndexDaySelected(dayjs(from).day() === 0 ? 6 : dayjs(from).day() - 1);
+    // setIndexDaySelected(dayjs(from).day() === 0 ? 6 : dayjs(from).day() - 1);
     setIsLoading(false);
   }
 
