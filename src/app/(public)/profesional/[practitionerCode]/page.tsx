@@ -4,6 +4,7 @@ import { ProfileCard } from "@marketplace/features/public-practitioner-profile/p
 import { ProfileDescription } from "@marketplace/features/public-practitioner-profile/profile-description";
 import { Schedule } from "@marketplace/features/public-practitioner-profile/schedule";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import dayjs from "dayjs";
 import "./page.scss";
 
 export type PractitionerPageProps = {
@@ -23,8 +24,8 @@ const PractitionerPage = async ({
   params: { practitionerCode },
 }: PractitionerPageProps) => {
   const profile = await practitionersService.getPublicProfile(practitionerCode);
-  const from = new Date().toISOString();
-  const to = new Date(new Date().setDate(new Date().getDate() + 7)).toISOString();
+  const from = dayjs().startOf('day').toISOString();
+  const to = new Date(new Date().setDate(new Date().getDate() + 6)).toISOString();
   if (!profile) {
     return <div>No encontramos lo que estabas buscando 😭</div>;
   }

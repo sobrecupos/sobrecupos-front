@@ -75,6 +75,8 @@ export const Schedule = ({
 }: ScheduleProps) => {
   dayjs.locale("es");
   dayjs.extend(localeData);
+  // console.log("Date from ", from)
+  // console.log("Date to ", to)
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -152,7 +154,7 @@ export const Schedule = ({
     setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
     setSelectScheduleDay(schedulePerDay);
-    setIndexDaySelected(dayjs(day).day() - 1);
+    setIndexDaySelected(dayjs(from).day() === 0 ? 6 : dayjs(from).day() - 1);
     setIsLoading(false);
   }
 
@@ -161,10 +163,14 @@ export const Schedule = ({
     setIsLoading(true);
     //aqui no se debe ir al siguiente día, sino al siguiente día con horas disponibles
     const nextDay = dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS");
-    const indexDayOfWeek = dayjs(nextDay).day();
-    setSelectedDate(nextDay);
-    const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from: nextDay });
-    selectDay(schedulePerDay.results[0].appointments[0].start.split('T')[0]);
+    const scheduleSort = await schedule.results.sort((a, b) => {
+      return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
+    }
+    )
+    const indexDayOfWeek = dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).day();
+    setSelectedDate(schedule.from);
+    const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from: schedule.from });
+    selectDay(scheduleSort[0].appointments[0].start.split('T')[0]);
     setIndexDaySelected(indexDayOfWeek - 1);
     setIsLoading(false);
   }
@@ -179,16 +185,22 @@ export const Schedule = ({
         }
       ).then((res) => {
         setActiveAppointments(res)
+        const scheduleSort = schedule.results.sort((a, b) => {
+          return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
+        }
+        )
         // setSelectScheduleDay(res)
         setFirstNextDay({
-          day: dayjs(res?.results[0]?.appointments[0].start.split('T')[0]).locale(localeEs).format('dddd D [de] MMMM'),
-          date: res?.results[0]?.appointments[0]?.start.split('T')[0] || ''
+          day: dayjs(scheduleSort[0]?.appointments[0].start.split('T')[0]).locale(localeEs).format('dddd D [de] MMMM'),
+          date: scheduleSort[0]?.appointments[0]?.start.split('T')[0] || ''
         });
-        selectDay(res?.results[0]?.appointments[0].start.split('T')[0]);
+        selectDay(
+          dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS")
+        );
         return res;
       });
     }
-  }, [schedule])
+  }, [schedule, selected])
 
   if (hasError) {
     return (
@@ -337,11 +349,7 @@ export const Schedule = ({
       ) : (
         <>
           <div className={classes.title}>Pide tu sobrecupo aquí:</div>
-          <div >
-            {/* {formatDate(
-              dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
-            )}
-            {" - "} */}
+          <div>
             <p className={` text-left text-lg mb-5 font-medium  `}>{SelectedDate ? formatDate(SelectedDate) : formatDate(dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS"))}</p>
           </div>
           <div className="flex">
@@ -360,11 +368,6 @@ export const Schedule = ({
               <Loader2Icon />
             </div>
           ) : null}
-
-          {/* {selectScheduleDay?.results?.length}
-          {showSpinner ? 'true' : 'false'}
-          {isLoading ? 'true' : 'false'} */}
-
           {selectScheduleDay && selectScheduleDay?.results?.length <= 0 && !showSpinner && !isLoading ? (
             <div className={`${classes.empty}`}>
               <p className="mb-3">Próximo sobrecupo disponible:</p>

@@ -392,7 +392,6 @@ export class AppointmentsService {
         id: _id,
       });
     }
-    // //console.log("results", results);
     return {
       from: from.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       results,
