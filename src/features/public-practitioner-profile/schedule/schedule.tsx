@@ -195,7 +195,7 @@ export const Schedule = ({
           date: scheduleSort[0]?.appointments[0]?.start.split('T')[0] || ''
         });
         selectDay(
-          dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS")
+          dayjs(from).format("YYYY-MM-DDTHH:mm:ss.SSS")
         );
         return res;
       });
