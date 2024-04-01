@@ -27,6 +27,7 @@ export const ListDays = (
     to
   }: ListDaysProps) => {
   // const days = [];
+  console.log('indexDaySelected', indexDaySelected)
   console.log('ListDays from', from)
   console.log('ListDays to', to)
 
@@ -81,8 +82,10 @@ export const ListDays = (
 
   useEffect(() => {
     if (IndexDaySelected < 0) {
+      console.log('IndexDaySelected < 0', IndexDaySelected)
       setIndexDaySelected(0)
     } else {
+      console.log('indexDaySelected', indexDaySelected)
       setIndexDaySelected(indexDaySelected || 0);
     }
   }, [indexDaySelected])
