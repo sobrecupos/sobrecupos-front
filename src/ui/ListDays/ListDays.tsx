@@ -28,8 +28,13 @@ export const ListDays = (
   }: ListDaysProps) => {
   // const days = [];
   console.log('ListDays from', from)
+  console.log('ListDays to', to)
+
   const startDate = new Date(from);
   const endDate = new Date(to);
+
+  console.log('startDate', startDate)
+  console.log('endDate', endDate)
 
 
 
