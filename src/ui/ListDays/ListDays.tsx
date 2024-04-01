@@ -26,14 +26,8 @@ export const ListDays = (
     from,
     to
   }: ListDaysProps) => {
-  // const days = [];
-  const startDate = new Date(from);
-  const endDate = new Date(to);
-
-
-
-
-  // const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
+  const startDate = dayjs(from).add(3, 'hours').toDate();
+  const endDate = dayjs(to).toDate();
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
   const [Days, setDays] = useState<string[]>([])
   const firstDayOfWeek = new Date();
@@ -96,7 +90,7 @@ export const ListDays = (
         {Days?.map((day, index) => {
           const month = dayjs(from).add(index, 'day').format('MMMM');
           // const month = capitalize(new Date(from)..toLocaleString('es-ES', { month: 'short' }));
-          const dayDate = dayjs(from).add(index, 'day').toDate();
+          const dayDate = dayjs(from).add(3, 'hours').add(index, 'day').toDate();
 
 
           return (

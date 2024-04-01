@@ -263,6 +263,9 @@ export class AppointmentsService {
     const from = dayjs.utc(fromDateString);
     const to = dayjs.utc(toDateString);
 
+    console.log("fromDateString", fromDateString);
+    console.log("toDateString", toDateString);
+
     const cursor = collection.aggregate([
       {
         $match: {
