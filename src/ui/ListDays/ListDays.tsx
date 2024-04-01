@@ -101,6 +101,7 @@ export const ListDays = (
           const month = dayjs(from).add(index, 'day').format('MMMM');
           // const month = capitalize(new Date(from)..toLocaleString('es-ES', { month: 'short' }));
           const dayDate = dayjs(from).add(index, 'day').toDate();
+          console.log('list days : dayDate: ', dayDate)
 
 
           return (
