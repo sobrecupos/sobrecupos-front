@@ -30,8 +30,8 @@ export const ListDays = (
   console.log('ListDays from', from)
   console.log('ListDays to', to)
 
-  const startDate = new Date(from);
-  const endDate = new Date(to);
+  const startDate = dayjs(from).toDate();
+  const endDate = dayjs(to).toDate();
 
   console.log('startDate', startDate)
   console.log('endDate', endDate)
