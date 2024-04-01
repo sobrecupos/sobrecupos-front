@@ -94,7 +94,7 @@ export const Schedule = ({
     day: dayjs().format('dddd D [de] MMMM'),
     date: ''
   })
-  const [IndexDaySelected, setIndexDaySelected] = useState(-1)
+  const [IndexDaySelected, setIndexDaySelected] = useState(0)
 
 
   const handleFieldChange = (field: string, value: unknown) => {
