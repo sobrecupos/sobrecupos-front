@@ -100,6 +100,7 @@ export const ListDays = (
 
   return (
     <div className='relative max-w-[90vw] w-full '>
+      {indexDaySelected}
       <div className="absolute h-[100px] px-2 py-3 right-0 "></div>
       <div className="flex justify-between overflow-x-scroll min-h-[86px] md:min-h-[110px] md:flex-wrap md:overflow-hidden gap-2 md:gap-[2px] ">
         {Days?.map((day, index) => {
