@@ -27,6 +27,7 @@ export const ListDays = (
     to
   }: ListDaysProps) => {
   // const days = [];
+  console.log('ListDays from', from)
   const startDate = new Date(from);
   const endDate = new Date(to);
 
@@ -84,6 +85,7 @@ export const ListDays = (
   useEffect(() => {
     while (startDate <= endDate) {
       const day = startDate.toLocaleDateString('es-CL', { weekday: 'long' });
+      console.log('startDate day', day)
       Days.push(day);
       startDate.setDate(startDate.getDate() + 1);
     }
