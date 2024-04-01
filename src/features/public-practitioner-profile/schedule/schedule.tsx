@@ -146,10 +146,10 @@ export const Schedule = ({
       });
   };
 
-  const selectDay = async (day: string) => {
+  const selectDay = async (day: string, firstRender: boolean = false) => {
     setIsLoading(true);
     const from = day;
-    setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
+    if (!firstRender) setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
     setSelectScheduleDay(schedulePerDay);
     // setIndexDaySelected(dayjs(from).day() === 0 ? 6 : dayjs(from).day() - 1);
@@ -194,7 +194,8 @@ export const Schedule = ({
           date: scheduleSort[0]?.appointments[0]?.start.split('T')[0] || ''
         });
         selectDay(
-          dayjs(from).format("YYYY-MM-DDTHH:mm:ss.SSS")
+          dayjs(from).format("YYYY-MM-DDTHH:mm:ss.SSS"),
+          true
         );
         return res;
       });
