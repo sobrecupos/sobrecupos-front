@@ -75,8 +75,6 @@ export const Schedule = ({
 }: ScheduleProps) => {
   dayjs.locale("es");
   dayjs.extend(localeData);
-  // console.log("Date from ", from)
-  // console.log("Date to ", to)
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -159,9 +157,9 @@ export const Schedule = ({
   }
 
   const getNextDayWithAppointments = async (schedule: AppointmentsByPractice) => {
-    console.log('getNextDayWithAppointments', schedule)
     setIsLoading(true);
     //aqui no se debe ir al siguiente día, sino al siguiente día con horas disponibles
+    //todo
     const nextDay = dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS");
     const scheduleSort = await schedule.results.sort((a, b) => {
       return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
@@ -169,6 +167,7 @@ export const Schedule = ({
     )
     const indexDayOfWeek = dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).day();
     setSelectedDate(schedule.from);
+    //todo
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from: schedule.from });
     selectDay(scheduleSort[0].appointments[0].start.split('T')[0]);
     setIndexDaySelected(indexDayOfWeek - 1);

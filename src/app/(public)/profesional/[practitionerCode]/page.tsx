@@ -25,7 +25,6 @@ const PractitionerPage = async ({
 }: PractitionerPageProps) => {
   const profile = await practitionersService.getPublicProfile(practitionerCode);
   const from = dayjs().startOf('day').toISOString();
-  console.log('from', from)
   const to = new Date(new Date().setDate(new Date().getDate() + 6)).toISOString();
   if (!profile) {
     return <div>No encontramos lo que estabas buscando 😭</div>;

@@ -26,21 +26,8 @@ export const ListDays = (
     from,
     to
   }: ListDaysProps) => {
-  // const days = [];
-  console.log('indexDaySelected', indexDaySelected)
-  console.log('ListDays from', from)
-  console.log('ListDays to', to)
-
   const startDate = dayjs(from).add(3, 'hours').toDate();
   const endDate = dayjs(to).toDate();
-
-  console.log('startDate', startDate)
-  console.log('endDate', endDate)
-
-
-
-
-  // const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
   const [Days, setDays] = useState<string[]>([])
   const firstDayOfWeek = new Date();
@@ -49,8 +36,6 @@ export const ListDays = (
   // dynamicDate.setDate(firstDayOfWeek.getDate() + 1);
 
   const selectedDay = (date: string, index: number) => {
-    console.log('date', date)
-    console.log('index', index)
     setIndexDaySelected(index);
     selectDay(date);
 
@@ -82,10 +67,8 @@ export const ListDays = (
 
   useEffect(() => {
     if (IndexDaySelected < 0) {
-      console.log('IndexDaySelected < 0', IndexDaySelected)
       setIndexDaySelected(0)
     } else {
-      console.log('indexDaySelected', indexDaySelected)
       setIndexDaySelected(indexDaySelected || 0);
     }
   }, [indexDaySelected])
@@ -93,7 +76,6 @@ export const ListDays = (
   useEffect(() => {
     while (startDate <= endDate) {
       const day = startDate.toLocaleDateString('es-CL', { weekday: 'long' });
-      console.log('startDate day', day)
       Days.push(day);
       startDate.setDate(startDate.getDate() + 1);
     }
@@ -103,14 +85,12 @@ export const ListDays = (
 
   return (
     <div className='relative max-w-[90vw] w-full '>
-      {indexDaySelected}
       <div className="absolute h-[100px] px-2 py-3 right-0 "></div>
       <div className="flex justify-between overflow-x-scroll min-h-[86px] md:min-h-[110px] md:flex-wrap md:overflow-hidden gap-2 md:gap-[2px] ">
         {Days?.map((day, index) => {
           const month = dayjs(from).add(index, 'day').format('MMMM');
           // const month = capitalize(new Date(from)..toLocaleString('es-ES', { month: 'short' }));
           const dayDate = dayjs(from).add(3, 'hours').add(index, 'day').toDate();
-          console.log('list days : dayDate: ', dayDate)
 
 
           return (
