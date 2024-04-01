@@ -42,6 +42,8 @@ export const ListDays = (
   // dynamicDate.setDate(firstDayOfWeek.getDate() + 1);
 
   const selectedDay = (date: string, index: number) => {
+    console.log('date', date)
+    console.log('index', index)
     setIndexDaySelected(index);
     selectDay(date);
 
