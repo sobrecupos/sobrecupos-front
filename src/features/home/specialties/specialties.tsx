@@ -19,7 +19,7 @@ export const Specialties = ({ specialties }: SpecialtiesProps) => (
     {specialties.map(({ code, name, picture }) => (
       <Link
         href={`/especialidades/${code}`}
-        className={classes.card}
+        className={`${classes.card} flex flex-col gap-2 justify-center items-center`}
         key={`specialty-card-${code}`}
       >
         <Image
@@ -29,7 +29,7 @@ export const Specialties = ({ specialties }: SpecialtiesProps) => (
           height="85"
           width="85"
         />
-        <h3 className={classes.cardTitle}>{name}</h3>
+        <h3 className={`${classes.cardTitle} font-bold`}>{name}</h3>
       </Link>
     ))}
   </div>
