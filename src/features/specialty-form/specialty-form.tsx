@@ -4,6 +4,7 @@ import { specialtiesClient } from "@marketplace/data-access/specialties/specialt
 import { Button } from "@marketplace/ui/button";
 import { Form, useForm } from "@marketplace/ui/form";
 import { Input } from "@marketplace/ui/input";
+import { Select } from "@marketplace/ui/select";
 import { useRouter } from "next/navigation";
 import { required } from "../form/validators/required";
 import { UploadPicture } from "../upload-picture";
@@ -16,6 +17,7 @@ export type SpecialtyFormProps = {
     title: string;
     description: string;
   };
+  type?: string;
 };
 
 const initialValues = {
@@ -28,6 +30,7 @@ export const SpecialtyForm = ({
   name = "",
   picture = "",
   seo,
+  type,
 }: SpecialtyFormProps) => {
   const router = useRouter();
 
@@ -37,6 +40,7 @@ export const SpecialtyForm = ({
       picture: string;
       seoTitle: string;
       seoDescription: string;
+      type: string;
     }) => {
       const payload = {
         name: values.name,
@@ -45,6 +49,7 @@ export const SpecialtyForm = ({
           title: values.seoTitle,
           description: values.seoDescription,
         },
+        type: values.type || "specialty",
       };
 
       if (id) {
@@ -66,6 +71,9 @@ export const SpecialtyForm = ({
       },
       seoDescription: {
         value: seo?.description || "",
+      },
+      type: {
+        value: type || "specialty",
       },
     },
     rules: {
@@ -93,6 +101,12 @@ export const SpecialtyForm = ({
           message: "Ingresa una descripción!",
         },
       ],
+      type: [
+        {
+          validator: required,
+          message: "Ingresa un tipo!",
+        },
+      ],
     },
   });
 
@@ -102,6 +116,7 @@ export const SpecialtyForm = ({
       <Input label="Nombre" name="name" />
       <Input label="Título SEO" name="seoTitle" />
       <Input label="Descripción SEO" name="seoDescription" />
+      <Select label="Tipo" name="type" options={[{ label: "Especialidad", value: "specialty" }, { label: "Examen", value: "exam" }]} />
       <Button block type="submit">
         Guardar
       </Button>

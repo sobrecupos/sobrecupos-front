@@ -44,11 +44,17 @@ const SpecialtyPage = async ({
   return (
     <div className={classes.namespace}>
       <div className={classes.header}>
-        <p className={classes.title}>Especialidad</p>
+        <p className={classes.title}>{
+          specialty?.type === "exam" ? "Exámenes" : "Especialidad"
+        }</p>
         <h1 className={classes.specialty}>{specialty.name}</h1>
         <p className={classes.description}>
-          En sobrecupos todos nuestros profesionales cuentan con la autorización
-          del Ministerio de Salud
+          {
+            specialty?.type === "exam" ?
+              "Consigue una hora pronto para tus exámenes de forma rápida y sencilla." :
+              "En sobrecupos todos nuestros profesionales cuentan con la autorización del Ministerio de Salud"
+          }
+
         </p>
       </div>
       <ul className={classes.practitioners}>
