@@ -6,4 +6,5 @@ export type SpecialtyEntity = {
     title: string;
     description: string;
   };
+  type: string;
 };
