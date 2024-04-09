@@ -45,7 +45,7 @@ const SpecialtyPage = async ({
     <div className={classes.namespace}>
       <div className={classes.header}>
         <p className={classes.title}>{
-          specialty?.type === "exam" ? "Exámenes" : "Especialidad"
+          specialty?.type === "exam" ? "Examen" : "Especialidad"
         }</p>
         <h1 className={classes.specialty}>{specialty.name}</h1>
         <p className={classes.description}>
