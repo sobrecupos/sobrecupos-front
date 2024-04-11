@@ -19,23 +19,33 @@ const SpecialtiesPage = async () => {
 
   return (
     <div className={classes.namespace}>
-      <h1 className={classes.title}>Especialidades</h1>
-      <Link href="/app/especialidades/crear" className={classes.create}>
-        Crear especialidad
-      </Link>
-      <Card className={classes.entriesContainer}>
-        <h3 className={classes.entriesTitle}>Listado</h3>
-        {specialties.map(({ id, code, name }) => (
-          <Entry
-            key={id}
-            href={`/app/especialidades/${id}`}
-            fields={[
-              { label: "Nombre", value: name },
-              { label: "Código", value: code },
-            ]}
-          />
-        ))}
-      </Card>
+      <div className="flex justify-center items-center">
+        <Link
+          href="/app/dashboard"
+          className={`text-center text-indigo-500 border-2 border-indigo-600 hover:bg-indigo-600 hover:text-white rounded-md h-fit w-8  bg-white font-semibold`}
+        >{"<"}</Link>
+        <h1 className={`${classes.title}  text-2xl`}>Especialidades</h1>
+
+      </div>
+      <div>
+        <Link href="/app/especialidades/crear" className={`${classes.create} text-center bg-indigo-500 hover:bg-indigo-700 rounded-md w-[80%] md:w-[33%] mx-auto text-white p-4 font-semibold`}>
+          Crear especialidad
+        </Link>
+        <Card className={`${classes.entriesContainer} `}>
+          <h3 className={classes.entriesTitle}>Listado</h3>
+          {specialties.map(({ id, code, name }) => (
+            <Entry
+              key={id}
+              href={`/app/especialidades/${id}`}
+              fields={[
+                { label: "Nombre", value: name },
+                { label: "Código", value: code },
+              ]}
+              className={`border-2 border-indigo-300 rounded-md hover:border-indigo-700 hover:bg-indigo-100`}
+            />
+          ))}
+        </Card>
+      </div>
     </div>
   );
 };

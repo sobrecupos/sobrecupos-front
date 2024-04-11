@@ -59,6 +59,21 @@ export class PractitionersService {
     return { results };
   }
 
+  async listAll() {
+    const practitioners = await this.getCollection();
+    const cursor = practitioners.find<PublicPractitionerProfileResponse>(
+      {},
+      { projection: publicPractitionerProfileProjection }
+    );
+    const results = [];
+
+    for await (const entry of cursor) {
+      results.push(entry);
+    }
+
+    return { results };
+  }
+
   async create(payload: CreatePractitionerRequest) {
     const countryCode = payload.countryCode || "CL";
     const [practitioners, counters] = await Promise.all([
