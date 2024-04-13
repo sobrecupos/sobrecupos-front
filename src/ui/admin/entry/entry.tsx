@@ -10,6 +10,7 @@ export type EntryProps = {
     label: string;
     value: string;
   }[];
+  className?: string;
 };
 
 const classes = getComponentClassNames("entry", {
@@ -18,12 +19,12 @@ const classes = getComponentClassNames("entry", {
   group: "group",
 });
 
-export const Entry = ({ href, fields }: EntryProps) => {
+export const Entry = ({ href, fields, className }: EntryProps) => {
   const id = useId();
 
   return (
-    <Link href={href} className={classes.namespace}>
-      <Card>
+    <Link href={href} className={`${classes.namespace} ${className}`}>
+      <Card className={`rounded-md`}>
         {fields.map(({ label, value }) => (
           <div key={`field-${id}-${label}-${value}`} className={classes.group}>
             <span className={classes.label}>{label}: </span>

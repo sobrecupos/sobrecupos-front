@@ -19,8 +19,16 @@ const PracticesPage = async () => {
 
   return (
     <div className={classes.namespace}>
-      <h1 className={classes.title}>Instituciones</h1>
-      <Link href="/app/instituciones/crear" className={classes.create}>
+      <div className="flex justify-center items-center">
+        <Link
+          href="/app/dashboard"
+          className={`text-center text-indigo-500 border-2 border-indigo-600 hover:bg-indigo-600 hover:text-white rounded-md h-fit w-8  bg-white font-semibold`}
+        >{"<"}</Link>
+        <h1 className={`${classes.title}  text-2xl`}>Instituciones</h1>
+
+      </div>
+
+      <Link href="/app/instituciones/crear" className={`${classes.create} bg-indigo-500 hover:bg-indigo-700 rounded-md w-[80%] md:w-[33%] mx-auto text-white p-4 font-semibold`}>
         Crear institución
       </Link>
       <Card className={classes.entriesContainer}>
@@ -33,6 +41,7 @@ const PracticesPage = async () => {
               { label: "Nombre", value: name },
               { label: "Dirección", value: shortFormattedAddress },
             ]}
+            className={`border-2 border-indigo-300 rounded-md hover:border-indigo-700 hover:bg-indigo-100`}
           />
         ))}
       </Card>
