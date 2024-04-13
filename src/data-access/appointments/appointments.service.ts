@@ -263,8 +263,8 @@ export class AppointmentsService {
     const from = dayjs.utc(fromDateString);
     const to = dayjs.utc(toDateString);
 
-    console.log("fromDateString", fromDateString);
-    console.log("toDateString", toDateString);
+    // console.log("fromDateString", fromDateString);
+    // console.log("toDateString", toDateString);
 
     const cursor = collection.aggregate([
       {
@@ -920,11 +920,11 @@ export class AppointmentsService {
     fromDateString?: string,
     toDateString?: string
   ) {
-    console.log("findAppoinmentsFromTo");
+    // console.log("findAppoinmentsFromTo");
     const collection = await this.collection();
     const startOfDay = dayjs.utc(fromDateString).startOf("day");
     const endOfDay = dayjs.utc(toDateString).endOf("day");
-    console.log("startOfDay", startOfDay.toDate(), endOfDay.toDate());
+    // console.log("startOfDay", startOfDay.toDate(), endOfDay.toDate());
     const cursor = collection.aggregate([
       {
         $match: {
