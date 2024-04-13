@@ -203,6 +203,7 @@ export const Schedule = ({
   }, [schedule, selected])
 
   if (hasError) {
+    console.error(`schedule error: practitionerId: ${practitionerId}, practitioner: ${practitioner}, from: ${from}, to: ${to}`)
     return (
       <div className={classes.namespace} id="sobrecupos">
         <div className={classes.title}>Algo salió mal 😥</div>
