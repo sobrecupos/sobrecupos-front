@@ -18,7 +18,7 @@ const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
 
 export const ListDays = (
   {
-    selectDay,
+    selectDay: SelectDay,
     schedule,
     activesAppointments,
     practitionerId,
@@ -26,7 +26,9 @@ export const ListDays = (
     from,
     to
   }: ListDaysProps) => {
-  const startDate = dayjs(from).add(3, 'hours').toDate();
+  // console.log('from', from)
+  const startDate = dayjs(from).toDate();
+  // console.log('startDate', startDate)
   const endDate = dayjs(to).toDate();
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
   const [Days, setDays] = useState<string[]>([])
@@ -37,7 +39,7 @@ export const ListDays = (
 
   const selectedDay = (date: string, index: number) => {
     setIndexDaySelected(index);
-    selectDay(date);
+    SelectDay(date);
 
   }
 
@@ -66,9 +68,16 @@ export const ListDays = (
   }
 
   useEffect(() => {
+    // console.log('indexDaySelected', indexDaySelected)
+    // console.log('IndexDaySelected', IndexDaySelected)
     if (IndexDaySelected < 0) {
+      // console.log('if')
       setIndexDaySelected(0)
+    } else if (IndexDaySelected !== indexDaySelected && indexDaySelected !== undefined) {
+      // console.log('else if')
+      setIndexDaySelected(indexDaySelected);
     } else {
+      // console.log('else')
       setIndexDaySelected(indexDaySelected || 0);
     }
   }, [indexDaySelected])

@@ -3,17 +3,14 @@
 import { appointmentsClient } from "@marketplace/data-access/appointments/appointments.client";
 import { ordersClient } from "@marketplace/data-access/orders/orders.client";
 import ListDays from "@marketplace/ui/ListDays/ListDays";
-import { Alert } from "@marketplace/ui/alert";
-import { Button } from "@marketplace/ui/button";
 import ButtonAppointment from "@marketplace/ui/buttonAppointment/buttonAppointment";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import SectionFormConfirmDate from "@marketplace/ui/sections/sectionFormConfirmDate";
 import { AppointmentsByPractice } from "@marketplace/utils/types/appointments";
-import classNames from "classnames";
 import dayjs from "dayjs";
 import localeEs from "dayjs/locale/es";
 import localeData from "dayjs/plugin/localeData";
-import { ArrowLeftIcon, Loader2Icon, MapIcon } from "lucide-react";
-import Link from "next/link";
+import { Loader2Icon, MapIcon } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import "./schedule.scss";
 
@@ -148,6 +145,8 @@ export const Schedule = ({
 
   const selectDay = async (day: string, firstRender: boolean = false) => {
     setIsLoading(true);
+    const indexDayOfWeek = dayjs(day.split('T')[0]).day();
+    // console.log('indexDayOfWeek', indexDayOfWeek)
     const from = day;
     if (!firstRender) setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
@@ -160,17 +159,18 @@ export const Schedule = ({
     setIsLoading(true);
     //aqui no se debe ir al siguiente día, sino al siguiente día con horas disponibles
     //todo
-    const nextDay = dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS");
+    // const nextDay = dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS");
     const scheduleSort = await schedule.results.sort((a, b) => {
       return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
     }
     )
     const indexDayOfWeek = dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).day();
+    // console.log('indexDayOfWeek', indexDayOfWeek)
     setSelectedDate(schedule.from);
     //todo
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from: schedule.from });
-    selectDay(scheduleSort[0].appointments[0].start.split('T')[0]);
-    setIndexDaySelected(indexDayOfWeek - 1);
+    await setIndexDaySelected(indexDayOfWeek - 1);
+    selectDay(scheduleSort[0].appointments[0].start.split('T')[0], true);
     setIsLoading(false);
   }
 
@@ -208,6 +208,8 @@ export const Schedule = ({
       <div className={classes.namespace} id="sobrecupos">
         <div className={classes.title}>Algo salió mal 😥</div>
         <div className={classes.subtitle}>Intenta recargar la página</div>
+        <div className="mx-8 md:mx-auto md:w-2/4 bg-indigo-50 rounded-md p-2">
+          <p className="text-lg md:text-sm text-center text">Si el error persiste, porfavor escribenos a <a className="font-semibold text-indigo-700" href="mailto:contacto@sobrecupos.com">contacto@sobrecupos.com</a></p>  </div>
       </div>
     );
   }
@@ -215,138 +217,15 @@ export const Schedule = ({
   return (
     <div className={`${classes.namespace}`} id="sobrecupos">
       {selected ? (
-        <>
-          <button
-            className={classes.back}
-            type="button"
-            onClick={() => setSelected(null)}
-            disabled={isLoading}
-          >
-            <ArrowLeftIcon size={16} />
-          </button>
-          <div className={classes.table}>
-            <div className={classes.tableRow}>
-              <span className={classes.tableData}>Sobrecupo:</span>
-              <span
-                className={classes.tableData}
-              >{`${selected.date} a las ${selected.label}`}</span>
-            </div>
-            <div className={classes.tableRow}>
-              <span className={classes.tableData}>Especialista:</span>
-              <span className={classes.tableData}>{practitioner}</span>
-            </div>
-            <div className={classes.tableRow}>
-              <span className={classes.tableData}>Previsión:</span>
-              <span className={classes.tableData}>
-                {selected.insuranceProviders}
-              </span>
-            </div>
-            <div className={classes.tableRow}>
-              <span className={classes.tableData}>Ubicación:</span>
-              <span className={classes.tableData}>{selected.address}</span>
-            </div>
-          </div>
-          <form className={classes.form} onSubmit={handleSubmit}>
-            <label className={classes.formElement}>
-              <span className={classes.label}>Nombre completo</span>
-              <input
-                className={classes.input}
-                type="text"
-                required
-                placeholder="Jose González"
-                value={values.name}
-                onChange={(event) => {
-                  const { value } = event.target;
-                  handleFieldChange("name", value);
-                }}
-              />
-            </label>
-            <label className={classes.formElement}>
-              <span className={classes.label}>Correo electrónico</span>
-              <input
-                className={classes.input}
-                type="email"
-                required
-                placeholder="josegonzalez@miemail.com"
-                value={values.email}
-                onChange={(event) => {
-                  const { value } = event.target;
-                  handleFieldChange("email", value);
-                }}
-              />
-            </label>
-            <label className={classes.formElement}>
-              <span className={classes.label}>Teléfono</span>
-              <input
-                className={classes.input}
-                type="tel"
-                required
-                placeholder="+56911223344"
-                value={values.phone}
-                onChange={(event) => {
-                  const { value } = event.target;
-                  handleFieldChange("phone", value);
-                }}
-              />
-            </label>
-            <label
-              className={classNames(
-                classes.formElement,
-                `${classes.formElement}--inline`
-              )}
-            >
-              <input
-                className={classes.input}
-                type="checkbox"
-                required
-                checked={values.paymentAcknowledgement}
-                onChange={(event) => {
-                  const { checked } = event.target;
-                  handleFieldChange("paymentAcknowledgement", checked);
-                }}
-              />
-              <span className={classes.label}>
-                Entiendo que{" "}
-                <b>sólo estoy pagando la autorización a un sobrecupo</b> y que{" "}
-                <b>debo pagar la consulta médica</b> en el lugar de atención
-              </span>
-            </label>
-            <label
-              className={classNames(
-                classes.formElement,
-                `${classes.formElement}--inline`
-              )}
-            >
-              <input
-                className={classes.input}
-                type="checkbox"
-                required
-                checked={values.termsAndConditions}
-                onChange={(event) => {
-                  const { checked } = event.target;
-                  handleFieldChange("termsAndConditions", checked);
-                }}
-              />
-              <span className={classes.label}>
-                Acepto{" "}
-                <Link href="/terminos-y-condiciones">
-                  términos y condiciones
-                </Link>
-              </span>
-            </label>
-            <Alert type="warning">
-              Tendrás 5 minutos para finalizar tu compra en el portal de pagos.
-            </Alert>
-            <Button
-              className={classes.submit}
-              type="submit"
-              isLoading={isLoading}
-              block
-            >
-              Pagar sobrecupo $2.990
-            </Button>
-          </form>
-        </>
+        <SectionFormConfirmDate
+          selected={selected}
+          setSelected={setSelected}
+          isLoading={isLoading}
+          practitioner={practitioner}
+          handleSubmit={handleSubmit}
+          values={values}
+          handleFieldChange={handleFieldChange}
+        />
       ) : (
         <>
           <div className={classes.title}>Pide tu sobrecupo aquí:</div>
