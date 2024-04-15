@@ -26,9 +26,7 @@ export const ListDays = (
     from,
     to
   }: ListDaysProps) => {
-  // console.log('from', from)
-  const startDate = dayjs(from).toDate();
-  // console.log('startDate', startDate)
+  const startDate = dayjs(from).add(4, 'hour').toDate();
   const endDate = dayjs(to).toDate();
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
   const [Days, setDays] = useState<string[]>([])
@@ -99,7 +97,7 @@ export const ListDays = (
         {Days?.map((day, index) => {
           const month = dayjs(from).add(index, 'day').format('MMMM');
           // const month = capitalize(new Date(from)..toLocaleString('es-ES', { month: 'short' }));
-          const dayDate = dayjs(from).add(3, 'hours').add(index, 'day').toDate();
+          const dayDate = dayjs(from).add(4, 'hours').add(index, 'day').toDate();
 
 
           return (
