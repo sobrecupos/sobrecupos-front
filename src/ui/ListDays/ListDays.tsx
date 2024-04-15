@@ -26,9 +26,9 @@ export const ListDays = (
     from,
     to
   }: ListDaysProps) => {
-  // console.log('from', from)
+  console.log('from', from)
   const startDate = dayjs(from).toDate();
-  // console.log('startDate', startDate)
+  console.log('startDate', startDate)
   const endDate = dayjs(to).toDate();
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
   const [Days, setDays] = useState<string[]>([])
