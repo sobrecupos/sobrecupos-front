@@ -15,8 +15,8 @@ export class EventBrokerService {
     body,
     delayInSeconds: delay,
   }: {
-    url?: string;
-    topic?: string;
+    url: string;
+    topic: string;
     body: Record<string, unknown>;
     delayInSeconds?: number;
   }) {
@@ -24,7 +24,7 @@ export class EventBrokerService {
 
     return this.client.publishJSON({
       url,
-      topic,
+      topic: topic as unknown as undefined,
       body,
       delay,
     });

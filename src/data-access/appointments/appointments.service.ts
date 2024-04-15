@@ -743,7 +743,8 @@ export class AppointmentsService {
 
   publishAppointmentReservation(id: string) {
     return eventBrokerService.publish({
-      topic: process.env.EVENT_APPOINTMENT_RESERVATION_URL,
+      url: process.env.EVENT_APPOINTMENT_RESERVATION_URL ?? "",
+      topic: process.env.EVENT_APPOINTMENT_RESERVATION_URL ?? "",
       body: { id },
       delayInSeconds: 6 * 60,
     });
