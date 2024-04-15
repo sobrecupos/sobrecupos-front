@@ -29,7 +29,7 @@ export const ListDays = (
   }: ListDaysProps) => {
 
   console.log('from', from)
-  const startDate = dayjs(from).toDate();
+  const startDate = dayjs(from).add(negativeOffset, 'hour').toDate();
   console.log('startDate', startDate)
   console.log('startDate w negativeOffset', dayjs(from).add(negativeOffset * -1, "hour").toDate())
 
