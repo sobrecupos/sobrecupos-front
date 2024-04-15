@@ -29,7 +29,7 @@ export const ListDays = (
   }: ListDaysProps) => {
 
   console.log('from', from)
-  const startDate = dayjs(from).toDate();
+  const startDate = dayjs(from).add(negativeOffset, 'hour').toDate();
   console.log('startDate', startDate)
 
   console.log('negativeOffset', negativeOffset)
@@ -39,9 +39,9 @@ export const ListDays = (
   const endDate = dayjs(to).toDate();
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
   const [Days, setDays] = useState<string[]>([])
-  const firstDayOfWeek = new Date();
+  // const firstDayOfWeek = new Date();
   // const dynamicDate = new Date();
-  firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
+  // firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
   // dynamicDate.setDate(firstDayOfWeek.getDate() + 1);
 
   const selectedDay = (date: string, index: number) => {
@@ -96,7 +96,7 @@ export const ListDays = (
       Days.push(day);
       startDate.setDate(startDate.getDate() + 1);
     }
-  }, [])
+  }, [startDate, endDate, Days])
 
 
 
