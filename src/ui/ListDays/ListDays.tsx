@@ -31,8 +31,10 @@ export const ListDays = (
   console.log('from', from)
   const startDate = dayjs(from).add(negativeOffset, 'hour').toDate();
   console.log('startDate', startDate)
+
   console.log('negativeOffset', negativeOffset)
   console.log('startDate w negativeOffset', dayjs(from).add(negativeOffset, "hour").toDate())
+
 
   const endDate = dayjs(to).toDate();
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
