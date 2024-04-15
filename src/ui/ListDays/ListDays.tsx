@@ -1,4 +1,5 @@
 import { appointmentsClient } from '@marketplace/data-access/appointments/appointments.client';
+import { negativeOffset } from '@marketplace/utils/normalizers/dateUtils';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
@@ -30,6 +31,7 @@ export const ListDays = (
   console.log('from', from)
   const startDate = dayjs(from).toDate();
   console.log('startDate', startDate)
+  console.log('startDate w negativeOffset', dayjs(from).add(negativeOffset * -1, "hour").toDate())
 
   const endDate = dayjs(to).toDate();
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
