@@ -27,7 +27,7 @@ export const ListDays = (
     to
   }: ListDaysProps) => {
   console.log('from', from)
-  const startDate = dayjs(from).toDate();
+  const startDate = dayjs(from).add(4, 'hour').toDate();
   console.log('startDate', dayjs(startDate).add(4, 'hour').toDate())
   const endDate = dayjs(to).toDate();
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
