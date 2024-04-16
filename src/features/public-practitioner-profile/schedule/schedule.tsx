@@ -46,11 +46,13 @@ const classes = getComponentClassNames("schedule", {
 });
 
 const formatDate = (dateString: string) => {
-  //console.log('dateString', dateString)
+  console.log('dateString', dateString)
   const formattedDate = new Intl.DateTimeFormat("es-CL", {
     dateStyle: "full",
     timeZone: "America/Santiago",
   }).format(new Date(dateString));
+
+  console.log('formattedDate', dayjs(dateString).add(4, 'hour').format("dddd D [de] MMMM [de] YYYY [a las] HH:mm"))
 
   return formattedDate[0].toUpperCase() + formattedDate.slice(1);
 };
