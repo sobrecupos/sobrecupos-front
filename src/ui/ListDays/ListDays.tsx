@@ -9,7 +9,7 @@ export type ListDaysProps = {
   schedule: any;
   activesAppointments: any;
   practitionerId: string;
-  indexDaySelected?: number;
+  indexDaySelected: number;
   from: string;
   to: string;
 };
@@ -31,16 +31,24 @@ export const ListDays = (
   const [IndexDaySelected, setIndexDaySelected] = useState<number>(indexDaySelected || -1)
   const [Days, setDays] = useState<string[]>([])
   const firstDayOfWeek = new Date();
-  // const dynamicDate = new Date();
   firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
-  // dynamicDate.setDate(firstDayOfWeek.getDate() + 1);
 
+  /**
+   * @description Function to select the day and send it to the parent component
+   * @param date 
+   * @param index 
+   */
   const selectedDay = (date: string, index: number) => {
+    let diffDays = 6 - dayjs().day();
     setIndexDaySelected(index);
     SelectDay(date);
-
   }
 
+  /**
+   * @description Function to format the date to the format yyyy-mm-dd
+   * @param date 
+   * @returns 
+   */
   function formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Agrega un cero adelante si el número de mes tiene un solo dígito
@@ -49,8 +57,6 @@ export const ListDays = (
   }
 
   const getAppointmentPerDay = async (date: string) => {
-    //console.log('practitionerId', practitionerId)
-    //console.log('date', date)
     const countAppointments = await appointmentsClient.getAppointmentByPractitionerInDate({
       practitionerId,
       date
@@ -61,22 +67,23 @@ export const ListDays = (
     ).catch((err) => {
       //console.log('err', err)
     });
-
-    //console.log('countAppointments', countAppointments)
   }
 
+  // useEffect(() => {
+  //   console.log('IndexDaySelected', IndexDaySelected, indexDaySelected)
+  //   if (IndexDaySelected < 0) {
+  //     setIndexDaySelected(0)
+  //   } else if (IndexDaySelected !== indexDaySelected && indexDaySelected !== undefined) {
+  //     setIndexDaySelected(indexDaySelected);
+  //   } else {
+  //     setIndexDaySelected(indexDaySelected || 0);
+  //   }
+  // }, [indexDaySelected])
+
   useEffect(() => {
-    // console.log('indexDaySelected', indexDaySelected)
-    // console.log('IndexDaySelected', IndexDaySelected)
-    if (IndexDaySelected < 0) {
-      // console.log('if')
-      setIndexDaySelected(0)
-    } else if (IndexDaySelected !== indexDaySelected && indexDaySelected !== undefined) {
-      // console.log('else if')
+
+    if (indexDaySelected >= 0) {
       setIndexDaySelected(indexDaySelected);
-    } else {
-      // console.log('else')
-      setIndexDaySelected(indexDaySelected || 0);
     }
   }, [indexDaySelected])
 

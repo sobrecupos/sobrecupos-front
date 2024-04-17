@@ -46,12 +46,10 @@ const classes = getComponentClassNames("schedule", {
 });
 
 const formatDate = (dateString: string) => {
-  //console.log('dateString', dateString)
   const formattedDate = new Intl.DateTimeFormat("es-CL", {
     dateStyle: "full",
     timeZone: "America/Santiago",
   }).format(new Date(dateString));
-
   return formattedDate[0].toUpperCase() + formattedDate.slice(1);
 };
 
@@ -152,6 +150,8 @@ export const Schedule = ({
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
     setSelectScheduleDay(schedulePerDay);
     // setIndexDaySelected(dayjs(from).day() === 0 ? 6 : dayjs(from).day() - 1);
+    let diffDays = 6 - dayjs().day();
+    await setIndexDaySelected(indexDayOfWeek - diffDays);
     setIsLoading(false);
   }
 
@@ -164,12 +164,14 @@ export const Schedule = ({
       return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
     }
     )
+
     const indexDayOfWeek = dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).day();
     // console.log('indexDayOfWeek', indexDayOfWeek)
-    setSelectedDate(schedule.from);
+    setSelectedDate(dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     //todo
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from: schedule.from });
-    await setIndexDaySelected(indexDayOfWeek - 1);
+    let diffDays = 6 - dayjs().day();
+    await setIndexDaySelected(indexDayOfWeek - diffDays);
     selectDay(scheduleSort[0].appointments[0].start.split('T')[0], true);
     setIsLoading(false);
   }
