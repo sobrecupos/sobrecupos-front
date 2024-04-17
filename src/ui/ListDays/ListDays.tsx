@@ -9,7 +9,7 @@ export type ListDaysProps = {
   schedule: any;
   activesAppointments: any;
   practitionerId: string;
-  indexDaySelected?: number;
+  indexDaySelected: number;
   from: string;
   to: string;
 };
@@ -39,6 +39,7 @@ export const ListDays = (
    * @param index 
    */
   const selectedDay = (date: string, index: number) => {
+    let diffDays = 6 - dayjs().day();
     setIndexDaySelected(index);
     SelectDay(date);
   }
@@ -68,13 +69,21 @@ export const ListDays = (
     });
   }
 
+  // useEffect(() => {
+  //   console.log('IndexDaySelected', IndexDaySelected, indexDaySelected)
+  //   if (IndexDaySelected < 0) {
+  //     setIndexDaySelected(0)
+  //   } else if (IndexDaySelected !== indexDaySelected && indexDaySelected !== undefined) {
+  //     setIndexDaySelected(indexDaySelected);
+  //   } else {
+  //     setIndexDaySelected(indexDaySelected || 0);
+  //   }
+  // }, [indexDaySelected])
+
   useEffect(() => {
-    if (IndexDaySelected < 0) {
-      setIndexDaySelected(0)
-    } else if (IndexDaySelected !== indexDaySelected && indexDaySelected !== undefined) {
+
+    if (indexDaySelected >= 0) {
       setIndexDaySelected(indexDaySelected);
-    } else {
-      setIndexDaySelected(indexDaySelected || 0);
     }
   }, [indexDaySelected])
 
