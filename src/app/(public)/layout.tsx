@@ -41,8 +41,8 @@ const PublicLayout = async ({
           },
         ]}
         cta={
-          <ButtonLink href="https://sobrecupos.pro">
-            🧐 ¿Eres médico?
+          <ButtonLink href="/iniciar">
+            Inicia Sesión
           </ButtonLink>
         }
       />
