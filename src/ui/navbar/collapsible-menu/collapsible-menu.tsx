@@ -88,7 +88,7 @@ export const CollapsibleMenu = ({
     ))}
     <li>
       <Link href="/iniciar" className={classes.collapsibleLink}>
-        Inicia Sesión
+        Acceso médicos
       </Link>
     </li>
   </ul>

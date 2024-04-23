@@ -42,7 +42,7 @@ const PublicLayout = async ({
         ]}
         cta={
           <ButtonLink href="/iniciar">
-            Inicia Sesión
+            Acceso médicos
           </ButtonLink>
         }
       />
