@@ -51,7 +51,7 @@ export const PublicPractitionerCard = ({
 }: PublicPractitionerCardProps) => (
   <li className={classes.namespace}>
     <Wrapper
-      disabled={appointments.length === 0}
+      disabled={false}
       href={`/profesional/${code}`}
       className={classes.link}
     >
@@ -77,7 +77,7 @@ export const PublicPractitionerCard = ({
           </div>
         </div>
       </div>
-      <button className={classes.action} disabled={appointments.length === 0}>
+      <button className={classes.action} >
         {appointments.length === 0 ? "No tengo sobrecupos" : null}
         {appointments.length === 1 ? "Tengo 1 sobrecupo" : null}
         {appointments.length > 1

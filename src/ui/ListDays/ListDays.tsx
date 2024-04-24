@@ -1,3 +1,4 @@
+'use client';
 import { appointmentsClient } from '@marketplace/data-access/appointments/appointments.client';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -5,26 +6,28 @@ import { useEffect, useState } from 'react';
 
 
 export type ListDaysProps = {
-  selectDay: (date: string) => void;
+  selectDay: (date: string, firsRender: boolean) => void;
   schedule: any;
   activesAppointments: any;
   practitionerId: string;
   indexDaySelected: number;
   from: string;
   to: string;
+  isEmptyWeek: boolean;
 };
 
 const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
 
 export const ListDays = (
   {
-    selectDay: SelectDay,
+    selectDay: selectDay,
     schedule,
     activesAppointments,
     practitionerId,
     indexDaySelected,
     from,
-    to
+    to,
+    isEmptyWeek,
   }: ListDaysProps) => {
   const startDate = dayjs(from).add(4, 'hour').toDate();
   const endDate = dayjs(to).toDate();
@@ -39,9 +42,8 @@ export const ListDays = (
    * @param index 
    */
   const selectedDay = (date: string, index: number) => {
-    let diffDays = 6 - dayjs().day();
     setIndexDaySelected(index);
-    SelectDay(date);
+    selectDay(date, false);
   }
 
   /**
@@ -69,19 +71,7 @@ export const ListDays = (
     });
   }
 
-  // useEffect(() => {
-  //   console.log('IndexDaySelected', IndexDaySelected, indexDaySelected)
-  //   if (IndexDaySelected < 0) {
-  //     setIndexDaySelected(0)
-  //   } else if (IndexDaySelected !== indexDaySelected && indexDaySelected !== undefined) {
-  //     setIndexDaySelected(indexDaySelected);
-  //   } else {
-  //     setIndexDaySelected(indexDaySelected || 0);
-  //   }
-  // }, [indexDaySelected])
-
   useEffect(() => {
-
     if (indexDaySelected >= 0) {
       setIndexDaySelected(indexDaySelected);
     }
@@ -95,8 +85,6 @@ export const ListDays = (
     }
   }, [])
 
-
-
   return (
     <div className='relative max-w-[90vw] w-full '>
       <div className="absolute h-[100px] px-2 py-3 right-0 "></div>
@@ -108,18 +96,21 @@ export const ListDays = (
 
 
           return (
-            <div
+            <button
               key={index}
-              className={`flex-shrink-0 flex-col w-[98px] md:w-[80px] h-fit min-h-[72px] ${IndexDaySelected === index ? 'bg-indigo-500' : 'bg-white border-2 w-[96px] border-indigo-500'}  rounded-lg text-center hover:cursor-pointer hover:shadow-lg`}
+              className={`
+                flex-shrink-0 flex-col w-[98px] md:w-[80px] h-fit min-h-[72px] ${!isEmptyWeek && IndexDaySelected === index ? 'bg-indigo-500' : 'bg-white border-2 w-[96px] border-indigo-500 '} rounded-lg text-center hover:cursor-pointer hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-indigo-500
+                `}
               onClick={() => {
                 selectedDay(formatDate(dayDate), index);
               }}
+              disabled={isEmptyWeek}
             >
               <div className="px-3 py-3">
-                <p className={`${IndexDaySelected !== index ? 'text-indigo-500' : 'text-white'} font-light text-sm`}>{capitalize(day.slice(0, 3))}</p>
-                <p className={`${IndexDaySelected !== index ? 'text-indigo-500' : 'text-white'} font-light pb-1 text-sm`}>{dayjs(dayDate).format('DD')} {capitalize(month.slice(0, 3))}</p>
+                <p className={`${IndexDaySelected !== index || isEmptyWeek ? 'text-indigo-500' : 'text-white'} $font-light text-sm`}>{capitalize(day.slice(0, 3))}</p>
+                <p className={`${IndexDaySelected !== index || isEmptyWeek ? 'text-indigo-500' : 'text-white'} font-light pb-1 text-sm`}>{dayjs(dayDate).format('DD')} {capitalize(month.slice(0, 3))}</p>
               </div>
-            </div>
+            </button>
           )
         })}
       </div>

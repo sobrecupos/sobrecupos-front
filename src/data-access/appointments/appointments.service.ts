@@ -198,7 +198,7 @@ export class AppointmentsService {
             $gt: from.toDate(),
             // Offset in CL, this should be dynamic
             $lt: from
-              .add(-3, "hours")
+              .add(-4, "hours")
               .startOf("day")
               .add(
                 this.scheduleConfig.CL.startingHour +
@@ -263,8 +263,7 @@ export class AppointmentsService {
     const from = dayjs.utc(fromDateString);
     const to = dayjs.utc(toDateString);
 
-    // console.log("fromDateString", fromDateString);
-    // console.log("toDateString", toDateString);
+    const currentDateTime = new Date().toISOString();
 
     const cursor = collection.aggregate([
       {
@@ -278,6 +277,14 @@ export class AppointmentsService {
           status: "FREE",
         },
       },
+      // {
+      //   $match: {
+      //     // Filtra los documentos cuya fecha de inicio sea posterior al momento actual
+      //     start: {
+      //       $gt: currentDateTime,
+      //     },
+      //   },
+      // },
       {
         $group: {
           _id: "$practice.id",
@@ -319,6 +326,7 @@ export class AppointmentsService {
         id: _id,
       });
     }
+
     return {
       from: from.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       to: to.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
@@ -332,7 +340,7 @@ export class AppointmentsService {
   ) {
     const collection = await this.collection();
     const from = dayjs.utc(date);
-
+    const currentDateTime = new Date().toISOString();
     const cursor = collection.aggregate([
       {
         $match: {
@@ -341,7 +349,7 @@ export class AppointmentsService {
             $gt: from.toDate(),
             // Offset in CL, this should be dynamic
             $lt: from
-              .add(-3, "hours")
+              .add(-4, "hours")
               .startOf("day")
               .add(
                 this.scheduleConfig.CL.startingHour +
@@ -354,6 +362,14 @@ export class AppointmentsService {
           status: "FREE",
         },
       },
+      // {
+      //   $match: {
+      //     // Filtra los documentos cuya fecha de inicio sea posterior al momento actual
+      //     start: {
+      //       $gt: currentDateTime,
+      //     },
+      //   },
+      // },
       {
         $group: {
           _id: "$practice.id",
@@ -795,15 +811,17 @@ export class AppointmentsService {
     const from = dayjs.utc(fromDateString);
     const to = dayjs.utc(toDateString);
 
+    const currentDateTime = dayjs().add(-4, "hours").toISOString();
+
     const cursor = collection.aggregate([
       {
         $match: {
           practitionerId: practitionerId,
           start: {
-            $gt: from.toDate(),
+            $gt: currentDateTime,
             // Offset in CL, this should be dynamic
-            $lt: from
-              .add(-3, "hours")
+            $lt: to
+              .add(-4, "hours")
               .startOf("day")
               .add(
                 this.scheduleConfig.CL.startingHour +
@@ -816,6 +834,14 @@ export class AppointmentsService {
           status: "FREE",
         },
       },
+      // {
+      //   $match: {
+      //     // Filtra los documentos cuya fecha de inicio sea posterior al momento actual
+      //     start: {
+      //       $gt: currentDateTime,
+      //     },
+      //   },
+      // },
       {
         $group: {
           _id: "$practice.id",
