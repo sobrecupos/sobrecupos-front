@@ -86,5 +86,10 @@ export const CollapsibleMenu = ({
         ) : null}
       </li>
     ))}
+    <li>
+      <Link href="/iniciar" className={classes.collapsibleLink}>
+        Acceso médicos
+      </Link>
+    </li>
   </ul>
 );
