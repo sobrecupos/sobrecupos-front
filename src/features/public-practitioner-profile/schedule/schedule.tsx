@@ -171,6 +171,9 @@ export const Schedule = ({
   }
 
   const getNextDayWithAppointments = async (schedule: AppointmentsByPractice) => {
+    console.info('today', dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS"))
+    console.info('chile 3', dayjs().add(3, 'hour').locale('es').format("YYYY-MM-DDTHH:mm:ss.SSS"))
+    console.info('schedule', schedule)
     setIsLoading(true);
     const scheduleSort = await schedule.results.sort((a, b) => {
       return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
