@@ -73,6 +73,7 @@ export const ListDays = (
 
   useEffect(() => {
     if (indexDaySelected >= 0) {
+      console.info('indexDaySelected', indexDaySelected)
       setIndexDaySelected(indexDaySelected);
     }
   }, [indexDaySelected])
