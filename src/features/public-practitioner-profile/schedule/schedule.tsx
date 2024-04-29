@@ -182,6 +182,8 @@ export const Schedule = ({
     setSelectedDate(dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     // const schedulePerDay = aºwait appointmentsClient.getScheduleByDate({ practitionerId, from: schedule.from });
     let diffDays = 6 - dayjs(from).day();
+    console.info('diffDays', diffDays)
+    console.info('indexDayOfWeek - dayjs(from).day()', indexDayOfWeek - dayjs(from).day())
     await setIndexDaySelected(indexDayOfWeek - dayjs(from).day());
     selectDay(scheduleSort[0].appointments[0].start.split('T')[0], false);
     setIsLoading(false);
