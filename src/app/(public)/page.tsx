@@ -1,6 +1,5 @@
 import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
 import { AboutUs } from "@marketplace/features/home/about-us";
-import { Enrollment } from "@marketplace/features/home/enrollment";
 import { Header } from "@marketplace/features/home/header";
 import { Specialties } from "@marketplace/features/home/specialties";
 import { Metadata } from "next";
@@ -16,7 +15,7 @@ const HomePage = async () => {
       <Header />
       <Specialties specialties={specialties} />
       <AboutUs />
-      <Enrollment />
+      {/* <Enrollment /> */}
     </div>
   );
 };
