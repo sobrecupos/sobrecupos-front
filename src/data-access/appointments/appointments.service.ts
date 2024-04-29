@@ -264,6 +264,8 @@ export class AppointmentsService {
     const to = dayjs.utc(toDateString);
 
     const currentDateTime = new Date().toISOString();
+    console.log("currentDateTime", dayjs(currentDateTime).toDate());
+    console.log("from", from.toDate(), "to", to.toDate());
 
     const cursor = collection.aggregate([
       {
@@ -277,14 +279,14 @@ export class AppointmentsService {
           status: "FREE",
         },
       },
-      // {
-      //   $match: {
-      //     // Filtra los documentos cuya fecha de inicio sea posterior al momento actual
-      //     start: {
-      //       $gt: currentDateTime,
-      //     },
-      //   },
-      // },
+      {
+        $match: {
+          // Filtra los documentos cuya fecha de inicio sea posterior al momento actual
+          start: {
+            $gt: dayjs(currentDateTime).toDate(),
+          },
+        },
+      },
       {
         $group: {
           _id: "$practice.id",
