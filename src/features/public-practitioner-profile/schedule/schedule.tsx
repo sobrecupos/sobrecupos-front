@@ -289,7 +289,7 @@ export const Schedule = ({
           {
             emptyWeek ?
               <div>
-                <h3>No tenemos sobrecupos disponibles por ahora.</h3>
+                <h3>Nos quedamos sin sobrecupos.</h3>
               </div>
               : null
 

@@ -10,8 +10,8 @@ const classes = getComponentClassNames("header", {
 
 export const Header = () => (
   <div className={classes.namespace}>
-    <p className={classes.title}>¿Frustrado de buscar una hora médica?</p>
-    <h1 className={classes.cta}>
+    {/* <p className={classes.title}>¿Frustrado de buscar una hora médica?</p> */}
+    <h1 className={`${classes.title} font-bold`}>
       Consigue un <span className={classes.highlight}>Sobrecupo</span> aquí!
     </h1>
     <p className={classes.subtitle}>
