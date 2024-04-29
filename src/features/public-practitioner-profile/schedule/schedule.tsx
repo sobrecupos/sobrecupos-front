@@ -171,9 +171,6 @@ export const Schedule = ({
   }
 
   const getNextDayWithAppointments = async (schedule: AppointmentsByPractice) => {
-    console.info('today', dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS"))
-    console.info('chile 3', dayjs().add(3, 'hour').locale('es').format("YYYY-MM-DDTHH:mm:ss.SSS"))
-    console.info('schedule', schedule)
     setIsLoading(true);
     const scheduleSort = await schedule.results.sort((a, b) => {
       return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
@@ -182,9 +179,6 @@ export const Schedule = ({
     setSelectedDate(dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     // const schedulePerDay = aºwait appointmentsClient.getScheduleByDate({ practitionerId, from: schedule.from });
     let diffDays = 6 - dayjs(from).day();
-    console.info('diffDays', diffDays)
-    console.info('indexDayOfWeek', indexDayOfWeek)
-    console.info('indexDayOfWeek - dayjs(from).day()', indexDayOfWeek - dayjs(from).day())
     await setIndexDaySelected(indexDayOfWeek - dayjs(from).day());
     selectDay(scheduleSort[0].appointments[0].start.split('T')[0], false);
     setIsLoading(false);
@@ -209,7 +203,6 @@ export const Schedule = ({
           setEmptyWeek(true);
           return;
         }
-        console.log('continue')
         setEmptyWeek(false);
         setFirstNextDay({
           day: dayjs(scheduleSort[0]?.appointments[0].start.split('T')[0]).locale(localeEs).format('dddd D [de] MMMM'),
