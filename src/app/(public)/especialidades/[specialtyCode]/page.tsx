@@ -3,6 +3,7 @@ import { practitionersService } from "@marketplace/data-access/practitioners/pra
 import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
 import { PublicPractitionerCard } from "@marketplace/features/public-practitioner-card";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
+import { capitalize } from "@marketplace/utils/normalizers/stringUtils";
 import { Appointment } from "@marketplace/utils/types/appointments";
 import "./page.scss";
 
@@ -61,7 +62,7 @@ const SpecialtyPage = async ({
         {practitioners.map((props) => (
           <PublicPractitionerCard
             picture={props.picture}
-            fullName={props.fullName}
+            fullName={capitalize(props.fullName)}
             code={props.code}
             addressTags={props.addressTags}
             specialty={props.specialty}
