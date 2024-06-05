@@ -5,5 +5,6 @@ export const specialtyProjection = {
   name: 1,
   code: 1,
   seo: 1,
+  enabled: true,
   type: "$type",
 };

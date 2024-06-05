@@ -32,7 +32,9 @@ export class SpecialtiesService {
   async list() {
     const specialties = await this.collection();
     const findCursor = specialties.find<SpecialtyResponse>(
-      {},
+      {
+        enabled: true,
+      },
       { projection: specialtyProjection }
     );
     const response: SpecialtyResponse[] = [];

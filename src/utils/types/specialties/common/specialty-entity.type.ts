@@ -6,5 +6,6 @@ export type SpecialtyEntity = {
     title: string;
     description: string;
   };
+  enabled: boolean;
   type: string;
 };
