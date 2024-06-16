@@ -271,6 +271,7 @@ export const Schedule = ({
       startDate.setDate(startDate.getDate() + 1);
       i++;
     }
+    console.log('Days', Days)
 
   }, [])
 
