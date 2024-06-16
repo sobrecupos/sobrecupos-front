@@ -68,7 +68,7 @@ export const ListDays = (
       <div className="flex justify-between overflow-x-scroll min-h-[86px] md:min-h-[110px] md:flex-wrap md:overflow-hidden gap-2 md:gap-[2px] ">
         {days?.map((day, index) => {
           const month = dayjs(from).add(index, 'day').format('MMMM');
-          const dayDate = dayjs(from).add(4, 'hours').add(index, 'day').toDate();
+          const dayDate = dayjs(from).add(-4, 'hours').add(index, 'day').toDate();
 
           return (
             <button
