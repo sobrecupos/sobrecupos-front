@@ -50,7 +50,7 @@ const formatDate = (dateString: string) => {
     dateStyle: "full",
     timeZone: "America/Santiago",
   }).format(new Date(dateString));
-  console.log('formattedDate', formattedDate)
+  //console.log('formattedDate', formattedDate)
   return formattedDate[0].toUpperCase() + formattedDate.slice(1);
 };
 
@@ -263,7 +263,7 @@ export const Schedule = ({
   useEffect(() => {
     let i = 0;
     while (startDate <= endDate) {
-      console.log('startDate : ', dayjs(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS"));
+      //console.log('startDate : ', dayjs(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS"));
       const day = dayjs(startDate).add(-4, 'hours').toDate().toLocaleDateString('es-CL', { weekday: 'long' });
       Days.push({
         name: day,
@@ -273,7 +273,7 @@ export const Schedule = ({
       startDate.setDate(startDate.getDate() + 1);
       i++;
     }
-    console.log('Days', Days)
+    //console.log('Days', Days)
 
   }, [])
 
