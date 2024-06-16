@@ -267,7 +267,7 @@ export const Schedule = ({
       const day = startDate.toLocaleDateString('es-CL', { weekday: 'long' });
       Days.push({
         name: day,
-        date: startDate,
+        date: dayjs(startDate).add(-4, 'hours').toDate(),
         selected: i == 0 ? true : false
       });
       startDate.setDate(startDate.getDate() + 1);
