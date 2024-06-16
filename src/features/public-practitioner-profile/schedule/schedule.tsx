@@ -263,7 +263,7 @@ export const Schedule = ({
   useEffect(() => {
     let i = 0;
     while (startDate <= endDate) {
-      console.log('startDate', startDate)
+      console.log('startDate : ', dayjs(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS"));
       const day = startDate.toLocaleDateString('es-CL', { weekday: 'long' });
       Days.push({
         name: day,
