@@ -50,6 +50,7 @@ const formatDate = (dateString: string) => {
     dateStyle: "full",
     timeZone: "America/Santiago",
   }).format(new Date(dateString));
+  console.log('formattedDate', formattedDate)
   return formattedDate[0].toUpperCase() + formattedDate.slice(1);
 };
 
@@ -262,6 +263,7 @@ export const Schedule = ({
   useEffect(() => {
     let i = 0;
     while (startDate <= endDate) {
+      console.log('startDate', startDate)
       const day = startDate.toLocaleDateString('es-CL', { weekday: 'long' });
       Days.push({
         name: day,
