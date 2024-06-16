@@ -264,7 +264,7 @@ export const Schedule = ({
     let i = 0;
     while (startDate <= endDate) {
       console.log('startDate : ', dayjs(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS"));
-      const day = startDate.toLocaleDateString('es-CL', { weekday: 'long' });
+      const day = dayjs(startDate).add(-4, 'hours').toDate().toLocaleDateString('es-CL', { weekday: 'long' });
       Days.push({
         name: day,
         date: dayjs(startDate).add(-4, 'hours').toDate(),
