@@ -1,4 +1,5 @@
 import { RestClient } from "@marketplace/libs/rest-client";
+import { PutBlobResult } from "@vercel/blob";
 
 const ONE_MB_IN_BYTES = 1_048_576;
 
@@ -23,6 +24,15 @@ export class FilesClient extends RestClient {
     await this.post(url, { body: formData });
 
     return `${url}${fields.key}`;
+  }
+
+  async uploadToVercelBlob(file: File) {
+    const response = await fetch(`/api/upload?filename=${file.name}`, {
+      method: "POST",
+      body: file,
+    });
+    const newBlob = (await response.json()) as PutBlobResult;
+    return `${newBlob.url}`;
   }
 }
 
