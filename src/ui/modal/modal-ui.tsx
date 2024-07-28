@@ -23,7 +23,7 @@ const isClosingTransitionEnd = (event: TransitionEvent) =>
   event.propertyName === "transform" &&
   event.currentTarget.classList.contains(`${classes.namespace}--closed`);
 
-export type ModalUIVariants = "fullscreen" | "small";
+export type ModalUIVariants = "fullscreen" | "small" | "middle";
 
 export type ModalUIProps = PropsWithChildren<{
   closeOnBackdropClick?: boolean;
