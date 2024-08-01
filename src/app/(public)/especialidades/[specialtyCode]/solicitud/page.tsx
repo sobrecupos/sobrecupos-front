@@ -1,57 +1,153 @@
-import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
+'use client'
+import { appointmentsClient } from "@marketplace/data-access/appointments/appointments.client";
+import { specialtiesClient } from "@marketplace/data-access/specialties/specialties.client";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 
-export const Solicitud = async () => {
-    const specialties = await specialtiesService.list();
-    console.log('specialties: ', specialties)
+const styleContainerForm = 'flex flex-col py-2';
+
+const Solicitud = () => {
+    const [specialities, setSpecialities] = useState([]);
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [secondLastName, setSecondLastName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [speciality, setSpeciality] = useState('');
+    const [comment, setComment] = useState('');
+
+    const sendForm = async () => {
+        try {
+            const time = dayjs(new Date()).toISOString().toString();
+            const resp = await appointmentsClient.requestAppointment(
+                name, lastName, secondLastName, phone, email, speciality, comment, time
+            );
+
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
+    };
+
+    useEffect(() => {
+        specialtiesClient.list().then((resp) => {
+            setSpecialities(resp);
+        });
+    }, []);
+
     return (
         <div>
-            <h1 className="text-2xl py-4">Solicita un sobrecupo </h1>
-            <div className="text-base py-4">
-                <p>¿Necesitas una hora médica pronto? ¡No te preocupes! En Sobrecupos te ayudamos a encontrar una hora médica de forma rápida y sencilla.</p>
-                <p>Para solicitar un sobrecupo, solo debes completar el siguiente formulario y nosotros nos encargaremos de buscar una hora médica para ti.</p>
+            <h1 className="text-2xl py-4">Solicita un sobrecupo</h1>
+            <div className="text-base py-2 flex-col gap-2 bg-indigo-50 rounded-md p-2 mb-4">
+                <p>¿Necesitas una hora médica pronto?</p>
+                <p>¡No te preocupes! En Sobrecupos te ayudamos a encontrar una hora médica de forma rápida y sencilla.</p>
+                <p>Para solicitar un sobrecupo, solo debes completar el siguiente formulario y enviarlo.</p>
             </div>
-            <div className="w-1/2">
-                <h2>Información del paciente</h2>
-                <div className="flex flex-col">
-                    <label htmlFor="names">Nombres</label>
-                    <input
-                        type="text"
+            <div className="md:flex">
+                <div className="md:w-1/2 w-full">
+                    <h2 className="text-xl py-2">Información del paciente</h2>
+                    <FormInput
+                        label="Nombres"
                         id="names"
-                        name="names"
-                        className="border-2 rounded-md border-gray-300 px-2 py-1"
+                        value={name}
+                        onChange={setName}
                     />
-                    {/* <Input type="text" id="names" name="names" /> */}
+                    <FormInput
+                        label="Apellido Paterno"
+                        id="firstSurname"
+                        value={lastName}
+                        onChange={setLastName}
+                    />
+                    <FormInput
+                        label="Apellido Materno"
+                        id="secondSurname"
+                        value={secondLastName}
+                        onChange={setSecondLastName}
+                    />
+                    <FormInput
+                        label="Teléfono"
+                        id="phone"
+                        value={phone}
+                        onChange={setPhone}
+                    />
+                    <FormInput
+                        label="Correo Electrónico"
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={setEmail}
+                    />
+                    <FormSelect
+                        label="Especialidad"
+                        id="especialidad"
+                        value={speciality}
+                        onChange={setSpeciality}
+                        options={specialities}
+                    />
+                    {speciality}
+                    <FormTextarea
+                        label="Comentarios"
+                        id="comentarios"
+                        value={comment}
+                        onChange={setComment}
+                    />
                 </div>
-                <div className="flex flex-col">
-                    <label htmlFor="firstSurname">Apellido Paterno</label>
-                    <input type="text" id="firstSurname" name="firstSurname" className="border-2 rounded-md border-gray-300 px-2 py-1" />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="secondSurname">Apellido Materno</label>
-                    <input type="text" id="secondSurname" name="secondSurname" className="border-2 rounded-md border-gray-300 px-2 py-1" />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="phone">Teléfono</label>
-                    <input type="text" id="phone" name="phone" className="border-2 rounded-md border-gray-300 px-2 py-1" />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" className="border-2 rounded-md border-gray-300 px-2 py-1" />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="especialidad">Especialidad</label>
-                    <select id="especialidad" name="especialidad" className="border-2 rounded-md border-gray-300 px-2 py-1">
-                        {specialties.map(({ code, name }) => (
-                            <option key={code} value={code}>{name}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="comentarios">Comentarios</label>
-                    <textarea id="comentarios" name="comentarios" className="border-2 rounded-md border-gray-300 px-2 py-1"></textarea>
-                </div>
+                <div className="md:w-1/2 hidden md:block"></div>
             </div>
+            <button
+                onClick={sendForm}
+                className="w-full my-4 bg-indigo-500 text-white rounded-md py-4 hover:bg-indigo-600"
+            >
+                Solicitar
+            </button>
         </div>
     );
-}
+};
+
+const FormInput = ({ label, id, value, onChange, type = 'text' }: {
+    label: string, id: string, value: any, onChange: any, type?: string
+}) => (
+    <div className={styleContainerForm}>
+        <label htmlFor={id}>{label}</label>
+        <input
+            type={type}
+            id={id}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="border-2 rounded-md border-gray-300 px-2 py-1"
+        />
+    </div>
+);
+
+const FormSelect = ({ label, id, value, onChange, options }: {
+    label: string, id: string, value: any, onChange: any, options: any
+}) => (
+    <div className={styleContainerForm}>
+        <label htmlFor={id}>{label}</label>
+        <select
+            id={id}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="border-2 rounded-md border-gray-300 px-2 py-1"
+        >
+            {options.map(({ code, name }: {
+                code: string, name: string
+            }) => (
+                <option key={code} value={code}>{name}</option>
+            ))}
+        </select>
+    </div>
+);
+
+const FormTextarea = ({ label, id, value, onChange }: { label: string, id: string, value: any, onChange: any }) => (
+    <div className={styleContainerForm}>
+        <label htmlFor={id}>{label}</label>
+        <textarea
+            id={id}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="border-2 rounded-md border-gray-300 px-2 py-1"
+        />
+    </div>
+);
+
 export default Solicitud;

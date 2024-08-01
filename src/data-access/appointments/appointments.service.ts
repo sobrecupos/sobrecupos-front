@@ -8,6 +8,7 @@ import {
 } from "@marketplace/utils/types/appointments";
 import { CreateAppointmentRequest } from "@marketplace/utils/types/appointments/requests/create-appointment-request.type";
 import { UpdateAppointmentRequest } from "@marketplace/utils/types/appointments/requests/update-appointment-request.type";
+import axios from "axios";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { ObjectId, WithId } from "mongodb";
@@ -1013,6 +1014,33 @@ export class AppointmentsService {
   async collection() {
     const db = await getDb();
     return db.collection<AppointmentEntity>("appointments");
+  }
+
+  async requestAppointment(
+    name: string,
+    lastName: string,
+    secondLastName: string,
+    phone: string,
+    email: string,
+    speciality: string,
+    comment: string,
+    time: string
+  ) {
+    return await axios.get(
+      "https://hooks.zapier.com/hooks/catch/19503997/22lh0q1/",
+      {
+        params: {
+          name,
+          lastName,
+          secondLastName,
+          phone,
+          email,
+          speciality,
+          comment,
+          time,
+        },
+      }
+    );
   }
 }
 

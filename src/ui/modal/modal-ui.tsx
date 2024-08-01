@@ -112,7 +112,7 @@ export const ModalUI = ({
       <div
         className={classNames(
           classes.content,
-          `${classes.content}--${variant}`
+          `${classes.content}--${variant} rounded-sm`
         )}
         onClick={handleModalClick}
       >

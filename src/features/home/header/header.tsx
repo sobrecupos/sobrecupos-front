@@ -38,6 +38,7 @@ export const Header = () => {
         onClose={() => {
           setIsModalOpen(false);
         }}
+
         closeOnBackdropClick={false}
         title={
           <Image
@@ -51,10 +52,7 @@ export const Header = () => {
           <div className="p-8">
             <p className="text-xl font-semibold py-4">¿Qué es un sobrecupo?</p>
             <p>
-              Un sobrecupo es una hora médica que se libera en el sistema de
-              salud, generalmente por cancelación de un paciente. Estas horas
-              médicas son muy valiosas y pueden ser reservadas por cualquier
-              persona que necesite atención médica de manera inmediata o pronta.
+              Un sobrecupo es cuando uno de nuestros médico(a)s está dispuesto ayudarte con una hora de atención extraordinaria a su agenda, porque sabe que tú lo necesitas, para que puedas sentirte mejor y no pierdas tiempo enfermo(a) con una larga espera o ansiedad por no encontrar una por oportunidad de atención pronta.
             </p>
             <AboutUs />
           </div>

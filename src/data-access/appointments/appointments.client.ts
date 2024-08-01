@@ -49,6 +49,30 @@ export class AppointmentsClient extends RestClient {
       body,
     });
   }
+
+  requestAppointment(
+    name: string,
+    lastName: string,
+    secondLastName: string,
+    phone: string,
+    email: string,
+    speciality: string,
+    comment: string,
+    time: string
+  ) {
+    return this.get("/api/appointments/request", {
+      params: {
+        name,
+        lastName,
+        secondLastName,
+        phone,
+        email,
+        speciality,
+        comment,
+        time,
+      },
+    });
+  }
 }
 
 export const appointmentsClient = new AppointmentsClient();
