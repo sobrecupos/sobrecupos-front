@@ -13,9 +13,9 @@ const HomePage = async () => {
   const specialties = await specialtiesService.list();
   const countBySpecialty: { [key: string]: number } = {};
   for (const specialty of specialties) {
-    console.log('specialty: ', specialty)
+    // console.log('specialty: ', specialty)
     countBySpecialty[specialty.code] = await appointmentsService.getCountAppointmentsBySpecialty(specialty.code).then((res) => {
-      console.log('res.count: ', res.count)
+      // console.log('res.count: ', res.count)
       return res.count || 0;
     });
   }

@@ -54,8 +54,8 @@ export const Specialties = ({ specialties, countBySpecialty }: SpecialtiesProps)
                   <h3 className={`${classes.cardTitle} font-bold h-12`}>{name}</h3>
                 </Link>
                 <Link
-                  href={`/especialidades/${code}/solicitud`}
-                  className="rounded-full border-2 border-indigo-500 px-2 text-indigo-500 min-w-[140px] min-h-7 text-center"
+                  href={countBySpecialty[code] <= 0 ? `/especialidades/${code}/solicitud` : `/especialidades/${code}`}
+                  className={`rounded-full border-2 border-indigo-500 px-2 text-indigo-500 min-w-[140px] min-h-7 text-center ${countBySpecialty[code] > 0 ? 'bg-indigo-500 text-white' : 'bg-white'}`}
                 >
                   {countBySpecialty[code] <= 0
                     ? 'Solicítalo aquí'

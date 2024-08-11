@@ -33,7 +33,8 @@ export const Header = () => {
         }
       >Que es un sobrecupo médico</button>
       <Modal
-        variant="middle"
+        variant="fullscreen"
+        className="pt-6"
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);

@@ -27,6 +27,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "qzkuh5webgfly0z2.public.blob.vercel-storage.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async redirects() {
