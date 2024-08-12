@@ -144,17 +144,12 @@ export const Schedule = ({
   const selectDay = async (day: string, firstRender: boolean = false) => {
     setIsLoading(true);
     const indexDayOfWeek = dayjs(day.split('T')[0]).day();
-    // console.log('indexDayOfWeek', indexDayOfWeek)
     const from = day;
     if (!firstRender) setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
     setSelectScheduleDay(schedulePerDay);
-    // setIndexDaySelected(dayjs(from).day() === 0 ? 6 : dayjs(from).day() - 1);
-    console.log('dayjs().day(): ', dayjs().day())
-    let diffDays = 6 - dayjs().day();
+    let diffDays = 7 - dayjs().day();
     await setIndexDaySelected(indexDayOfWeek - diffDays);
-    console.log('indexDayOfWeek', indexDayOfWeek)
-    console.log('diffDays', diffDays)
     setIsLoading(false);
   }
 

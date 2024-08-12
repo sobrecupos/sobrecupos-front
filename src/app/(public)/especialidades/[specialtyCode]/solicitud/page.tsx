@@ -36,14 +36,16 @@ const Solicitud = () => {
 
     return (
         <div>
-            <h1 className="text-2xl py-4">Solicita un sobrecupo</h1>
-            <div className="text-base py-2 flex-col gap-2 bg-indigo-50 rounded-md p-2 mb-4">
+            <h1 className="text-2xl py-4 md:w-2/3 md:mx-auto">Solicita un sobrecupo</h1>
+            <div className="text-base py-2 flex-col gap-2 bg-indigo-50 rounded-md p-2 mb-4 md:w-2/3 md:mx-auto">
                 <p>¿Necesitas una hora médica pronto?</p>
                 <p>¡No te preocupes! En Sobrecupos te ayudamos a encontrar una hora médica de forma rápida y sencilla.</p>
                 <p>Para solicitar un sobrecupo, solo debes completar el siguiente formulario y enviarlo.</p>
             </div>
-            <div className="md:flex">
-                <div className="md:w-1/2 w-full">
+            <div className="md:flex ">
+
+                <div className="md:w-1/2 w-full mx-auto">
+
                     <h2 className="text-xl py-2">Información del paciente</h2>
                     <FormInput
                         label="Nombres"
@@ -90,15 +92,16 @@ const Solicitud = () => {
                         value={comment}
                         onChange={setComment}
                     />
+                    <button
+                        onClick={sendForm}
+                        className="w-full my-4 bg-indigo-500 text-white rounded-md py-4 hover:bg-indigo-600"
+                    >
+                        Solicitar
+                    </button>
                 </div>
-                <div className="md:w-1/2 hidden md:block"></div>
+                {/* <div className="md:w-1/2 hidden md:block"></div> */}
             </div>
-            <button
-                onClick={sendForm}
-                className="w-full my-4 bg-indigo-500 text-white rounded-md py-4 hover:bg-indigo-600"
-            >
-                Solicitar
-            </button>
+
         </div>
     );
 };

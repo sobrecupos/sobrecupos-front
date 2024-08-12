@@ -33,13 +33,11 @@ const Wrapper = ({
   className,
   children,
 }: PropsWithChildren<{ disabled: boolean; href: string; className: string }>) =>
-  disabled ? (
-    <div className={className}>{children}</div>
-  ) : (
-    <Link href={href} className={className}>
-      {children}
-    </Link>
-  );
+(
+  <Link href={href} className={className}>
+    {children}
+  </Link>
+);
 
 export const PublicPractitionerCard = ({
   picture,

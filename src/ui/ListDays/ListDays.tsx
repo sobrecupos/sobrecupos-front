@@ -40,8 +40,12 @@ export const ListDays = (
    */
   const selectedDay = (date: string, index: number) => {
     let diffDays = 6 - dayjs().day();
-    setIndexDaySelected(index);
-    SelectDay(date);
+    if (index > diffDays) {
+      return
+    } else {
+      setIndexDaySelected(index);
+      SelectDay(date);
+    }
   }
 
   /**
@@ -65,20 +69,10 @@ export const ListDays = (
       return res;
     }
     ).catch((err) => {
-      //console.log('err', err)
+      console.error('Error', err)
     });
   }
 
-  // useEffect(() => {
-  //   console.log('IndexDaySelected', IndexDaySelected, indexDaySelected)
-  //   if (IndexDaySelected < 0) {
-  //     setIndexDaySelected(0)
-  //   } else if (IndexDaySelected !== indexDaySelected && indexDaySelected !== undefined) {
-  //     setIndexDaySelected(indexDaySelected);
-  //   } else {
-  //     setIndexDaySelected(indexDaySelected || 0);
-  //   }
-  // }, [indexDaySelected])
 
   useEffect(() => {
 
