@@ -1024,7 +1024,8 @@ export class AppointmentsService {
     email: string,
     speciality: string,
     comment: string,
-    time: string
+    time: string,
+    region: string
   ) {
     return await axios.get(
       "https://hooks.zapier.com/hooks/catch/19503997/22lh0q1/",
@@ -1038,6 +1039,7 @@ export class AppointmentsService {
           speciality,
           comment,
           time,
+          region,
         },
       }
     );

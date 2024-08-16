@@ -9,7 +9,7 @@ export type ListDaysProps = {
   schedule: any;
   activesAppointments: any;
   practitionerId: string;
-  indexDaySelected: number;
+  indexDaySelected: number | 0;
   from: string;
   to: string;
 };
@@ -39,7 +39,10 @@ export const ListDays = (
    * @param index 
    */
   const selectedDay = (date: string, index: number) => {
-    let diffDays = 6 - dayjs().day();
+    let diffDays = dayjs().day();
+    console.log('diffDays', diffDays)
+    console.log('date', date)
+    console.log('index', index)
     if (index > diffDays) {
       return
     } else {
@@ -77,7 +80,8 @@ export const ListDays = (
   useEffect(() => {
 
     if (indexDaySelected >= 0) {
-      setIndexDaySelected(indexDaySelected);
+      console.log('indexDaySelected', indexDaySelected)
+      setIndexDaySelected(0);
     }
   }, [indexDaySelected])
 
@@ -93,6 +97,7 @@ export const ListDays = (
 
   return (
     <div className='relative max-w-[90vw] w-full '>
+
       <div className="absolute h-[100px] px-2 py-3 right-0 "></div>
       <div className="flex justify-between overflow-x-scroll min-h-[86px] md:min-h-[110px] md:flex-wrap md:overflow-hidden gap-2 md:gap-[2px] ">
         {Days?.map((day, index) => {

@@ -70,7 +70,7 @@ const SpecialtyPage = async ({
             <div className="flex flex-col gap-4 text-center border-[1px] border-dashed border-indigo-500 md:w-1/2 mx-auto p-4 rounded-md">
               <h3>Nos quedamos sin sobrecupos, pero...</h3>
               <strong>Haremos algunos trucos para encontrar ese sobrecupo 😁 </strong>
-              <Link href={`/especialidades/${specialty.code}/solicitud`} className="w-1/2 mx-auto rounded-full border-2 border-indigo-500 bg-indigo-500 px-2 text-white min-w-[140px] min-h-12 text-center content-center hover:bg-indigo-400">
+              <Link href={`/especialidades/${specialty.code}/solicitud?esp=${specialty.code}`} className="w-1/2 mx-auto rounded-full border-2 border-indigo-500 bg-indigo-500 px-2 text-white min-w-[140px] min-h-12 text-center content-center hover:bg-indigo-400">
                 Solicitalo aquí
               </Link>
             </div>

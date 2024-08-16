@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import localeEs from "dayjs/locale/es";
 import localeData from "dayjs/plugin/localeData";
 import { Loader2Icon, MapIcon } from "lucide-react";
+import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import "./schedule.scss";
 
@@ -18,6 +19,7 @@ export type ScheduleProps = {
   showSpinner?: boolean;
   schedule: AppointmentsByPractice;
   practitioner: string;
+  specialty: string;
   practitionerId: string;
   from: string;
   to: string;
@@ -63,6 +65,7 @@ const formatHours = (dateString: string, intervalInMinutes: number) => {
 export const Schedule = ({
   schedule,
   practitioner,
+  specialty,
   practitionerId,
   showSpinner,
   from,
@@ -143,18 +146,23 @@ export const Schedule = ({
 
   const selectDay = async (day: string, firstRender: boolean = false) => {
     setIsLoading(true);
-    const indexDayOfWeek = dayjs(day.split('T')[0]).day();
-    const from = day;
-    if (!firstRender) setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
+    // const indexDayOfWeek = dayjs(day.split('T')[0]).day();
+    // const from = day;
+    // if (!firstRender) 
+    setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"));
     const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
     setSelectScheduleDay(schedulePerDay);
-    let diffDays = 7 - dayjs().day();
-    await setIndexDaySelected(indexDayOfWeek - diffDays);
+    // let diffDays = dayjs().day();
+    // await setIndexDaySelected(indexDayOfWeek - diffDays);
     setIsLoading(false);
   }
 
   const getNextDayWithAppointments = async (schedule: AppointmentsByPractice) => {
     setIsLoading(true);
+    if (schedule.results.length <= 0) {
+      setIsLoading(false);
+      return
+    };
     //aqui no se debe ir al siguiente día, sino al siguiente día con horas disponibles
     //todo
     // const nextDay = dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS");
@@ -232,6 +240,8 @@ export const Schedule = ({
           <div>
             <p className={` text-left text-lg mb-5 font-medium  `}>{SelectedDate ? formatDate(SelectedDate) : formatDate(dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS"))}</p>
           </div>
+          <div>
+          </div>
           <div className="flex">
             <ListDays
               schedule={schedule}
@@ -248,7 +258,7 @@ export const Schedule = ({
               <Loader2Icon />
             </div>
           ) : null}
-          {selectScheduleDay && selectScheduleDay?.results?.length <= 0 && !showSpinner && !isLoading ? (
+          {schedule.results.length > 0 && selectScheduleDay && selectScheduleDay?.results?.length <= 0 && !showSpinner && !isLoading ? (
             <div className={`${classes.empty}`}>
               <p className="mb-3">Próximo sobrecupo disponible:</p>
               <p className="font-bold mb-5 capitalize">{FirstNextDay?.day}</p>
@@ -256,7 +266,14 @@ export const Schedule = ({
                 () => getNextDayWithAppointments(schedule)
               }>Ir a hora más cercana</button>
             </div>
-          ) : null}
+          ) : <div>
+            <p>
+              Se acabaron los sobre cupos, si no encuentras, puedes solicitar uno aquí :
+              <Link href={`/especialidades/${specialty}/solicitud?esp=${specialty}`} className="font-semibold text-indigo-600 px-2">
+                Solicitar sobre cupo
+              </Link>
+            </p>
+          </div>}
 
           {!isLoading ? selectScheduleDay && selectScheduleDay.results.map(
             ({ id, address, insuranceProviders, appointments }) => {

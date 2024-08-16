@@ -58,7 +58,8 @@ export class AppointmentsClient extends RestClient {
     email: string,
     speciality: string,
     comment: string,
-    time: string
+    time: string,
+    region: string
   ) {
     return this.get("/api/appointments/request", {
       params: {
@@ -70,6 +71,7 @@ export class AppointmentsClient extends RestClient {
         speciality,
         comment,
         time,
+        region,
       },
     });
   }
