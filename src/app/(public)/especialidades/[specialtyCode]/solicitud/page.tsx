@@ -28,7 +28,7 @@ const regiones = [
 
 const Solicitud = () => {
 
-    const params = useParams<{ tag: string; item: string }>()
+    const params = useParams<{ tag: string; item: string; specialtyCode: string }>()
     const [Regions, setRegions] = useState([]);
     const [specialities, setSpecialities] = useState([]);
     const [name, setName] = useState('');

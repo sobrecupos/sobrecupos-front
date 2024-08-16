@@ -12,6 +12,7 @@ export const GET = async (req: NextRequest) => {
   const speciality = searchParams.get("speciality");
   const comment = searchParams.get("comment");
   const time = searchParams.get("time");
+  const region = searchParams.get("region");
 
   if (
     !name ||
@@ -21,7 +22,8 @@ export const GET = async (req: NextRequest) => {
     !email ||
     !speciality ||
     !comment ||
-    !time
+    !time ||
+    !region
   ) {
     return NextResponse.json(
       { error: "You must provide all required fields!" },
@@ -38,7 +40,8 @@ export const GET = async (req: NextRequest) => {
       email,
       speciality,
       comment,
-      time
+      time,
+      region
     );
 
     return NextResponse.json(result.data);
