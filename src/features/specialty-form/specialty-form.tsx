@@ -50,6 +50,7 @@ export const SpecialtyForm = ({
           description: values.seoDescription,
         },
         type: values.type || "specialty",
+        enabled: true,
       };
 
       if (id) {
@@ -74,6 +75,9 @@ export const SpecialtyForm = ({
       },
       type: {
         value: type || "specialty",
+      },
+      enabled: {
+        value: true,
       },
     },
     rules: {
@@ -107,6 +111,12 @@ export const SpecialtyForm = ({
           message: "Ingresa un tipo!",
         },
       ],
+      enabled: [
+        {
+          validator: required,
+          message: "Ingresa un estado!",
+        },
+      ],
     },
   });
 
@@ -117,6 +127,7 @@ export const SpecialtyForm = ({
       <Input label="Título SEO" name="seoTitle" />
       <Input label="Descripción SEO" name="seoDescription" />
       <Select label="Tipo" name="type" options={[{ label: "Especialidad", value: "specialty" }, { label: "Examen", value: "exam" }]} />
+      <Input type="checkbox" label="Habilitado" name="enabled" />
       <Button block type="submit">
         Guardar
       </Button>

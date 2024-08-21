@@ -52,6 +52,7 @@ const formatDate = (dateString: string) => {
     dateStyle: "full",
     timeZone: "America/Santiago",
   }).format(new Date(dateString));
+  //console.log('formattedDate', formattedDate)
   return formattedDate[0].toUpperCase() + formattedDate.slice(1);
 };
 
@@ -71,11 +72,24 @@ export const Schedule = ({
   from,
   to
 }: ScheduleProps) => {
+
   dayjs.locale("es");
   dayjs.extend(localeData);
+
+  const startDate = dayjs(from).add(4, 'hour').toDate();
+  const endDate = dayjs(to).toDate();
+
+  const [Days, setDays] = useState<{
+    name: string;
+    date: Date;
+    selected: boolean;
+
+  }[]>([])
+
   const [selected, setSelected] = useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [emptyWeek, setEmptyWeek] = useState(false)
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -83,15 +97,16 @@ export const Schedule = ({
     paymentAcknowledgement: false,
     termsAndConditions: false,
   });
+
   const [selectScheduleDay, setSelectScheduleDay] = useState<AppointmentsByPractice>();
   const [SelectedDate, setSelectedDate] = useState('');
   const [ActiveAppointments, setActiveAppointments] = useState<{}>({});
   const [FirstNextDay, setFirstNextDay] = useState({
     day: dayjs().format('dddd D [de] MMMM'),
     date: ''
-  })
-  const [IndexDaySelected, setIndexDaySelected] = useState(0)
+  });
 
+  const [IndexDaySelected, setIndexDaySelected] = useState(0)
 
   const handleFieldChange = (field: string, value: unknown) => {
     setValues((prevValues) => ({ ...prevValues, [field]: value }));
@@ -155,6 +170,25 @@ export const Schedule = ({
     // let diffDays = dayjs().day();
     // await setIndexDaySelected(indexDayOfWeek - diffDays);
     setIsLoading(false);
+
+
+    // if (!firstRender) {
+    //   setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"))
+    //   const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
+    //   setSelectScheduleDay(schedulePerDay);
+    //   await setIndexDaySelected((prev) => {
+    //     return prev - (diffDays - 1);
+    //   });
+    //   setIsLoading(false);
+    //   return;
+    // } else {
+    //   setSelectedDate(dayjs(day).format("YYYY-MM-DDTHH:mm:ss.SSS"))
+    //   const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from });
+    //   setSelectScheduleDay(schedulePerDay);
+    //   await setIndexDaySelected(indexDayOfWeek - (diffDays - 1));
+    //   setIsLoading(false);
+    // }
+
   }
 
   const getNextDayWithAppointments = async (schedule: AppointmentsByPractice) => {
@@ -168,23 +202,35 @@ export const Schedule = ({
     // const nextDay = dayjs(schedule.from).format("YYYY-MM-DDTHH:mm:ss.SSS");
     const scheduleSort = await schedule.results.sort((a, b) => {
       return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
-    }
-    )
-
+    })
     const indexDayOfWeek = dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).day();
-    // console.log('indexDayOfWeek', indexDayOfWeek)
+
     setSelectedDate(dayjs(scheduleSort[0].appointments[0].start.split('T')[0]).format("YYYY-MM-DDTHH:mm:ss.SSS"));
-    //todo
-    const schedulePerDay = await appointmentsClient.getScheduleByDate({ practitionerId, from: schedule.from });
-    let diffDays = 6 - dayjs().day();
-    await setIndexDaySelected(indexDayOfWeek - diffDays);
-    selectDay(scheduleSort[0].appointments[0].start.split('T')[0], true);
+    const updatedDays = Days.map((day, i) => ({
+      ...day,
+      selected: i === indexDayOfWeek + 1,
+
+    }));
+    setDays(updatedDays);
+
+    selectDay(scheduleSort[0].appointments[0].start.split('T')[0], false);
     setIsLoading(false);
   }
 
+  const handleDayClick = (index: number) => {
+    setIsLoading(true);
+    const updatedDays = Days.map((day, i) => ({
+      ...day,
+      selected: i === index,
+
+    }));
+    setDays(updatedDays);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     if (schedule) {
-      const actives = appointmentsClient.getScheduleFromTo(
+      appointmentsClient.getScheduleFromTo(
         {
           practitionerId,
           from: dayjs().format("YYYY-MM-DDTHH:mm:ss.SSS"),
@@ -194,21 +240,52 @@ export const Schedule = ({
         setActiveAppointments(res)
         const scheduleSort = schedule.results.sort((a, b) => {
           return dayjs(a.appointments[0].start).diff(dayjs(b.appointments[0].start))
+        })
+
+        if (scheduleSort.length <= 0) {
+          setIsLoading(false);
+          setEmptyWeek(true);
+          return;
         }
-        )
-        // setSelectScheduleDay(res)
+        setEmptyWeek(false);
         setFirstNextDay({
           day: dayjs(scheduleSort[0]?.appointments[0].start.split('T')[0]).locale(localeEs).format('dddd D [de] MMMM'),
           date: scheduleSort[0]?.appointments[0]?.start.split('T')[0] || ''
         });
+        setIndexDaySelected((prev) => {
+          return 0
+        }
+        );
         selectDay(
           dayjs(from).format("YYYY-MM-DDTHH:mm:ss.SSS"),
           true
         );
         return res;
-      });
+      })
+        .catch((err) => {
+          console.error('err', err)
+          setIsLoading(false);
+        }
+        );
     }
   }, [schedule, selected])
+
+  useEffect(() => {
+    let i = 0;
+    while (startDate <= endDate) {
+      //console.log('startDate : ', dayjs(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS"));
+      const day = dayjs(startDate).add(-4, 'hours').toDate().toLocaleDateString('es-CL', { weekday: 'long' });
+      Days.push({
+        name: day,
+        date: dayjs(startDate).add(-4, 'hours').toDate(),
+        selected: i == 0 ? true : false
+      });
+      startDate.setDate(startDate.getDate() + 1);
+      i++;
+    }
+    //console.log('Days', Days)
+
+  }, [])
 
   if (hasError) {
     console.error(`schedule error: practitionerId: ${practitionerId}, practitioner: ${practitioner}, from: ${from}, to: ${to}`)
@@ -245,14 +322,18 @@ export const Schedule = ({
           <div className="flex">
             <ListDays
               schedule={schedule}
-              selectDay={(day) => selectDay(day)}
+              selectDay={(day, firstRender) => selectDay(day, firstRender)}
               activesAppointments={ActiveAppointments}
               practitionerId={practitionerId}
               indexDaySelected={IndexDaySelected}
               from={from}
               to={to}
+              isEmptyWeek={emptyWeek}
+              days={Days}
+              handleDayClick={handleDayClick}
             />
           </div>
+
           {showSpinner ? (
             <div className={classes.spinner}>
               <Loader2Icon />

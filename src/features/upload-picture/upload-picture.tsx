@@ -68,7 +68,7 @@ export const UploadPicture = ({
     setError(null);
 
     try {
-      const uploaded = await filesClient.upload(file);
+      const uploaded = await filesClient.uploadToVercelBlob(file);
 
       if (uploaded) {
         setPreview(uploaded);

@@ -31,6 +31,7 @@ const HomePage = async () => {
           height={300}
         />
       </div>
+      {/* <Enrollment /> */}
     </div>
   );
 };
