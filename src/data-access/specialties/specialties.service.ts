@@ -42,7 +42,7 @@ export class SpecialtiesService {
     for await (const specialty of findCursor) {
       response.push(specialty);
     }
-
+    // console.log("response", response);
     return response;
   }
 

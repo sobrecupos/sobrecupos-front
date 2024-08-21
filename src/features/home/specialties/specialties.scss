@@ -6,7 +6,7 @@ $namespace: "ui-mp-specialties";
   justify-content: center;
 
   &__card {
-    width: 140px;
+    width: 200px;
     padding: 16px;
     text-align: center;
     text-decoration: none;
@@ -31,8 +31,10 @@ $namespace: "ui-mp-specialties";
 
   @media (min-width: 991px) {
     &__card {
-      width: 160px;
+      width: 200px;
       margin: 8px 0;
+      margin-bottom: 0;
+      padding-bottom: 8px;
     }
 
     &__card-title {

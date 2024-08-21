@@ -8,6 +8,7 @@ import {
 } from "@marketplace/utils/types/appointments";
 import { CreateAppointmentRequest } from "@marketplace/utils/types/appointments/requests/create-appointment-request.type";
 import { UpdateAppointmentRequest } from "@marketplace/utils/types/appointments/requests/update-appointment-request.type";
+import axios from "axios";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { ObjectId, WithId } from "mongodb";
@@ -1000,9 +1001,74 @@ export class AppointmentsService {
     return data[0] || {};
   }
 
+  async getCountAppointmentsBySpecialty(
+    specialtyCode: string,
+    fromDateString?: string
+  ) {
+    // console.log("specialtyCode", specialtyCode);
+    const collection = await this.collection();
+    const from = dayjs.utc(fromDateString);
+
+    const cursor = collection.aggregate([
+      {
+        $match: {
+          specialtyCode,
+          start: {
+            $gt: from.toDate(),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+
+    const data = [];
+
+    for await (const doc of cursor) {
+      data.push(doc);
+    }
+    // console.log("data", data);
+    return data[0] || {};
+  }
+
   async collection() {
     const db = await getDb();
     return db.collection<AppointmentEntity>("appointments");
+  }
+
+  async requestAppointment(
+    name: string,
+    lastName: string,
+    secondLastName: string,
+    phone: string,
+    email: string,
+    speciality: string,
+    comment: string,
+    time: string,
+    region: string
+  ) {
+    return await axios.get(
+      "https://hooks.zapier.com/hooks/catch/19503997/22lh0q1/",
+      {
+        params: {
+          name,
+          lastName,
+          secondLastName,
+          phone,
+          email,
+          speciality,
+          comment,
+          time,
+          region,
+        },
+      }
+    );
   }
 }
 

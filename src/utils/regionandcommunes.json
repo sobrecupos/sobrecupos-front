@@ -1,0 +1,1343 @@
+[
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "15101",
+        "Nombre_Comuna": "Arica",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15102",
+        "Nombre_Comuna": "Camarones",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15202",
+        "Nombre_Comuna": "Putre",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15201",
+        "Nombre_Comuna": "General Lagos",
+        "Codigo_Región": "15"
+      }
+    ],
+
+    "NombreRegion": "Arica y Parinacota",
+    "CodigoRegion": "XV"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "15101",
+        "Nombre_Comuna": "Arica",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15102",
+        "Nombre_Comuna": "Camarones",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15202",
+        "Nombre_Comuna": "Putre",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15201",
+        "Nombre_Comuna": "General Lagos",
+        "Codigo_Región": "15"
+      }
+    ],
+    "NombreRegion": "Tarapacá",
+    "CodigoRegion": "I"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "15101",
+        "Nombre_Comuna": "La Serena",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15102",
+        "Nombre_Comuna": "Coquimbo",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15202",
+        "Nombre_Comuna": "Andacollo",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15203",
+        "Nombre_Comuna": "La Higuera",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15204",
+        "Nombre_Comuna": "Paiguano",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15205",
+        "Nombre_Comuna": "Vicuña",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15301",
+        "Nombre_Comuna": "Illapel",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15302",
+        "Nombre_Comuna": "Canela",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15303",
+        "Nombre_Comuna": "Los Vilos",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15304",
+        "Nombre_Comuna": "Salamanca",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15401",
+        "Nombre_Comuna": "Ovalle",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15402",
+        "Nombre_Comuna": "Combarbalá",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15403",
+        "Nombre_Comuna": "Monte Patria",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15404",
+        "Nombre_Comuna": "Punitaqui",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15405",
+        "Nombre_Comuna": "Río Hurtado",
+        "Codigo_Región": "15"
+      }
+    ],
+    "NombreRegion": "Antofagasta",
+    "CodigoRegion": "II"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "15101",
+        "Nombre_Comuna": "La Serena",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15102",
+        "Nombre_Comuna": "Coquimbo",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15202",
+        "Nombre_Comuna": "Andacollo",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15203",
+        "Nombre_Comuna": "La Higuera",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15204",
+        "Nombre_Comuna": "Paiguano",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15205",
+        "Nombre_Comuna": "Vicuña",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15301",
+        "Nombre_Comuna": "Illapel",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15302",
+        "Nombre_Comuna": "Canela",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15303",
+        "Nombre_Comuna": "Los Vilos",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15304",
+        "Nombre_Comuna": "Salamanca",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15401",
+        "Nombre_Comuna": "Ovalle",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15402",
+        "Nombre_Comuna": "Combarbalá",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15403",
+        "Nombre_Comuna": "Monte Patria",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15404",
+        "Nombre_Comuna": "Punitaqui",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15405",
+        "Nombre_Comuna": "Río Hurtado",
+        "Codigo_Región": "15"
+      }
+    ],
+    "NombreRegion": "Atacama",
+    "CodigoRegion": "III"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "15101",
+        "Nombre_Comuna": "La Serena",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15102",
+        "Nombre_Comuna": "Coquimbo",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15202",
+        "Nombre_Comuna": "Andacollo",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15203",
+        "Nombre_Comuna": "La Higuera",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15204",
+        "Nombre_Comuna": "Paiguano",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15205",
+        "Nombre_Comuna": "Vicuña",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15301",
+        "Nombre_Comuna": "Illapel",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15302",
+        "Nombre_Comuna": "Canela",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15303",
+        "Nombre_Comuna": "Los Vilos",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15304",
+        "Nombre_Comuna": "Salamanca",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15401",
+        "Nombre_Comuna": "Ovalle",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15402",
+        "Nombre_Comuna": "Combarbalá",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15403",
+        "Nombre_Comuna": "Monte Patria",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15404",
+        "Nombre_Comuna": "Punitaqui",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15405",
+        "Nombre_Comuna": "Río Hurtado",
+        "Codigo_Región": "15"
+      }
+    ],
+    "NombreRegion": "Coquimbo",
+    "CodigoRegion": "IV"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "15101",
+        "Nombre_Comuna": "La Serena",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15102",
+        "Nombre_Comuna": "Coquimbo",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15202",
+        "Nombre_Comuna": "Andacollo",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15203",
+        "Nombre_Comuna": "La Higuera",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15204",
+        "Nombre_Comuna": "Paiguano",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15205",
+        "Nombre_Comuna": "Vicuña",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15301",
+        "Nombre_Comuna": "Illapel",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15302",
+        "Nombre_Comuna": "Canela",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15303",
+        "Nombre_Comuna": "Los Vilos",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15304",
+        "Nombre_Comuna": "Salamanca",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15401",
+        "Nombre_Comuna": "Ovalle",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15402",
+        "Nombre_Comuna": "Combarbalá",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15403",
+        "Nombre_Comuna": "Monte Patria",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15404",
+        "Nombre_Comuna": "Punitaqui",
+        "Codigo_Región": "15"
+      },
+      {
+        "Codigo_Comuna": "15405",
+        "Nombre_Comuna": "Río Hurtado",
+        "Codigo_Región": "15"
+      }
+    ],
+    "NombreRegion": "Valparaíso",
+    "CodigoRegion": "V"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "16101",
+        "Nombre_Comuna": "Rancagua",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16102",
+        "Nombre_Comuna": "Codegua",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16103",
+        "Nombre_Comuna": "Coinco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16104",
+        "Nombre_Comuna": "Coltauco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16105",
+        "Nombre_Comuna": "Doñihue",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16106",
+        "Nombre_Comuna": "Graneros",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16107",
+        "Nombre_Comuna": "Las Cabras",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16108",
+        "Nombre_Comuna": "Machalí",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16109",
+        "Nombre_Comuna": "Malloa",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16110",
+        "Nombre_Comuna": "Mostazal",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16111",
+        "Nombre_Comuna": "Olivar",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16112",
+        "Nombre_Comuna": "Peumo",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16113",
+        "Nombre_Comuna": "Pichidegua",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16114",
+        "Nombre_Comuna": "Quinta de Tilcoco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16115",
+        "Nombre_Comuna": "Rengo",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16116",
+        "Nombre_Comuna": "Requínoa",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16117",
+        "Nombre_Comuna": "San Vicente",
+        "Codigo_Región": "16"
+      }
+    ],
+    "NombreRegion": "Región del Libertador Gral. Bernardo O’Higgins",
+    "CodigoRegion": "VI"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "16101",
+        "Nombre_Comuna": "Rancagua",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16102",
+        "Nombre_Comuna": "Codegua",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16103",
+        "Nombre_Comuna": "Coinco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16104",
+        "Nombre_Comuna": "Coltauco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16105",
+        "Nombre_Comuna": "Doñihue",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16106",
+        "Nombre_Comuna": "Graneros",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16107",
+        "Nombre_Comuna": "Las Cabras",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16108",
+        "Nombre_Comuna": "Machalí",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16109",
+        "Nombre_Comuna": "Malloa",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16110",
+        "Nombre_Comuna": "Mostazal",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16111",
+        "Nombre_Comuna": "Olivar",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16112",
+        "Nombre_Comuna": "Peumo",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16113",
+        "Nombre_Comuna": "Pichidegua",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16114",
+        "Nombre_Comuna": "Quinta de Tilcoco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16115",
+        "Nombre_Comuna": "Rengo",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16116",
+        "Nombre_Comuna": "Requínoa",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16117",
+        "Nombre_Comuna": "San Vicente",
+        "Codigo_Región": "16"
+      }
+    ],
+    "NombreRegion": "Región del Maule",
+    "CodigoRegion": "VII"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "16101",
+        "Nombre_Comuna": "Concepción",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16102",
+        "Nombre_Comuna": "Coronel",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16103",
+        "Nombre_Comuna": "Chiguayante",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16104",
+        "Nombre_Comuna": "Florida",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16105",
+        "Nombre_Comuna": "Hualqui",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16106",
+        "Nombre_Comuna": "Lota",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16107",
+        "Nombre_Comuna": "Penco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16108",
+        "Nombre_Comuna": "San Pedro de la Paz",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16109",
+        "Nombre_Comuna": "Santa Juana",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16110",
+        "Nombre_Comuna": "Talcahuano",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16111",
+        "Nombre_Comuna": "Tomé",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16112",
+        "Nombre_Comuna": "Hualpén",
+        "Codigo_Región": "16"
+      }
+    ],
+    "NombreRegion": "Región del Biobío",
+    "CodigoRegion": "VIII"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "16101",
+        "Nombre_Comuna": "Temuco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16102",
+        "Nombre_Comuna": "Carahue",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16103",
+        "Nombre_Comuna": "Cunco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16104",
+        "Nombre_Comuna": "Curarrehue",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16105",
+        "Nombre_Comuna": "Freire",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16106",
+        "Nombre_Comuna": "Galvarino",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16107",
+        "Nombre_Comuna": "Gorbea",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16108",
+        "Nombre_Comuna": "Lautaro",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16109",
+        "Nombre_Comuna": "Loncoche",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16110",
+        "Nombre_Comuna": "Melipeuco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16111",
+        "Nombre_Comuna": "Nueva Imperial",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16112",
+        "Nombre_Comuna": "Padre las Casas",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16113",
+        "Nombre_Comuna": "Perquenco",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16114",
+        "Nombre_Comuna": "Pitrufquén",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16115",
+        "Nombre_Comuna": "Pucón",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16116",
+        "Nombre_Comuna": "Saavedra",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16117",
+        "Nombre_Comuna": "Teodoro Schmidt",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16118",
+        "Nombre_Comuna": "Toltén",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16119",
+        "Nombre_Comuna": "Vilcún",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16120",
+        "Nombre_Comuna": "Villarrica",
+        "Codigo_Región": "16"
+      },
+      {
+        "Codigo_Comuna": "16121",
+        "Nombre_Comuna": "Cholchol",
+        "Codigo_Región": "16"
+      }
+    ],
+    "NombreRegion": "Región de la Araucanía",
+    "CodigoRegion": "IX"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "14101",
+        "Nombre_Comuna": "Temuco",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14102",
+        "Nombre_Comuna": "Carahue",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14103",
+        "Nombre_Comuna": "Cunco",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14104",
+        "Nombre_Comuna": "Curarrehue",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14105",
+        "Nombre_Comuna": "Freire",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14106",
+        "Nombre_Comuna": "Galvarino",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14107",
+        "Nombre_Comuna": "Gorbea",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14108",
+        "Nombre_Comuna": "Lautaro",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14109",
+        "Nombre_Comuna": "Loncoche",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14110",
+        "Nombre_Comuna": "Melipeuco",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14111",
+        "Nombre_Comuna": "Nueva Imperial",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14112",
+        "Nombre_Comuna": "Padre las Casas",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14113",
+        "Nombre_Comuna": "Perquenco",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14114",
+        "Nombre_Comuna": "Pitrufquén",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14115",
+        "Nombre_Comuna": "Pucón",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14116",
+        "Nombre_Comuna": "Saavedra",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14117",
+        "Nombre_Comuna": "Teodoro Schmidt",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14118",
+        "Nombre_Comuna": "Toltén",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14119",
+        "Nombre_Comuna": "Vilcún",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14120",
+        "Nombre_Comuna": "Villarrica",
+        "Codigo_Región": "14"
+      },
+      {
+        "Codigo_Comuna": "14121",
+        "Nombre_Comuna": "Cholchol",
+        "Codigo_Región": "14"
+      }
+    ],
+    "NombreRegion": "Región de Los Ríos",
+    "CodigoRegion": "XIV"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "10101",
+        "Nombre_Comuna": "Iquique",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10102",
+        "Nombre_Comuna": "Alto Hospicio",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10201",
+        "Nombre_Comuna": "Pozo Almonte",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10301",
+        "Nombre_Comuna": "Camiña",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10302",
+        "Nombre_Comuna": "Colchane",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10303",
+        "Nombre_Comuna": "Huara",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10304",
+        "Nombre_Comuna": "Pica",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10401",
+        "Nombre_Comuna": "Antofagasta",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10402",
+        "Nombre_Comuna": "Mejillones",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10403",
+        "Nombre_Comuna": "Sierra Gorda",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10404",
+        "Nombre_Comuna": "Taltal",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10501",
+        "Nombre_Comuna": "Calama",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10502",
+        "Nombre_Comuna": "Ollagüe",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10503",
+        "Nombre_Comuna": "San Pedro de Atacama",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10601",
+        "Nombre_Comuna": "Tocopilla",
+        "Codigo_Región": "1"
+      },
+      {
+        "Codigo_Comuna": "10602",
+        "Nombre_Comuna": "María Elena",
+        "Codigo_Región": "1"
+      }
+    ],
+    "NombreRegion": "Región de Los Lagos",
+    "CodigoRegion": "X"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "11101",
+        "Nombre_Comuna": "Puerto Montt",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11102",
+        "Nombre_Comuna": "Calbuco",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11103",
+        "Nombre_Comuna": "Cochamó",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11104",
+        "Nombre_Comuna": "Fresia",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11105",
+        "Nombre_Comuna": "Frutillar",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11106",
+        "Nombre_Comuna": "Los Muermos",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11107",
+        "Nombre_Comuna": "Llanquihue",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11108",
+        "Nombre_Comuna": "Maullín",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11109",
+        "Nombre_Comuna": "Puerto Varas",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11201",
+        "Nombre_Comuna": "Castro",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11202",
+        "Nombre_Comuna": "Ancud",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11203",
+        "Nombre_Comuna": "Chonchi",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11204",
+        "Nombre_Comuna": "Curaco de Vélez",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11205",
+        "Nombre_Comuna": "Dalcahue",
+        "Codigo_Región": "11"
+      },
+      {
+        "Codigo_Comuna": "11206",
+        "Nombre_Comuna": "Puqueldón",
+        "Codigo_Región": "11"
+      }
+    ],
+    "NombreRegion": "Región Aisén del Gral. Carlos Ibáñez del Campo",
+    "CodigoRegion": "XI"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "12101",
+        "Nombre_Comuna": "Punta Arenas",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12102",
+        "Nombre_Comuna": "Laguna Blanca",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12103",
+        "Nombre_Comuna": "Río Verde",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12104",
+        "Nombre_Comuna": "San Gregorio",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12201",
+        "Nombre_Comuna": "Cabo de Hornos (Ex Navarino)",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12202",
+        "Nombre_Comuna": "Antártica",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12301",
+        "Nombre_Comuna": "Porvenir",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12302",
+        "Nombre_Comuna": "Primavera",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12303",
+        "Nombre_Comuna": "Timaukel",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12401",
+        "Nombre_Comuna": "Natales",
+        "Codigo_Región": "12"
+      },
+      {
+        "Codigo_Comuna": "12402",
+        "Nombre_Comuna": "Torres del Paine",
+        "Codigo_Región": "12"
+      }
+    ],
+    "NombreRegion": "Región de Magallanes y de la Antártica Chilena",
+    "CodigoRegion": "XII"
+  },
+  {
+    "communes": [
+      {
+        "Codigo_Comuna": "13101",
+        "Nombre_Comuna": "Santiago",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13102",
+        "Nombre_Comuna": "Cerrillos",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13103",
+        "Nombre_Comuna": "Cerro Navia",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13104",
+        "Nombre_Comuna": "Conchalí",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13105",
+        "Nombre_Comuna": "El Bosque",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13106",
+        "Nombre_Comuna": "Estación Central",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13107",
+        "Nombre_Comuna": "Huechuraba",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13108",
+        "Nombre_Comuna": "Independencia",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13109",
+        "Nombre_Comuna": "La Cisterna",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13110",
+        "Nombre_Comuna": "La Florida",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13111",
+        "Nombre_Comuna": "La Granja",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13112",
+        "Nombre_Comuna": "La Pintana",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13113",
+        "Nombre_Comuna": "La Reina",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13114",
+        "Nombre_Comuna": "Las Condes",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13115",
+        "Nombre_Comuna": "Lo Barnechea",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13116",
+        "Nombre_Comuna": "Lo Espejo",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13117",
+        "Nombre_Comuna": "Lo Prado",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13118",
+        "Nombre_Comuna": "Macul",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13119",
+        "Nombre_Comuna": "Maipú",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13120",
+        "Nombre_Comuna": "Ñuñoa",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13121",
+        "Nombre_Comuna": "Pedro Aguirre Cerda",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13122",
+        "Nombre_Comuna": "Peñalolén",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13123",
+        "Nombre_Comuna": "Providencia",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13124",
+        "Nombre_Comuna": "Pudahuel",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13125",
+        "Nombre_Comuna": "Quilicura",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13126",
+        "Nombre_Comuna": "Quinta Normal",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13127",
+        "Nombre_Comuna": "Recoleta",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13128",
+        "Nombre_Comuna": "Renca",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13129",
+        "Nombre_Comuna": "San Joaquín",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13130",
+        "Nombre_Comuna": "San Miguel",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13131",
+        "Nombre_Comuna": "San Ramón",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13132",
+        "Nombre_Comuna": "Vitacura",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13201",
+        "Nombre_Comuna": "Puente Alto",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13202",
+        "Nombre_Comuna": "Pirque",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13203",
+        "Nombre_Comuna": "San José de Maipo",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13301",
+        "Nombre_Comuna": "Colina",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13302",
+        "Nombre_Comuna": "Lampa",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13303",
+        "Nombre_Comuna": "Tiltil",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13401",
+        "Nombre_Comuna": "San Bernardo",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13402",
+        "Nombre_Comuna": "Buin",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13403",
+        "Nombre_Comuna": "Calera de Tango",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13404",
+        "Nombre_Comuna": "Paine",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13501",
+        "Nombre_Comuna": "Melipilla",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13502",
+        "Nombre_Comuna": "Alhué",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13503",
+        "Nombre_Comuna": "Curacaví",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13504",
+        "Nombre_Comuna": "María Pinto",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13505",
+        "Nombre_Comuna": "San Pedro",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13601",
+        "Nombre_Comuna": "Talagante",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13602",
+        "Nombre_Comuna": "El Monte",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13603",
+        "Nombre_Comuna": "Isla de Maipo",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13604",
+        "Nombre_Comuna": "Padre Hurtado",
+        "Codigo_Región": "13"
+      },
+      {
+        "Codigo_Comuna": "13605",
+        "Nombre_Comuna": "Peñaflor",
+        "Codigo_Región": "13"
+      }
+    ],
+    "NombreRegion": "Región Metropolitana de Santiago",
+    "CodigoRegion": "RM"
+  }
+]
