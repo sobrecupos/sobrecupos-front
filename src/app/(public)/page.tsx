@@ -18,8 +18,10 @@ const HomePage = async () => {
   }
   return (
     <div className="ui-mp-home">
+
       {/* Para activar las vistas estas deben ser descomentadas */}
       {/* <Header />
+
       <Specialties specialties={specialties} countBySpecialty={countBySpecialty} />
       <AboutUs />
       <Enrollment /> */}

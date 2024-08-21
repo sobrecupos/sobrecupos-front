@@ -62,7 +62,7 @@ export const ListDays = (
       return
     } else {
       setIndexDaySelected(index);
-      SelectDay(date);
+      // SelectDay(date);
     }
   }
 
@@ -78,18 +78,18 @@ export const ListDays = (
     return `${year}-${month}-${day}`;
   }
 
-  const getAppointmentPerDay = async (date: string) => {
-    const countAppointments = await appointmentsClient.getAppointmentByPractitionerInDate({
-      practitionerId,
-      date
-    }).then((res) => {
-      //console.log('res', res)
-      return res;
-    }
-    ).catch((err) => {
-      console.error('Error', err)
-    });
-  }
+  // const getAppointmentPerDay = async (date: string) => {
+  //   const countAppointments = await appointmentsClient.getAppointmentByPractitionerInDate({
+  //     practitionerId,
+  //     date
+  //   }).then((res) => {
+  //     //console.log('res', res)
+  //     return res;
+  //   }
+  //   ).catch((err) => {
+  //     console.error('Error', err)
+  //   });
+  // }
 
 
   useEffect(() => {
@@ -116,7 +116,7 @@ export const ListDays = (
                 flex-shrink-0 flex-col w-[98px] md:w-[80px] h-fit min-h-[72px] ${!isEmptyWeek && day.selected ? 'bg-indigo-500' : 'bg-white border-2 w-[96px] border-indigo-500 '} rounded-lg text-center hover:cursor-pointer hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-indigo-500
                 `}
               onClick={() => {
-                handleClickedDay(index);
+                selectedDay(formatDate(dayDate), index);
               }}
               disabled={isEmptyWeek}
             >
