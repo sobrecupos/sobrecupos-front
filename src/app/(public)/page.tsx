@@ -1,7 +1,6 @@
 import { appointmentsService } from "@marketplace/data-access/appointments/appointments.service";
 import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
 import { Metadata } from "next";
-import Image from "next/image";
 import "./page.scss";
 
 export const revalidate = 60 * 15;
@@ -26,12 +25,13 @@ const HomePage = async () => {
       <AboutUs />
       <Enrollment /> */}
       <div className="h-[90vh] w-full flex justify-center items-center ">
-        <Image
+        {/* <Image
           src="/brand-logo.png"
           alt="Sobrecupos"
           width={300}
           height={300}
-        />
+        /> */}
+        <h1 className="text-4xl font-semibold">Sobrecupos</h1>
       </div>
       {/* <Enrollment /> */}
     </div>
