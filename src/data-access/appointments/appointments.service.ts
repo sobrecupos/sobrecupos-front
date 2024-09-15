@@ -199,7 +199,7 @@ export class AppointmentsService {
             $gt: from.toDate(),
             // Offset in CL, this should be dynamic
             $lt: from
-              .add(-4, "hours")
+              .add(-3, "hours")
               .startOf("day")
               .add(
                 this.scheduleConfig.CL.startingHour +
@@ -350,7 +350,7 @@ export class AppointmentsService {
             $gt: from.toDate(),
             // Offset in CL, this should be dynamic
             $lt: from
-              .add(-4, "hours")
+              .add(-3, "hours")
               .startOf("day")
               .add(
                 this.scheduleConfig.CL.startingHour +
@@ -812,7 +812,7 @@ export class AppointmentsService {
     const from = dayjs.utc(fromDateString);
     const to = dayjs.utc(toDateString);
 
-    const currentDateTime = dayjs().add(-4, "hours").toISOString();
+    const currentDateTime = dayjs().add(-3, "hours").toISOString();
 
     const cursor = collection.aggregate([
       {
@@ -822,7 +822,7 @@ export class AppointmentsService {
             $gt: currentDateTime,
             // Offset in CL, this should be dynamic
             $lt: to
-              .add(-4, "hours")
+              .add(-3, "hours")
               .startOf("day")
               .add(
                 this.scheduleConfig.CL.startingHour +

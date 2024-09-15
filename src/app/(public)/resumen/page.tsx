@@ -88,7 +88,10 @@ const SummaryPage = async ({
     const formattedDate = new Intl.DateTimeFormat("es-CL", {
       dateStyle: "full",
     }).format(currentDate);
-    const appointment = formatHours(dayjs(start).add(-4, 'hour').toDate().toISOString(), durationInMinutes);
+    const appointment = formatHours(
+      dayjs(start).add(-3, "hour").toDate().toISOString(),
+      durationInMinutes
+    );
 
     return (
       <div className={classes.namespace}>

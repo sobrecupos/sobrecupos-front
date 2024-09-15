@@ -283,12 +283,12 @@ export const Schedule = ({
     while (startDate <= endDate) {
       //console.log('startDate : ', dayjs(startDate).format("YYYY-MM-DDTHH:mm:ss.SSS"));
       const day = dayjs(startDate)
-        .add(-4, "hours")
+        .add(-3, "hours")
         .toDate()
         .toLocaleDateString("es-CL", { weekday: "long" });
       Days.push({
         name: day,
-        date: dayjs(startDate).add(-4, "hours").toDate(),
+        date: dayjs(startDate).add(-3, "hours").toDate(),
         selected: i == 0 ? true : false,
       });
       startDate.setDate(startDate.getDate() + 1);
