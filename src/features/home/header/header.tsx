@@ -21,7 +21,7 @@ export const Header = () => {
         Sobrecupos, más tiempo sanos, menos tiempo enfermos
       </p>
       <h1 className={classes.cta}>
-        Consigue un <span className={classes.highlight}>Sobrecupo</span> aquí!
+        ¡Consigue tu <strong>Sobrecupo</strong> aquí!
       </h1>
       <p className={classes.subtitle}>
         Selecciona una especialidad y <strong>¡mejora tu salud ahora!</strong>
