@@ -31,24 +31,19 @@ $namespace: "ui-mp-enrollment";
   @media (min-width: 991px) {
     display: flex;
     align-items: stretch;
+    justify-content: center;
     padding: 32px 16px 0;
-
-    &__image-container {
-      min-width: 50%;
-      text-align: left;
-      font-size: 0;
-    }
 
     &__content {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       padding-bottom: 20px;
     }
 
     &__title {
       margin-top: 0;
-      max-width: 70%;
       text-align: left;
       font-size: 28px;
     }

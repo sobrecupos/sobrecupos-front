@@ -17,7 +17,9 @@ export const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className={classes.namespace}>
-      <p className={classes.title}>¿Frustrado de buscar una hora médica?</p>
+      <p className={classes.title}>
+        Sobrecupos, más tiempo sanos, menos tiempo enfermos
+      </p>
       <h1 className={classes.cta}>
         Consigue un <span className={classes.highlight}>Sobrecupo</span> aquí!
       </h1>

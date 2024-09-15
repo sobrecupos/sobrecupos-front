@@ -1,6 +1,5 @@
 import { ButtonLink } from "@marketplace/ui/button";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
-import Image from "next/image";
 import "./enrollment.scss";
 
 const classes = getComponentClassNames("enrollment", {
@@ -14,15 +13,6 @@ const classes = getComponentClassNames("enrollment", {
 
 export const Enrollment = () => (
   <div className={classes.namespace}>
-    <div className={classes.imageContainer}>
-      <Image
-        src="/practitioners.webp"
-        alt="Persona meditando"
-        width="460"
-        height="313"
-        className={classes.image}
-      />
-    </div>
     <div className={classes.content}>
       <p className={classes.title}>
         ¿Eres <span className={classes.highlight}>médico</span> y realizas
