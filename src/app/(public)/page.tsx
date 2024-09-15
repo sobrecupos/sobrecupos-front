@@ -1,6 +1,11 @@
 import { appointmentsService } from "@marketplace/data-access/appointments/appointments.service";
 import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
 import { Metadata } from "next";
+import Image from "next/image";
+import { AboutUs } from "../../features/home/about-us";
+import { Enrollment } from "../../features/home/enrollment";
+import { Header } from "../../features/home/header";
+import { Specialties } from "../../features/home/specialties";
 import "./page.scss";
 
 export const revalidate = 60 * 15;
@@ -10,30 +15,33 @@ const HomePage = async () => {
   const countBySpecialty: { [key: string]: number } = {};
   for (const specialty of specialties) {
     // console.log('specialty: ', specialty)
-    countBySpecialty[specialty.code] = await appointmentsService.getCountAppointmentsBySpecialty(specialty.code).then((res) => {
-      // console.log('res.count: ', res.count)
-      return res.count || 0;
-    });
+    countBySpecialty[specialty.code] = await appointmentsService
+      .getCountAppointmentsBySpecialty(specialty.code)
+      .then((res) => {
+        // console.log('res.count: ', res.count)
+        return res.count || 0;
+      });
   }
   return (
     <div className="ui-mp-home">
-
-      {/* Para activar las vistas estas deben ser descomentadas */}
-      {/* <Header />
-
-      <Specialties specialties={specialties} countBySpecialty={countBySpecialty} />
+      Para activar las vistas estas deben ser descomentadas
+      <Header />
+      <Specialties
+        specialties={specialties}
+        countBySpecialty={countBySpecialty}
+      />
       <AboutUs />
-      <Enrollment /> */}
+      <Enrollment />
       <div className="h-[90vh] w-full flex justify-center items-center ">
-        {/* <Image
+        <Image
           src="/brand-logo.png"
           alt="Sobrecupos"
           width={300}
           height={300}
-        /> */}
+        />
         <h1 className="text-4xl font-semibold">Sobrecupos</h1>
       </div>
-      {/* <Enrollment /> */}
+      <Enrollment />
     </div>
   );
 };

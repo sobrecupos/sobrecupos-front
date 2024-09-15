@@ -37,134 +37,63 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // {
-      //   source: "/invitacion-founder",
-      //   destination:
-      //     "https://app.sobrecupos.com/registro?referralCode=INVITACION_FOUNDER",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/invitacion-dr-mencia",
-      //   destination:
-      //     "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_MENCIA",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/invitacion-dr-escobedo",
-      //   destination:
-      //     "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_ESCOBEDO",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/invitacion-dr-retuert",
-      //   destination:
-      //     "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_RETUERT",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/invitacion-pasteur",
-      //   destination:
-      //     "https://app.sobrecupos.com/registro?referralCode=INVITACION_PASTEUR",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/",
-      //   destination: "/",
-      //   permanent: false, // Evita redirigir la ruta raíz
-      // },
       {
-        source: "/especialidades/:path*", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
+        source: "/invitacion-founder",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_FOUNDER",
+        permanent: true,
       },
       {
-        source: "/politicas-de-privacidad", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
+        source: "/invitacion-dr-mencia",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_MENCIA",
+        permanent: true,
       },
       {
-        source: "/terminos-y-condiciones", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
+        source: "/invitacion-dr-escobedo",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_ESCOBEDO",
+        permanent: true,
       },
       {
-        source: "/preguntas-frecuentess", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
+        source: "/invitacion-dr-retuert",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_RETUERT",
+        permanent: true,
       },
       {
-        source: "/profesional/:path*", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
-      },
-      {
-        source: "/resumen", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
-      },
-      {
-        source: "/app/:path*", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
-      },
-      {
-        source: "/iniciar/:path*", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
-      },
-      {
-        source: "/registro/:path*", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
-      },
-      {
-        source: "/salir/:path*", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
-      },
-      {
-        source: "/verificacion/:path*", // Captura cualquier ruta que no sea la raíz "/"
-        destination: "/",
-        permanent: false, // Redirige al home "/"
+        source: "/invitacion-pasteur",
+        destination:
+          "https://app.sobrecupos.com/registro?referralCode=INVITACION_PASTEUR",
+        permanent: true,
       },
     ];
   },
   async rewrites() {
     return {
-      beforeFiles: [
-        // {
-        //   source: "/:path*",
-        //   has: [
-        //     {
-        //       type: "host",
-        //       value: "profesionales.sobrecupos.com",
-        //     },
-        //   ],
-        //   destination: "https://sobrecupos.pro/:path*",
-        // },
-      ],
+      beforeFiles: [],
       afterFiles: [],
       fallback: [
-        // {
-        //   source: "/:path*",
-        //   has: [
-        //     {
-        //       type: "host",
-        //       value: "app.sobrecupos.com",
-        //     },
-        //   ],
-        //   destination: "/app/:path*",
-        // },
-        // {
-        //   source: "/:path*",
-        //   has: [
-        //     {
-        //       type: "host",
-        //       value: "admin.sobrecupos.com",
-        //     },
-        //   ],
-        //   destination: "/admin/:path*",
-        // },
+        {
+          source: "/:path*",
+          has: [
+            {
+              type: "host",
+              value: "app.sobrecupos.com",
+            },
+          ],
+          destination: "/app/:path*",
+        },
+        {
+          source: "/:path*",
+          has: [
+            {
+              type: "host",
+              value: "admin.sobrecupos.com",
+            },
+          ],
+          destination: "/admin/:path*",
+        },
       ],
     };
   },
