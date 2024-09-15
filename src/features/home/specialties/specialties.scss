@@ -4,22 +4,42 @@ $namespace: "ui-mp-specialties";
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 16px;
 
   &__card {
-    width: 200px;
-    padding: 16px;
-    text-align: center;
-    text-decoration: none;
-    color: #444;
+    $colors: (
+      0: #1e88e5,
+      1: #d32f2f,
+      2: #388e3c,
+      3: #7b1fa2,
+      4: #f57c00,
+      5: #0097a7,
+      6: #ff6b6b,
+      7: #4a6fa5,
+      8: #45b7a0,
+      9: #9b59b6,
+    );
 
-    &:focus,
-    &:hover {
-      text-decoration: underline;
+    &.ui-mp-button {
+      color: #fff;
+      width: 100%;
+    }
+
+    @each $index, $color in $colors {
+      &--#{$index}.ui-mp-button {
+        background-color: $color;
+
+        &:hover,
+        &:focus {
+          background-color: lighten($color: $color, $amount: 5);
+          box-shadow: inset 0 0 0 2px darken($color: $color, $amount: 20);
+        }
+      }
     }
   }
 
   &__card-title {
-    font-weight: 400;
+    font-weight: 600;
     font-size: 14px;
   }
 
@@ -31,10 +51,9 @@ $namespace: "ui-mp-specialties";
 
   @media (min-width: 991px) {
     &__card {
-      width: 200px;
-      margin: 8px 0;
-      margin-bottom: 0;
-      padding-bottom: 8px;
+      &.ui-mp-button {
+        width: auto;
+      }
     }
 
     &__card-title {

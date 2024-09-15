@@ -30,7 +30,7 @@ export const Header = () => {
           setIsModalOpen(true);
         }}
       >
-        Que es un sobrecupo médico
+        ¿Qué es un sobrecupo médico?
       </button>
       <Modal
         variant="fullscreen"
