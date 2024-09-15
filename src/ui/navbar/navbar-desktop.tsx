@@ -13,9 +13,9 @@ export const NavbarDesktop = ({ config, cta = null }: NavbarProps) => (
       <li className={classes.barItem}>
         <Link href="/" aria-label="Inicio" className={classes.home}>
           <Image
-            src="/brand-logo.png"
+            src="/brand-logo-v2.svg"
             alt="Logo sobrecupos"
-            width="218"
+            width="180"
             height="34"
           />
         </Link>

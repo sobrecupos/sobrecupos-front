@@ -8,12 +8,12 @@ import "./layout.scss";
 const AuthLayout = ({ children }: PropsWithChildren<Record<never, never>>) => (
   <div className={authLayoutClasses.namespace}>
     <Card elevated className={authLayoutClasses.card}>
-      <Link href="/" className="hover:cursor-pointer" >
+      <Link href="/" className="hover:cursor-pointer">
         <Image
           className={authLayoutClasses.logo}
-          src="/brand-logo.png"
+          src="/brand-logo-v2.svg"
           alt="Logo sobrecupos"
-          width="218"
+          width="180"
           height="34"
         />
       </Link>

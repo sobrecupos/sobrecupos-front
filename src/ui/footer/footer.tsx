@@ -15,10 +15,10 @@ export const Footer = () => (
   <footer className={classes.namespace}>
     <Link className={classes.link} href="/" aria-label="Inicio">
       <Image
-        src="/brand-logo.png"
+        src="/brand-logo-v2.svg"
         alt="Logo sobrecupos"
-        width="187"
-        height="29"
+        width="180"
+        height="34"
       />
     </Link>
     <a

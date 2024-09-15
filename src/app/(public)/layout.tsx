@@ -1,5 +1,8 @@
 import { specialtiesService } from "@marketplace/data-access/specialties/specialties.service";
 import { PropsWithChildren } from "react";
+import { ButtonLink } from "../../ui/button";
+import { Footer } from "../../ui/footer";
+import { Navbar } from "../../ui/navbar";
 import "./layout.scss";
 
 export const revalidate = 60 * 15;
@@ -11,9 +14,7 @@ const PublicLayout = async ({
 
   return (
     <>
-      {/* Para activar las vistas estas deben ser descomentadas */}
-
-      {/* <Navbar
+      <Navbar
         config={[
           {
             id: "action" as const,
@@ -39,16 +40,11 @@ const PublicLayout = async ({
             contents: [],
           },
         ]}
-        cta={
-          <ButtonLink href="/iniciar">
-            Acceso médicos
-          </ButtonLink>
-        }
-      /> */}
+        cta={<ButtonLink href="/iniciar">Acceso médicos</ButtonLink>}
+      />
       <main className="ui-mp-layout__main">{children}</main>
-      {/* Para activar las vistas estas deben ser descomentadas */}
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

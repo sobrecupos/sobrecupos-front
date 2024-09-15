@@ -36,9 +36,9 @@ export const NavbarMobile = ({ config }: NavbarProps) => {
       <div className={classNames(classes.content)}>
         <Link href="/" aria-label="Inicio" className={classes.home}>
           <Image
-            src="/brand-logo.png"
+            src="/brand-logo-v2.svg"
             alt="Logo sobrecupos"
-            width="187"
+            width="180"
             height="29"
           />
         </Link>

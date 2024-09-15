@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { Modal } from "@marketplace/ui/modal";
 import { getComponentClassNames } from "@marketplace/ui/namespace";
 import Image from "next/image";
@@ -27,11 +27,11 @@ export const Header = () => {
       <button
         className="bg-transparent text-indigo-600 "
         onClick={() => {
-          setIsModalOpen(true
-          );
-        }
-        }
-      >Que es un sobrecupo médico</button>
+          setIsModalOpen(true);
+        }}
+      >
+        Que es un sobrecupo médico
+      </button>
       <Modal
         variant="fullscreen"
         className="pt-6"
@@ -39,13 +39,12 @@ export const Header = () => {
         onClose={() => {
           setIsModalOpen(false);
         }}
-
         closeOnBackdropClick={false}
         title={
           <Image
-            src="/brand-logo.png"
+            src="/brand-logo-v2.svg"
             alt="Logo sobrecupos"
-            width="218"
+            width="180"
             height="34"
           />
         }
@@ -53,7 +52,11 @@ export const Header = () => {
           <div className="p-8">
             <p className="text-xl font-semibold py-4">¿Qué es un sobrecupo?</p>
             <p>
-              Un sobrecupo es cuando uno de nuestros médico(a)s está dispuesto ayudarte con una hora de atención extraordinaria a su agenda, porque sabe que tú lo necesitas, para que puedas sentirte mejor y no pierdas tiempo enfermo(a) con una larga espera o ansiedad por no encontrar una por oportunidad de atención pronta.
+              Un sobrecupo es cuando uno de nuestros médico(a)s está dispuesto
+              ayudarte con una hora de atención extraordinaria a su agenda,
+              porque sabe que tú lo necesitas, para que puedas sentirte mejor y
+              no pierdas tiempo enfermo(a) con una larga espera o ansiedad por
+              no encontrar una por oportunidad de atención pronta.
             </p>
             <AboutUs />
           </div>
@@ -61,5 +64,5 @@ export const Header = () => {
         showCloseButton
       />
     </div>
-  )
+  );
 };
