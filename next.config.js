@@ -38,37 +38,13 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: "/invitacion-founder",
-        destination:
-          "https://app.sobrecupos.com/registro?referralCode=INVITACION_FOUNDER",
-        permanent: true,
-      },
-      {
-        source: "/invitacion-dr-mencia",
-        destination:
-          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_MENCIA",
-        permanent: true,
-      },
-      {
-        source: "/invitacion-dr-escobedo",
-        destination:
-          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_ESCOBEDO",
-        permanent: true,
-      },
-      {
-        source: "/invitacion-dr-retuert",
-        destination:
-          "https://app.sobrecupos.com/registro?referralCode=INVITACION_DR_RETUERT",
-        permanent: true,
-      },
-      {
-        source: "/invitacion-pasteur",
-        destination:
-          "https://app.sobrecupos.com/registro?referralCode=INVITACION_PASTEUR",
-        permanent: true,
+        source: "/:path+(!brand-logo-v2.svg)",
+        destination: "/",
+        permanent: false,
       },
     ];
   },
+  /* Original rewrites
   async rewrites() {
     return {
       beforeFiles: [],
@@ -97,6 +73,7 @@ const nextConfig = {
       ],
     };
   },
+  */
 };
 
 module.exports = nextConfig;
